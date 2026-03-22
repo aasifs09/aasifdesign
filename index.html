@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#1249C8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Aasif Shaikh · Lead AI Product Designer</title>
-<meta name="description" content="Lead AI Product Designer. 14 years enterprise experience. RAG systems, explainability design, human-in-the-loop. Open to relocation worldwide."/>
+<meta name="description" content="Senior Product Designer · 14 years enterprise experience · Human-centred design, UX strategy, and AI systems. Open to relocation worldwide."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet"/>
@@ -219,6 +219,36 @@ body::before{
   font-family:var(--ff-m)!important;font-size:.8125rem!important;
 }
 .nav-ul .nc:hover{background:var(--blue-t2)!important;border-color:var(--blue)!important}
+.nav-ul .nr{
+  color:#fff!important;background:var(--blue)!important;
+  border:1.5px solid var(--blue)!important;
+  font-family:var(--ff-m)!important;font-size:.8125rem!important;
+  font-weight:600!important;
+}
+.nav-ul .nr:hover{background:var(--blue-d)!important;transform:translateY(-1px)!important}
+/* Resume download block in about / contact */
+.resume-dl-box{
+  margin-top:20px;
+  background:linear-gradient(135deg,var(--blue-t),var(--tint));
+  border:1.5px solid var(--blue-br2);border-radius:var(--r);
+  padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  box-shadow:var(--sh1);
+}
+.rdb-left{}
+.rdb-label{font-family:var(--ff-m);font-size:.75rem;color:var(--m);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+.rdb-title{font-size:1rem;font-weight:700;color:var(--h);margin-bottom:4px}
+.rdb-sub{font-size:.875rem;color:var(--s)}
+.rdb-btn{
+  flex-shrink:0;
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--blue);color:#fff;
+  font-family:var(--ff-b);font-size:.875rem;font-weight:600;
+  padding:12px 22px;border-radius:var(--r-s);
+  box-shadow:0 4px 20px rgba(18,73,200,.32);
+  transition:background .2s,transform .2s;
+  white-space:nowrap;
+}
+.rdb-btn:hover{background:var(--blue-d);transform:translateY(-2px)}
 
 /* ══════════════════════════════════════
    HERO — editorial, large, bold
@@ -1020,6 +1050,7 @@ body::before{
     <li><a href="#work">Work</a></li>
     <li><a href="#process">Process</a></li>
     <li><a href="#contact">Contact</a></li>
+    <li><a href="resume.pdf" target="_blank" class="nr">↓ Resume</a></li>
     <li><a href="https://www.linkedin.com/in/aasif-shaikh" target="_blank" class="nc">LinkedIn ↗</a></li>
   </ul>
 </nav>
@@ -1040,31 +1071,31 @@ body::before{
       </div>
 
       <h1 class="hero-h1">
-        I design AI<br>
-        <span style="color:var(--blue-v)">that earns</span>
+        I design products<br>
+        <span style="color:var(--blue-v)">people trust.</span>
       </h1>
       <div class="hero-h1-sub">
-        <em>human trust.</em>
+        <em>Human-centred. AI-ready.</em>
         <span class="sparkle" style="font-size:1.5rem;display:inline-block;margin-left:8px">✦</span>
       </div>
 
       <p class="hero-p">
-        Lead AI Product Designer with <strong>14 years of enterprise experience</strong>. I specialise in the trust layer between AI output and human decision — RAG systems, explainability design, and <strong>human-in-the-loop workflows</strong> that work at regulatory scale.
+        Senior Product Designer with <strong>14 years of enterprise UX experience</strong> — from user research and design thinking through to shipped, scaled B2B products. Specialised in <strong>AI systems where human trust is the hardest design problem</strong> to solve.
       </p>
 
       <div class="hero-btns">
         <a href="#work" class="btn-p">View Case Studies →</a>
-        <a href="https://www.linkedin.com/in/aasif-shaikh" target="_blank" class="btn-g">LinkedIn ↗</a>
+        <a href="resume.pdf" target="_blank" class="btn-g">↓ Download Resume</a>
       </div>
 
       <div class="hero-counters">
         <div class="hc">
           <div class="hc-n" id="s1"><em>0</em></div>
-          <div class="hc-l">Years of<br>Experience</div>
+          <div class="hc-l">Years<br>Enterprise UX</div>
         </div>
         <div class="hc">
-          <div class="hc-n" id="s2"><em>0</em></div>
-          <div class="hc-l">AI Products<br>Shipped</div>
+          <div class="hc-n" id="s2"><em>0</em>+</div>
+          <div class="hc-l">Products<br>Shipped</div>
         </div>
         <div class="hc">
           <div class="hc-n" id="s3"><em>0</em><span style="font-size:1.125rem;color:var(--blue-v)">%</span></div>
@@ -1072,7 +1103,7 @@ body::before{
         </div>
         <div class="hc">
           <div class="hc-n" id="s4"><em>0</em></div>
-          <div class="hc-l">User Interviews<br>OptiBill</div>
+          <div class="hc-l">User Interviews<br>Conducted</div>
         </div>
       </div>
     </div>
@@ -1149,31 +1180,35 @@ body::before{
 <!-- ══ MARQUEE ══ -->
 <div class="marquee-strip">
   <div class="marquee-inner">
+    <span class="mi-item hi"><span class="mi-star">✦</span>Human-Centred Design</span>
+    <span class="mi-item">Design Thinking · Double Diamond</span>
+    <span class="mi-item hi">User Research · Usability Testing</span>
+    <span class="mi-item">Information Architecture</span>
     <span class="mi-item hi"><span class="mi-star">✦</span>RAG Architecture UX</span>
-    <span class="mi-item">Human-in-the-Loop Design</span>
-    <span class="mi-item hi">Explainability Systems</span>
-    <span class="mi-item">GDPR · CSRD · SFDR</span>
-    <span class="mi-item hi"><span class="mi-star">✦</span>Agentic AI</span>
-    <span class="mi-item">Wizard of Oz Testing</span>
-    <span class="mi-item hi">AI-SUS Framework</span>
-    <span class="mi-item">Figma · ProtoPie Enterprise</span>
-    <span class="mi-item hi"><span class="mi-star">✦</span>Insurance · ESG · RegTech</span>
-    <span class="mi-item">Gemini LLM · OCR</span>
-    <span class="mi-item hi">14 Years Enterprise</span>
-    <span class="mi-item hi">Principal AI Designer · Open to Relocation</span>
+    <span class="mi-item">Wireframing · Prototyping</span>
+    <span class="mi-item hi">Human-in-the-Loop Design</span>
+    <span class="mi-item">Design Systems · Figma</span>
+    <span class="mi-item hi"><span class="mi-star">✦</span>Enterprise B2B · SaaS</span>
+    <span class="mi-item">Stakeholder Management</span>
+    <span class="mi-item hi">Explainability · AI Trust</span>
+    <span class="mi-item">GDPR · CSRD · RegTech</span>
+    <span class="mi-item hi"><span class="mi-star">✦</span>14 Years Enterprise UX</span>
+    <span class="mi-item">Senior Product Designer · Open to Relocation</span>
     <!-- Repeat for seamless loop -->
+    <span class="mi-item hi"><span class="mi-star">✦</span>Human-Centred Design</span>
+    <span class="mi-item">Design Thinking · Double Diamond</span>
+    <span class="mi-item hi">User Research · Usability Testing</span>
+    <span class="mi-item">Information Architecture</span>
     <span class="mi-item hi"><span class="mi-star">✦</span>RAG Architecture UX</span>
-    <span class="mi-item">Human-in-the-Loop Design</span>
-    <span class="mi-item hi">Explainability Systems</span>
-    <span class="mi-item">GDPR · CSRD · SFDR</span>
-    <span class="mi-item hi"><span class="mi-star">✦</span>Agentic AI</span>
-    <span class="mi-item">Wizard of Oz Testing</span>
-    <span class="mi-item hi">AI-SUS Framework</span>
-    <span class="mi-item">Figma · ProtoPie Enterprise</span>
-    <span class="mi-item hi"><span class="mi-star">✦</span>Insurance · ESG · RegTech</span>
-    <span class="mi-item">Gemini LLM · OCR</span>
-    <span class="mi-item hi">14 Years Enterprise</span>
-    <span class="mi-item">Principal AI Designer · Open to Relocation</span>
+    <span class="mi-item">Wireframing · Prototyping</span>
+    <span class="mi-item hi">Human-in-the-Loop Design</span>
+    <span class="mi-item">Design Systems · Figma</span>
+    <span class="mi-item hi"><span class="mi-star">✦</span>Enterprise B2B · SaaS</span>
+    <span class="mi-item">Stakeholder Management</span>
+    <span class="mi-item hi">Explainability · AI Trust</span>
+    <span class="mi-item">GDPR · CSRD · RegTech</span>
+    <span class="mi-item hi"><span class="mi-star">✦</span>14 Years Enterprise UX</span>
+    <span class="mi-item">Senior Product Designer · Open to Relocation</span>
   </div>
 </div>
 
@@ -1186,44 +1221,68 @@ body::before{
       <h2 class="section-h">14 years.<br>One honest<br>journey.</h2>
       <div class="body-t">
         <p>My story starts with <strong>Photoshop.</strong> Not a grand design philosophy — just a curiosity about what you could do to a picture if you knew the right tools. That curiosity quietly became a career. In October 2012, I walked into my first corporate design job and never looked back.</p>
-        <p>Fourteen years is a long time to watch an industry transform itself. I was there when every business — corner shop to Fortune 500 — suddenly needed to exist digitally. I spent entire days crafting a single hero design, pixel by pixel. That discipline shaped how I think. Then AI arrived and a full website could be generated in seconds. <strong>The tools changed completely. The thinking behind good design never did.</strong></p>
-        <p>My shift toward AI wasn't planned. A few years ago I noticed every bank and service company launching chatbots — and most of them were genuinely bad to use. I got curious about the thinking behind them. What principles should govern how a machine communicates? Where does the human have to stay in control? I started taking courses, then applying that thinking at work. Somewhere in that process, <strong>designing the trust layer between AI and human decision became the most interesting problem I'd ever worked on.</strong></p>
-        <p>Outside of work, I'm mostly with my wife and kids. I genuinely don't remember what I did with my time before them. When I need to completely reset — the kind where your brain goes fully quiet — I find a psytrance festival and dance until I forget what day it is. <strong>It works every time.</strong></p>
+        <p>Fourteen years is a long time to watch an industry transform itself. I was there when every business needed to exist digitally overnight. I've run discovery sprints, mapped user journeys, built design systems from scratch, and shipped products used by hundreds of thousands of people. <strong>The discipline of human-centred design — starting with the person, not the solution — has never changed.</strong></p>
+        <p>My shift toward AI wasn't a pivot. It was a natural extension. When I started noticing that chatbots and AI tools were genuinely bad to use — not because of bad technology, but <strong>because nobody had designed the human moment inside them</strong> — that became my focus. I apply the same HCD process to AI: discover, define, design, test. The AI is just a new constraint, not a new discipline.</p>
+        <p>Outside of work, I'm mostly with my wife and kids. When I need to completely reset, I find a psytrance festival and dance until I forget what day it is. <strong>It works every time.</strong></p>
         <p>I'm 14 years in. I know what I'm good at. I'm ready to take it somewhere new. <em class="pill-hl">Open to relocation.</em></p>
-        <p style="margin-top:16px"><em class="pill-hl">IIT Madras · Advanced Certification in GenAI & Agentic AI · Apr–Dec 2026</em></p>
+        <p style="margin-top:10px"><em class="pill-hl">IIT Madras · Advanced Certification in GenAI & Agentic AI · Apr–Dec 2026</em></p>
+      </div>
+
+      <!-- Resume download block -->
+      <div class="resume-dl-box rv d2">
+        <div class="rdb-left">
+          <div class="rdb-label">Available for download</div>
+          <div class="rdb-title">Aasif Shaikh — Product Designer CV</div>
+          <div class="rdb-sub">14 years · Enterprise UX · AI Systems · Available to relocate</div>
+        </div>
+        <a href="resume.pdf" target="_blank" class="rdb-btn">↓ Download Resume</a>
       </div>
     </div>
 
     <div class="rr rv d2">
+      <!-- 4 skill cards showing full UX breadth -->
       <div class="skill-card sc-blue">
-        <div class="sc-top"><div class="sc-label">AI Product Design</div><div class="sc-icon">🧠</div></div>
+        <div class="sc-top"><div class="sc-label">UX Research & Strategy</div><div class="sc-icon">🔍</div></div>
         <div class="sc-tags">
-          <span class="sc-tag t-blue">Human-in-the-Loop</span>
-          <span class="sc-tag t-blue">RAG Architecture UX</span>
-          <span class="sc-tag t-blue">Explainability Design</span>
-          <span class="sc-tag t-blue">Agentic AI Systems</span>
-        </div>
-      </div>
-      <div class="skill-card sc-amber">
-        <div class="sc-top"><div class="sc-label">Domain Knowledge</div><div class="sc-icon">⚖️</div></div>
-        <div class="sc-tags">
-          <span class="sc-tag t-amber">ESG · CSRD · GDPR</span>
-          <span class="sc-tag t-amber">Regulatory Tech</span>
-          <span class="sc-tag t-teal">Insurance Brokerage</span>
-          <span class="sc-tag t-teal">Energy Auditing</span>
+          <span class="sc-tag t-blue">User Interviews · Usability Testing</span>
+          <span class="sc-tag t-blue">Jobs-to-be-Done</span>
+          <span class="sc-tag t-blue">Journey Mapping</span>
+          <span class="sc-tag t-blue">Stakeholder Workshops</span>
+          <span class="sc-tag t-blue">Dovetail · Maze</span>
         </div>
       </div>
       <div class="skill-card sc-teal">
-        <div class="sc-top"><div class="sc-label">Tools & Methods</div><div class="sc-icon">🔧</div></div>
+        <div class="sc-top"><div class="sc-label">Product Design Process</div><div class="sc-icon">🎯</div></div>
         <div class="sc-tags">
+          <span class="sc-tag t-teal">Human-Centred Design</span>
+          <span class="sc-tag t-teal">Design Thinking · Double Diamond</span>
+          <span class="sc-tag t-teal">Wireframing · Prototyping</span>
+          <span class="sc-tag t-teal">Design Systems</span>
           <span class="sc-tag t-teal">Figma · ProtoPie Enterprise</span>
-          <span class="sc-tag t-teal">Wizard of Oz Testing</span>
-          <span class="sc-tag t-coral">AI-SUS Framework</span>
-          <span class="sc-tag t-coral">Dovetail · Maze</span>
+        </div>
+      </div>
+      <div class="skill-card sc-amber">
+        <div class="sc-top"><div class="sc-label">AI Product Design</div><div class="sc-icon">🧠</div></div>
+        <div class="sc-tags">
+          <span class="sc-tag t-amber">Human-in-the-Loop Systems</span>
+          <span class="sc-tag t-amber">RAG Architecture UX</span>
+          <span class="sc-tag t-amber">Explainability Design</span>
+          <span class="sc-tag t-amber">Wizard of Oz Testing</span>
+          <span class="sc-tag t-amber">AI-SUS Framework</span>
+        </div>
+      </div>
+      <div class="skill-card sc-coral">
+        <div class="sc-top"><div class="sc-label">Domain & Industry</div><div class="sc-icon">⚖️</div></div>
+        <div class="sc-tags">
+          <span class="sc-tag t-coral">Enterprise B2B · SaaS</span>
+          <span class="sc-tag t-coral">Fintech · InsurTech</span>
+          <span class="sc-tag t-coral">ESG · CSRD · GDPR</span>
+          <span class="sc-tag t-coral">Regulatory Compliance</span>
+          <span class="sc-tag t-coral">Energy · CleanTech</span>
         </div>
       </div>
 
-      <!-- Timeline strip -->
+      <!-- Career timeline -->
       <div class="rv d3" style="margin-top:20px;background:linear-gradient(135deg,var(--blue-t),var(--tint));border:1.5px solid var(--blue-br2);border-radius:var(--r);padding:20px 22px;">
         <div style="font-family:var(--ff-m);font-size:.75rem;color:var(--m);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px">Career Timeline</div>
         <div style="display:flex;flex-direction:column;gap:0;position:relative">
@@ -1233,7 +1292,7 @@ body::before{
             <div>
               <div style="font-family:var(--ff-m);font-size:.6875rem;color:var(--m);text-transform:uppercase;letter-spacing:.08em">2012</div>
               <div style="font-size:.9375rem;font-weight:600;color:var(--h)">First corporate design role</div>
-              <div style="font-size:.875rem;color:var(--s)">Photoshop curiosity → career</div>
+              <div style="font-size:.875rem;color:var(--s)">Photoshop curiosity → UX career</div>
             </div>
           </div>
           <div style="display:flex;align-items:flex-start;gap:14px;padding-bottom:14px">
@@ -1241,7 +1300,7 @@ body::before{
             <div>
               <div style="font-family:var(--ff-m);font-size:.6875rem;color:var(--m);text-transform:uppercase;letter-spacing:.08em">2018 – 2022</div>
               <div style="font-size:.9375rem;font-weight:600;color:var(--h)">Senior UX — cross-industry</div>
-              <div style="font-size:.875rem;color:var(--s)">Fintech, e-commerce, SaaS</div>
+              <div style="font-size:.875rem;color:var(--s)">Fintech, e-commerce, B2B SaaS</div>
             </div>
           </div>
           <div style="display:flex;align-items:flex-start;gap:14px;padding-bottom:14px">
@@ -1249,14 +1308,14 @@ body::before{
             <div>
               <div style="font-family:var(--ff-m);font-size:.6875rem;color:var(--m);text-transform:uppercase;letter-spacing:.08em">2022 – Present</div>
               <div style="font-size:.9375rem;font-weight:600;color:var(--h)">Marsh McLennan · UX Manager</div>
-              <div style="font-size:.875rem;color:var(--s)">3 AI products · RAG · HITL</div>
+              <div style="font-size:.875rem;color:var(--s)">AI product design · RAG · Enterprise</div>
             </div>
           </div>
           <div style="display:flex;align-items:flex-start;gap:14px">
             <div style="width:16px;height:16px;border-radius:50%;background:var(--blue-v);border:2px solid var(--blue);flex-shrink:0;margin-top:1px;box-shadow:0 0 0 3px rgba(26,92,248,.2)"></div>
             <div>
               <div style="font-family:var(--ff-m);font-size:.6875rem;color:var(--blue);text-transform:uppercase;letter-spacing:.08em">Next →</div>
-              <div style="font-size:.9375rem;font-weight:600;color:var(--h)">Principal AI Designer</div>
+              <div style="font-size:.9375rem;font-weight:600;color:var(--h)">Senior / Principal Product Designer</div>
               <div style="font-size:.875rem;color:var(--s)">Open to relocation worldwide ✈️</div>
             </div>
           </div>
@@ -1266,7 +1325,7 @@ body::before{
   </div>
 </section>
 
-<!-- ══ MOTTO — Jastin-inspired ══ -->
+<!-- ══ MOTTO ══ -->
 <section id="motto">
   <div class="motto-inner">
     <div class="motto-eyebrow">
@@ -1275,12 +1334,12 @@ body::before{
       <span class="motto-star">✦</span>
     </div>
     <div class="motto-quote rv">
-      "The trust layer is not a feature.<br>
-      It is the <em>product.</em>"
+      "Start with the person.<br>
+      Every time. <em>Without exception.</em>"
     </div>
     <div class="motto-sub rv d2">
       <div class="motto-line"></div>
-      Aasif Shaikh · Lead AI Product Designer
+      Aasif Shaikh · Senior Product Designer · 14 Years
       <div class="motto-line"></div>
     </div>
   </div>
@@ -1460,18 +1519,18 @@ body::before{
   </div>
 </section>
 
-<!-- ══ PROCESS — dark section ══ -->
+<!-- ══ PROCESS ══ -->
 <section id="process">
   <div class="proc-wrap">
     <div class="proc-top">
       <div class="rv">
         <div class="eyebrow white">How I Work</div>
-        <h2 class="section-h light">AI design needs<br>a different process.</h2>
-        <p class="body-t light">Classical UX assumes deterministic outputs. AI is probabilistic. My adapted Double Diamond treats AI behaviour as a design material — unpredictable, requiring calibration <strong>before the first wireframe.</strong></p>
+        <h2 class="section-h light">Human-centred design.<br>AI-ready execution.</h2>
+        <p class="body-t light">14 years of design discipline built on one principle: start with the person. When AI entered the picture, the process didn't change — the design material did. I run the same Double Diamond, adapted for probabilistic systems where <strong>outputs are uncertain and trust is earned, not assumed.</strong></p>
       </div>
       <div class="proc-insight rv d2">
-        <div class="pi-title">The Core Insight <span class="sparkle" style="color:var(--blue-v)">✦</span></div>
-        <p class="pi-body">You cannot design the trust layer <em>after</em> building the model. Explainability seams, confidence thresholds, and override flows must be designed <em>in parallel</em> with model development — not retrofitted after launch.</p>
+        <div class="pi-title">The Constant <span class="sparkle" style="color:var(--blue-v)">✦</span></div>
+        <p class="pi-body">Whether I'm designing a traditional SaaS workflow or an AI copilot, the foundation is the same: <em>deep user understanding before any solution</em>. Personas, journey maps, and failure modes come before wireframes. Always. The AI layer adds one question: where does the human have to stay in control?</p>
       </div>
     </div>
 
@@ -1479,7 +1538,7 @@ body::before{
       <div class="pnode rv d1">
         <div class="pn-c pn-1">01</div>
         <div class="pn-name">Discover</div>
-        <div class="pn-desc">Shadow sessions, data readiness audit, AI behaviour mapping before any UI begins.</div>
+        <div class="pn-desc">User research, stakeholder interviews, contextual inquiry. For AI: data readiness audit and AI behaviour mapping before any UI begins.</div>
       </div>
 
       <div class="pnode-arrow rv d1">
@@ -1489,7 +1548,7 @@ body::before{
       <div class="pnode rv d2">
         <div class="pn-c pn-2">02</div>
         <div class="pn-name">Define</div>
-        <div class="pn-desc">Intent mapping, failure mode analysis, human oversight intervention points.</div>
+        <div class="pn-desc">Journey maps, jobs-to-be-done, problem framing. For AI: intent mapping, failure mode analysis, and human oversight intervention points.</div>
       </div>
 
       <div class="pnode-arrow rv d2">
@@ -1499,7 +1558,7 @@ body::before{
       <div class="pnode rv d3">
         <div class="pn-c pn-3">03</div>
         <div class="pn-name">Design</div>
-        <div class="pn-desc">Explainability seams, confidence UI states, trust calibration across 5 threshold bands.</div>
+        <div class="pn-desc">IA, wireframes, prototypes, design systems. For AI: explainability seams, confidence UI states, and trust calibration at every decision point.</div>
       </div>
 
       <div class="pnode-arrow rv d3">
@@ -1508,8 +1567,8 @@ body::before{
 
       <div class="pnode rv d4">
         <div class="pn-c pn-4">04</div>
-        <div class="pn-name">Test</div>
-        <div class="pn-desc">Wizard of Oz prototyping, automation bias testing, AI-SUS scoring.</div>
+        <div class="pn-name">Test & Ship</div>
+        <div class="pn-desc">Moderated usability testing, A/B, handoff. For AI: Wizard of Oz prototyping, automation bias testing, AI-SUS trust scoring.</div>
       </div>
     </div>
   </div>
@@ -1520,26 +1579,33 @@ body::before{
   <div class="contact-wrap">
     <div class="rv">
       <div class="eyebrow teal">Let's Talk</div>
-      <h2 class="c-h">Building AI that<br><em>actually works</em><br>for humans?</h2>
-      <p class="c-desc">I'm looking for my next Principal AI Designer challenge. If your team works at the intersection of AI capability and genuine human need — wherever you are in the world — I want to hear about it.</p>
-      <a href="https://www.linkedin.com/in/aasif-shaikh" target="_blank" class="btn-p">Message on LinkedIn →</a>
+      <h2 class="c-h">Looking for a<br>Senior Product<br><em>Designer?</em></h2>
+      <p class="c-desc">I'm open to Senior and Principal Product Designer roles — B2B, SaaS, fintech, enterprise. Anywhere you need someone who can lead research, ship great products, and bring genuine AI design experience to the team.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <a href="https://www.linkedin.com/in/aasif-shaikh" target="_blank" class="btn-p">Message on LinkedIn →</a>
+        <a href="resume.pdf" target="_blank" class="btn-g">↓ Download Resume</a>
+      </div>
     </div>
     <div class="c-links rv d2">
       <a href="https://www.linkedin.com/in/aasif-shaikh" target="_blank" class="c-link">
         <div class="cl-icon">💼</div>
         <div><div class="cl-lbl">LinkedIn</div><div class="cl-val">Aasif Shaikh</div></div>
       </a>
+      <a href="resume.pdf" target="_blank" class="c-link">
+        <div class="cl-icon">📄</div>
+        <div><div class="cl-lbl">Resume / CV</div><div class="cl-val">Download PDF →</div></div>
+      </a>
       <a href="project-aura-case-study.html" class="c-link">
         <div class="cl-icon">📋</div>
-        <div><div class="cl-lbl">Case Study</div><div class="cl-val">Project Aura →</div></div>
+        <div><div class="cl-lbl">Case Study 01</div><div class="cl-val">Project Aura →</div></div>
+      </a>
+      <a href="optibill-case-study.html" class="c-link">
+        <div class="cl-icon">⚡</div>
+        <div><div class="cl-lbl">Case Study 02</div><div class="cl-val">OptiBill →</div></div>
       </a>
       <a href="https://optibill.in" target="_blank" class="c-link">
-        <div class="cl-icon">⚡</div>
-        <div><div class="cl-lbl">Live Product</div><div class="cl-val">optibill.in ↗</div></div>
-      </a>
-      <a href="https://aasifdesign.com" class="c-link">
         <div class="cl-icon">🌐</div>
-        <div><div class="cl-lbl">Portfolio</div><div class="cl-val">aasifdesign.com</div></div>
+        <div><div class="cl-lbl">Live Product</div><div class="cl-val">optibill.in ↗</div></div>
       </a>
     </div>
   </div>
