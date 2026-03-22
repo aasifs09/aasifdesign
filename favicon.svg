@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1249C8"/>
+      <stop offset="100%" style="stop-color:#0D3799"/>
+    </linearGradient>
+    <linearGradient id="dot" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A9EFF"/>
+      <stop offset="100%" style="stop-color:#1A5CF8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background rounded square -->
+  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
+
+  <!-- Subtle inner border -->
+  <rect x="1.5" y="1.5" width="61" height="61" rx="13" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+
+  <!-- A letterform — clean geometric -->
+  <path d="M11 48 L22 18 L26 18 L37 48 L32 48 L29.5 41 L18.5 41 L16 48 Z
+            M20 37 L28 37 L24 24 Z"
+        fill="#FFFFFF" fill-rule="evenodd"/>
+
+  <!-- S letterform -->
+  <path d="M40 38.5 C40 38.5 42.5 43 47.5 43 C50.5 43 53 41.5 53 39 C53 36.5 51 35.2 47.5 34 C43.5 32.6 40 30.8 40 27 C40 23.2 43 21 47 21 C51 21 53.5 23.5 53.5 23.5 L51.5 26.5 C51.5 26.5 49.5 24 47 24 C44.8 24 43.2 25.2 43.2 27 C43.2 29 45.2 30 48.5 31.2 C52.5 32.6 56.2 34.5 56.2 39 C56.2 43.5 52.5 46 47.5 46 C42 46 39 42.5 39 42.5 Z"
+        fill="rgba(255,255,255,0.92)"/>
+
+  <!-- Small accent dot — live/active indicator -->
+  <circle cx="52" cy="14" r="5" fill="url(#dot)"/>
+</svg>

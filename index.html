@@ -2,12 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<link rel="shortcut icon" href="favicon.svg"/>
+<meta name="theme-color" content="#1249C8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Aasif Shaikh · Lead AI Product Designer</title>
 <meta name="description" content="Lead AI Product Designer. 14 years enterprise experience. RAG systems, explainability design, human-in-the-loop. Open to relocation worldwide."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 /*
 ═══════════════════════════════════════════════════
@@ -92,9 +95,9 @@
   --sh3: 0 20px 80px rgba(18,73,200,.20);
   --shb: 0 4px 24px rgba(18,73,200,.38);
 
-  --ff-d: 'Syne', sans-serif;
-  --ff-b: 'DM Sans', sans-serif;
-  --ff-m: 'JetBrains Mono', monospace;
+  --ff-d: 'Fraunces', serif;
+  --ff-b: 'Plus Jakarta Sans', sans-serif;
+  --ff-m: 'Fira Code', monospace;
 
   --r-xs:6px; --r-s:12px; --r:18px; --r-l:24px; --r-xl:36px;
 }
@@ -602,107 +605,111 @@ body::before{
 .motto-line{width:40px;height:1px;background:var(--dm)}
 
 /* ══════════════════════════════════════
-   CASE STUDIES — Ramachandran full-bleed stacked
+   CASE STUDIES — Compact 2-column grid
 ══════════════════════════════════════ */
 #work{
-  padding:96px 0;
+  padding:80px 52px;
   background:var(--page);
   position:relative;z-index:1;
 }
 .work-hdr{
-  max-width:1280px;margin:0 auto;padding:0 52px;
+  max-width:1280px;margin:0 auto;
   display:flex;align-items:flex-end;justify-content:space-between;
-  flex-wrap:wrap;gap:16px;margin-bottom:56px;
+  flex-wrap:wrap;gap:16px;margin-bottom:40px;
 }
 .wh-right{font-family:var(--ff-m);font-size:.875rem;color:var(--m)}
 
-/* Full-bleed card — Ramachandran style */
+/* 2-column grid */
+.cs-grid{
+  max-width:1280px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:24px;
+}
+
+/* Card */
 .cs-card{
-  width:100%;padding:0 52px;margin-bottom:24px;
-  display:block;
-}
-.cs-card-inner{
-  border-radius:var(--r-xl);overflow:hidden;
-  display:grid;grid-template-columns:1fr 520px;
-  border:1.5px solid var(--bdr);
+  display:block;border-radius:var(--r-l);overflow:hidden;
+  background:var(--white);border:1.5px solid var(--bdr);
   box-shadow:var(--sh1);
-  background:var(--white);
-  transition:transform .35s cubic-bezier(.34,1.4,.64,1),box-shadow .3s,border-color .25s;
+  transition:transform .3s cubic-bezier(.34,1.3,.64,1),box-shadow .28s,border-color .22s;
 }
-.cs-card:hover .cs-card-inner{transform:translateY(-8px)}
+.cs-card:hover{transform:translateY(-7px)}
+.ca{border-top:3px solid var(--blue-v)}
+.ca:hover{border-color:var(--blue-v);box-shadow:0 20px 60px rgba(26,92,248,.16)}
+.co{border-top:3px solid #34d399}
+.co:hover{border-color:#059669;box-shadow:0 20px 60px rgba(5,150,105,.18)}
 
-.ca .cs-card-inner{border-top:3px solid var(--blue-v)}
-.ca:hover .cs-card-inner{border-color:var(--blue-v);box-shadow:0 28px 80px rgba(26,92,248,.18)}
-.co .cs-card-inner{border-top:3px solid var(--amber-v)}
-.co:hover .cs-card-inner{border-color:var(--amber-v);box-shadow:0 28px 80px rgba(196,112,16,.16)}
-
-/* Visual left */
+/* Thumbnail — compact 260px */
 .cs-vis{
-  min-height:380px;position:relative;overflow:hidden;
+  height:260px;position:relative;overflow:hidden;
   display:flex;align-items:center;justify-content:center;
 }
-.ca .cs-vis{background:linear-gradient(145deg,#EBF2FF,#F4F8FF,#E3EDFF)}
-.co .cs-vis{background:linear-gradient(145deg,#FFF8E6,#FFF4D6,#FEF0C0)}
+/* Aura: light blue */
+.ca .cs-vis{background:linear-gradient(150deg,#EBF2FF 0%,#F4F8FF 60%,#E0EAFF 100%)}
+/* OptiBill: ACTUAL dark navy from live site */
+.co .cs-vis{background:linear-gradient(150deg,#0c1830 0%,#0f2040 60%,#0c1830 100%)}
 
-/* Decorative orb */
-.cs-orb{
-  position:absolute;border-radius:50%;filter:blur(50px);pointer-events:none;
-  animation:blobFloat 6s ease-in-out infinite;
+/* Ghost number watermark */
+.cs-num-bg{
+  position:absolute;bottom:-16px;right:-4px;
+  font-family:var(--ff-d);font-size:8rem;font-weight:800;
+  line-height:1;letter-spacing:-.06em;pointer-events:none;
+  opacity:.06;user-select:none;
 }
-.ca .cs-orb{background:rgba(18,73,200,.14);width:260px;height:260px;top:-40px;right:-40px}
-.co .cs-orb{background:rgba(196,112,16,.12);width:220px;height:220px;bottom:-40px;left:-30px}
+.ca .cs-num-bg{color:var(--blue-v)}
+.co .cs-num-bg{color:#34d399}
 
-/* Number label like Ramachandran */
+/* Pill label */
 .cs-num{
-  position:absolute;top:20px;left:20px;
+  position:absolute;top:16px;left:16px;
   font-family:var(--ff-m);font-size:.6875rem;font-weight:600;
-  text-transform:uppercase;letter-spacing:.14em;
-  padding:4px 12px;border-radius:20px;border:1.5px solid;
+  text-transform:uppercase;letter-spacing:.12em;
+  padding:4px 12px;border-radius:20px;border:1.5px solid;backdrop-filter:blur(8px);
 }
-.ca .cs-num{color:var(--blue);border-color:var(--blue-br2);background:rgba(255,255,255,.8)}
-.co .cs-num{color:var(--amber-v);border-color:var(--amber-br);background:rgba(255,255,255,.8)}
+.ca .cs-num{color:var(--blue);border-color:var(--blue-br2);background:rgba(255,255,255,.85)}
+.co .cs-num{color:#34d399;border-color:rgba(52,211,153,.35);background:rgba(12,24,48,.7)}
 
-/* Body right */
+/* Body */
 .cs-body{
-  padding:40px 40px 40px 36px;
-  border-left:1px solid var(--bdr);
+  padding:28px 28px 32px;
   display:flex;flex-direction:column;
+  border-top:1px solid var(--bdr);
 }
-.cs-meta{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.cs-meta{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
 .cs-badge{
-  font-family:var(--ff-m);font-size:.75rem;font-weight:500;
-  padding:4px 12px;border-radius:20px;border:1.5px solid;text-transform:uppercase;letter-spacing:.06em;
+  font-family:var(--ff-m);font-size:.6875rem;font-weight:500;
+  padding:3px 10px;border-radius:20px;border:1.5px solid;
+  text-transform:uppercase;letter-spacing:.06em;
 }
-.cb-a{color:var(--blue-d);border-color:rgba(18,73,200,.35);background:var(--blue-t)}
-.cb-o{color:var(--amber-v);border-color:var(--amber-br);background:var(--amber-t)}
+.cb-a{color:var(--blue-d);border-color:rgba(18,73,200,.3);background:var(--blue-t)}
+.cb-o{color:#047857;border-color:rgba(5,150,105,.3);background:#ECFDF5}
 .cs-yr{font-family:var(--ff-m);font-size:.8125rem;color:var(--m)}
 .cs-h{
-  font-family:var(--ff-d);font-size:2rem;font-weight:700;
-  color:var(--h);line-height:1.15;letter-spacing:-.025em;margin-bottom:12px;
+  font-family:var(--ff-d);font-size:1.75rem;font-weight:700;
+  color:var(--h);line-height:1.15;letter-spacing:-.025em;margin-bottom:10px;
 }
-.cs-p{font-size:.9375rem;color:var(--s);line-height:1.65;margin-bottom:24px}
+.cs-p{font-size:.9375rem;color:var(--s);line-height:1.65;margin-bottom:18px}
 
-/* Metrics row */
+/* Metrics strip */
 .cs-mets{
   display:flex;gap:0;border:1px solid var(--bdr);border-radius:var(--r-s);
-  overflow:hidden;margin-bottom:20px;
+  overflow:hidden;margin-bottom:18px;
 }
-.cs-met{flex:1;padding:14px 12px;text-align:center;border-right:1px solid var(--bdr)}
+.cs-met{flex:1;padding:12px 10px;text-align:center;border-right:1px solid var(--bdr)}
 .cs-met:last-child{border-right:none}
 .ca .cs-met{background:var(--blue-t)}
-.co .cs-met{background:var(--amber-t)}
+.co .cs-met{background:#ECFDF5}
 .cs-mv{
-  font-family:var(--ff-d);font-size:1.5rem;font-weight:800;
-  line-height:1;margin-bottom:4px;letter-spacing:-.02em;
+  font-family:var(--ff-d);font-size:1.375rem;font-weight:800;
+  line-height:1;margin-bottom:3px;letter-spacing:-.02em;
 }
 .ca .cs-mv{color:var(--blue-v)}
-.co .cs-mv{color:var(--amber-v)}
-.cs-ml{font-family:var(--ff-m);font-size:.625rem;color:var(--m);text-transform:uppercase;letter-spacing:.07em;line-height:1.4}
+.co .cs-mv{color:#059669}
+.cs-ml{font-family:var(--ff-m);font-size:.5625rem;color:var(--m);text-transform:uppercase;letter-spacing:.07em;line-height:1.4}
 
-.cs-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:28px}
+.cs-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:20px}
 .cs-tag{
-  font-family:var(--ff-m);font-size:.75rem;
-  padding:4px 10px;border-radius:var(--r-xs);
+  font-family:var(--ff-m);font-size:.6875rem;
+  padding:3px 9px;border-radius:var(--r-xs);
   background:var(--surf);border:1px solid var(--bdr);color:var(--s);
 }
 .cs-cta{
@@ -711,77 +718,94 @@ body::before{
   margin-top:auto;transition:gap .2s;
 }
 .ca .cs-cta{color:var(--blue)}
-.co .cs-cta{color:var(--amber-v)}
+.co .cs-cta{color:#059669}
 .cs-card:hover .cs-cta{gap:16px}
 .cta-l{width:28px;height:2px;border-radius:2px}
 .ca .cta-l{background:var(--blue-v)}
-.co .cta-l{background:var(--amber-v)}
+.co .cta-l{background:#34d399}
 
-/* Aura mini mockup */
+/* ── Aura thumbnail mockup ── */
 .amock{
-  width:82%;max-width:360px;
-  background:var(--white);border:1.5px solid rgba(18,73,200,.22);
-  border-radius:var(--r);overflow:hidden;
-  box-shadow:0 12px 48px rgba(18,73,200,.18);
+  width:75%;max-width:320px;
+  background:var(--white);border:1.5px solid rgba(18,73,200,.20);
+  border-radius:var(--r-s);overflow:hidden;
+  box-shadow:0 10px 40px rgba(18,73,200,.18);
   position:relative;z-index:1;
 }
 .am-bar{
-  background:var(--blue-t);padding:8px 12px;
+  background:var(--blue-t);padding:7px 10px;
   display:flex;align-items:center;gap:5px;border-bottom:1px solid var(--blue-br);
 }
-.am-t{font-family:var(--ff-m);font-size:7.5px;color:var(--blue);font-weight:600;letter-spacing:.08em;margin-left:auto}
-.am-body{padding:11px;display:grid;grid-template-columns:1fr 124px;gap:8px}
-.am-rows .am-row{height:7px;border-radius:3px;background:var(--blue-t);margin-bottom:6px}
-.am-tbl{border:1px solid var(--bdr);border-radius:5px;overflow:hidden;margin-top:3px}
-.am-th{background:var(--surf);padding:4px 7px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:4px}
-.am-th span{height:5px;border-radius:2px;background:var(--bdr2);display:block}
-.am-tr{padding:4px 7px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:4px;border-top:1px solid var(--bdr)}
-.am-tr span{height:5px;border-radius:2px;background:var(--bdr);display:block}
+.am-t{font-family:var(--ff-m);font-size:7px;color:var(--blue);font-weight:600;letter-spacing:.08em;margin-left:auto}
+.am-body{padding:10px;display:grid;grid-template-columns:1fr 110px;gap:7px}
+.am-rows .am-row{height:6px;border-radius:3px;background:var(--blue-t);margin-bottom:5px}
+.am-tbl{border:1px solid var(--bdr);border-radius:4px;overflow:hidden;margin-top:3px}
+.am-th{background:var(--surf);padding:3px 6px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:3px}
+.am-th span{height:4px;border-radius:2px;background:var(--bdr2);display:block}
+.am-tr{padding:3px 6px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:3px;border-top:1px solid var(--bdr)}
+.am-tr span{height:4px;border-radius:2px;background:var(--bdr);display:block}
 .am-tr.on{background:var(--blue-t)}
-.am-tr.on span{background:rgba(18,73,200,.4)}
-.am-cp{background:var(--surf);border-left:1px solid var(--bdr);padding:8px;display:flex;flex-direction:column;gap:5px}
-.am-cp-h{font-family:var(--ff-m);font-size:7px;color:var(--blue);font-weight:600;text-transform:uppercase;letter-spacing:.1em;display:flex;align-items:center;gap:4px}
+.am-tr.on span{background:rgba(18,73,200,.35)}
+.am-cp{background:var(--surf);border-left:1px solid var(--bdr);padding:7px;display:flex;flex-direction:column;gap:5px}
+.am-cp-h{font-family:var(--ff-m);font-size:6.5px;color:var(--blue);font-weight:600;text-transform:uppercase;letter-spacing:.1em;display:flex;align-items:center;gap:4px}
 .am-cp-d{width:5px;height:5px;border-radius:50%;background:var(--blue-v);animation:pulse 2s infinite}
-.am-bbl{background:var(--blue-t);border:1px solid var(--blue-br);border-radius:4px;padding:6px 7px;font-family:var(--ff-m);font-size:7px;color:var(--s);line-height:1.5}
+.am-bbl{background:var(--blue-t);border:1px solid var(--blue-br);border-radius:3px;padding:5px 6px;font-family:var(--ff-m);font-size:6.5px;color:var(--s);line-height:1.5}
 .am-bbl strong{color:var(--blue-d)}
-.am-conf{display:flex;align-items:center;gap:4px;font-family:var(--ff-m);font-size:6px;color:var(--m)}
+.am-conf{display:flex;align-items:center;gap:4px;font-family:var(--ff-m);font-size:5.5px;color:var(--m)}
 .am-ct{flex:1;height:3px;background:var(--tint2);border-radius:2px}
 .am-cf{height:100%;width:94%;background:linear-gradient(90deg,var(--blue-d),var(--blue-v));border-radius:2px}
-.am-btns{display:flex;gap:4px}
-.am-btn{flex:1;padding:4px 5px;border-radius:4px;font-family:var(--ff-m);font-size:6px;text-align:center;border:1px solid;font-weight:500}
+.am-btns{display:flex;gap:3px}
+.am-btn{flex:1;padding:4px 4px;border-radius:3px;font-family:var(--ff-m);font-size:5.5px;text-align:center;border:1px solid;font-weight:500}
 .am-ok{background:var(--green-t);border-color:var(--green-br);color:var(--green)}
 .am-fl{background:var(--coral-t);border-color:var(--coral-br);color:var(--coral)}
 
-/* OptiBill mockup */
+/* ── OptiBill thumbnail — ACTUAL dark navy site colors ── */
 .omock{
-  width:82%;max-width:360px;
-  background:var(--white);border:1.5px solid var(--amber-br);
-  border-radius:var(--r);overflow:hidden;
-  box-shadow:0 12px 48px rgba(196,112,16,.16);
+  width:75%;max-width:320px;
+  background:#0f2040;border:1px solid rgba(52,211,153,.20);
+  border-radius:var(--r-s);overflow:hidden;
+  box-shadow:0 10px 40px rgba(0,0,0,.40);
   position:relative;z-index:1;
 }
-.om-bar{background:var(--amber-t);padding:8px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--amber-br)}
-.om-logo{font-family:var(--ff-m);font-size:9px;font-weight:700;color:var(--amber-v);letter-spacing:.06em}
-.om-live{font-family:var(--ff-m);font-size:7px;color:var(--green);background:var(--green-t);border:1px solid var(--green-br);padding:2px 8px;border-radius:10px;display:flex;align-items:center;gap:4px}
-.om-ld{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+/* Top accent */
+.omock::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,#059669,#34d399);z-index:1;
+}
+.om-bar{
+  background:rgba(255,255,255,.04);padding:8px 12px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.om-logo{font-family:var(--ff-m);font-size:9px;font-weight:700;color:#FFFFFF;letter-spacing:.04em;display:flex;align-items:center;gap:5px}
+.om-logo-ic{width:14px;height:14px;background:#059669;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px}
+.om-live{font-family:var(--ff-m);font-size:7px;color:#34d399;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.25);padding:2px 8px;border-radius:10px;display:flex;align-items:center;gap:4px}
+.om-ld{width:5px;height:5px;border-radius:50%;background:#34d399;animation:pulse 2s infinite}
 .om-body{padding:12px}
-.om-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:9px}
-.om-k{background:var(--amber-t);border:1px solid var(--amber-br);border-radius:6px;padding:7px;text-align:center}
-.om-kv{font-family:var(--ff-m);font-size:11px;font-weight:700;color:var(--amber-v);line-height:1;margin-bottom:2px}
-.om-kl{font-family:var(--ff-m);font-size:6px;color:var(--m);text-transform:uppercase;letter-spacing:.05em;line-height:1.3}
-.om-p{background:var(--surf);border:1px solid var(--bdr);border-radius:6px;padding:8px 10px}
-.om-pt{font-family:var(--ff-m);font-size:7px;color:var(--m);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
-.om-steps{display:flex;align-items:center}
-.om-step{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1}
-.om-sc{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;border:1.5px solid}
-.om-step.done .om-sc{background:var(--green-t);border-color:var(--green);color:var(--green)}
-.om-step.act .om-sc{background:var(--amber-t);border-color:var(--amber-v);color:var(--amber-v);animation:pulse 2s infinite}
-.om-step.pend .om-sc{background:var(--surf);border-color:var(--bdr2);color:var(--m)}
-.om-sl{font-family:var(--ff-m);font-size:5.5px;text-align:center;color:var(--m);line-height:1.3}
-.om-step.done .om-sl{color:var(--green)}
-.om-step.act .om-sl{color:var(--amber-v)}
-.om-ln{flex:1;height:1.5px;background:var(--bdr);margin-top:-9px}
-.om-ln.done{background:var(--green);opacity:.6}
+/* Leakage hero card */
+.om-leakage{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:5px;padding:8px 10px;margin-bottom:8px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.om-leak-badge{font-family:var(--ff-m);font-size:5px;font-weight:600;color:#fbbf24;text-transform:uppercase;letter-spacing:.08em;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.2);padding:2px 6px;border-radius:2px;margin-bottom:3px;display:inline-block}
+.om-leak-label{font-size:7px;font-weight:600;color:rgba(255,255,255,.9);font-family:var(--ff-m)}
+.om-leak-sub{font-size:5.5px;color:rgba(255,255,255,.45);font-family:var(--ff-m)}
+.om-leak-amount{font-family:var(--ff-d);font-size:1.375rem;font-weight:800;color:#fbbf24;line-height:1}
+.om-leak-per{font-family:var(--ff-m);font-size:5px;color:rgba(255,255,255,.4);text-align:right}
+.om-recovery{display:flex;align-items:center;gap:4px;font-family:var(--ff-m);font-size:6px;font-weight:600;color:#34d399;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2);border-radius:8px;padding:2px 8px;margin-top:3px}
+.om-rec-dot{width:4px;height:4px;border-radius:50%;background:#34d399;animation:pulse 2s infinite}
+/* Pillars */
+.om-pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:8px}
+.om-pill{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:6px;text-align:center}
+.om-pval{font-family:var(--ff-d);font-size:.6875rem;font-weight:800;line-height:1;margin-bottom:2px}
+.om-plabel{font-family:var(--ff-m);font-size:4.5px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.05em}
+/* Kanban mini */
+.om-kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.om-kcol-hdr{font-family:var(--ff-m);font-size:4.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;padding:0 2px}
+.om-kcard{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:3px;padding:4px 5px}
+.om-kcard-co{font-size:5px;font-weight:600;color:rgba(255,255,255,.8)}
+.om-kcard-amt{font-family:var(--ff-d);font-size:7px;font-weight:700}
 
 /* ══════════════════════════════════════
    PROCESS — node with connector line
@@ -965,14 +989,14 @@ body::before{
   .ai-panel{max-width:520px;margin:0 auto}
   .ap-body{grid-template-columns:1fr}
   .ap-cp{border-left:none;border-top:1px solid var(--bdr)}
-  .cs-card-inner{grid-template-columns:1fr}
-  .cs-vis{min-height:260px}
+  .cs-grid{grid-template-columns:1fr!important;gap:16px;padding:0 24px!important}
+  .cs-vis{height:220px}
 }
 @media(max-width:900px){
   #nav{padding:0 24px;height:60px}
   .nav-ul li:not(:last-child){display:none}
   #hero,#about,#motto,#process,#contact{padding-left:24px;padding-right:24px}
-  #work .work-hdr,.cs-card{padding-left:24px;padding-right:24px}
+
   .hero-counters{grid-template-columns:repeat(2,1fr)}
   .about-inner{grid-template-columns:1fr;gap:48px}
   .proc-top{grid-template-columns:1fr;gap:32px}
@@ -1262,35 +1286,36 @@ body::before{
   </div>
 </section>
 
-<!-- ══ CASE STUDIES — Ramachandran full-bleed ══ -->
+<!-- ══ CASE STUDIES — Compact 2-column grid ══ -->
 <section id="work">
   <div class="work-hdr rv">
     <div>
       <div class="eyebrow">Selected Work</div>
       <h2 class="section-h" style="margin-bottom:0">Case Studies <span class="sparkle">✦</span></h2>
     </div>
-    <div class="wh-right">02 Projects</div>
+    <div class="wh-right">02 Projects · AI Product Design</div>
   </div>
 
-  <!-- Aura card -->
-  <a href="project-aura-case-study.html" class="cs-card ca">
-    <div class="cs-card-inner rv">
+  <div class="cs-grid" style="max-width:1280px;margin:0 auto;padding:0 52px;">
+
+    <!-- Aura card -->
+    <a href="project-aura-case-study.html" class="cs-card ca rv d1">
       <div class="cs-vis">
-        <div class="cs-orb"></div>
+        <div class="cs-num-bg">01</div>
         <div class="cs-num">Case Study 01</div>
         <div class="amock">
           <div class="am-bar">
-            <span style="display:flex;gap:4px">
-              <span style="width:8px;height:8px;border-radius:50%;background:#FF5F57;display:block"></span>
-              <span style="width:8px;height:8px;border-radius:50%;background:#FEBC2E;display:block"></span>
-              <span style="width:8px;height:8px;border-radius:50%;background:#28C840;display:block"></span>
+            <span style="display:flex;gap:3px">
+              <span style="width:7px;height:7px;border-radius:50%;background:#FF5F57;display:block"></span>
+              <span style="width:7px;height:7px;border-radius:50%;background:#FEBC2E;display:block"></span>
+              <span style="width:7px;height:7px;border-radius:50%;background:#28C840;display:block"></span>
             </span>
             <div class="am-t">AURA · AI COPILOT</div>
           </div>
           <div class="am-body">
             <div class="am-rows">
               <div class="am-row" style="width:60%"></div>
-              <div class="am-row" style="width:88%;margin-bottom:10px"></div>
+              <div class="am-row" style="width:85%;margin-bottom:8px"></div>
               <div class="am-tbl">
                 <div class="am-th"><span style="width:80%"></span><span style="width:60%"></span><span style="width:70%"></span></div>
                 <div class="am-tr"><span style="width:85%"></span><span style="width:60%"></span><span style="width:70%"></span></div>
@@ -1314,14 +1339,13 @@ body::before{
           </div>
         </div>
       </div>
-
       <div class="cs-body">
         <div class="cs-meta">
           <span class="cs-badge cb-a">Enterprise · AI Copilot</span>
           <span class="cs-yr">2025 · 8 months</span>
         </div>
         <h3 class="cs-h">Project Aura</h3>
-        <p class="cs-p">Enterprise AI copilot that cut ESG audit processing time by 65% inside a Fortune 500 insurance brokerage — without rewriting a 15-year-old legacy database. RAG architecture, GDPR-compliant audit trail, and a human approval gate at every extraction.</p>
+        <p class="cs-p">Enterprise AI copilot that cut ESG audit time by 65% inside a Fortune 500 — without rewriting a 15-year-old legacy database. RAG, GDPR, human approval gates at every extraction.</p>
         <div class="cs-mets">
           <div class="cs-met"><div class="cs-mv">65%</div><div class="cs-ml">Time<br>Reduced</div></div>
           <div class="cs-met"><div class="cs-mv">40%</div><div class="cs-ml">Anomaly<br>Detection ↑</div></div>
@@ -1330,73 +1354,110 @@ body::before{
         </div>
         <div class="cs-tags">
           <span class="cs-tag">RAG Architecture</span>
-          <span class="cs-tag">GDPR</span>
-          <span class="cs-tag">CSRD</span>
+          <span class="cs-tag">GDPR · CSRD</span>
           <span class="cs-tag">Explainability Design</span>
           <span class="cs-tag">Human Approval Gate</span>
           <span class="cs-tag">WoZ Testing</span>
         </div>
         <div class="cs-cta"><div class="cta-l"></div>View Full Case Study</div>
       </div>
-    </div>
-  </a>
+    </a>
 
-  <!-- OptiBill card -->
-  <a href="optibill-case-study.html" class="cs-card co">
-    <div class="cs-card-inner rv d2">
+    <!-- OptiBill card — dark navy matching actual site -->
+    <a href="optibill-case-study.html" class="cs-card co rv d2">
       <div class="cs-vis">
-        <div class="cs-orb"></div>
+        <div class="cs-num-bg">02</div>
         <div class="cs-num">Case Study 02</div>
+        <!-- OptiBill dark mockup matching actual #0c1830 site -->
         <div class="omock">
           <div class="om-bar">
-            <div class="om-logo">⚡ OPTIBILL.IN</div>
+            <div class="om-logo"><div class="om-logo-ic">⚡</div>OptiBill</div>
             <div class="om-live"><div class="om-ld"></div>Live</div>
           </div>
           <div class="om-body">
-            <div class="om-kpis">
-              <div class="om-k"><div class="om-kv">₹7.8k</div><div class="om-kl">Recovered</div></div>
-              <div class="om-k"><div class="om-kv">28</div><div class="om-kl">Interviews</div></div>
-              <div class="om-k"><div class="om-kv">20%</div><div class="om-kl">Fee</div></div>
+            <div class="om-leakage">
+              <div>
+                <div class="om-leak-badge">▲ Total Leakage · May 2025</div>
+                <div class="om-leak-label">Factory overpays MSEDCL every cycle</div>
+                <div class="om-recovery"><div class="om-rec-dot"></div>Your Recovery: ₹34,000</div>
+              </div>
+              <div>
+                <div class="om-leak-amount">₹5,613</div>
+                <div class="om-leak-per">/month · 13% of bill</div>
+              </div>
             </div>
-            <div class="om-p">
-              <div class="om-pt">Grievance Progress Tracker</div>
-              <div class="om-steps">
-                <div class="om-step done"><div class="om-sc">✓</div><div class="om-sl">Bill<br>Audited</div></div>
-                <div class="om-ln done"></div>
-                <div class="om-step done"><div class="om-sc">✓</div><div class="om-sl">Filed</div></div>
-                <div class="om-ln done"></div>
-                <div class="om-step act"><div class="om-sc">●</div><div class="om-sl">Board<br>Review</div></div>
-                <div class="om-ln"></div>
-                <div class="om-step pend"><div class="om-sc">○</div><div class="om-sl">Credit<br>OK</div></div>
+            <div class="om-pillars">
+              <div class="om-pill">
+                <div class="om-pval" style="color:#fca5a5">₹18,400</div>
+                <div class="om-plabel">PF Penalty</div>
+              </div>
+              <div class="om-pill">
+                <div class="om-pval" style="color:#fbbf24">₹15,000</div>
+                <div class="om-plabel">MD Breach</div>
+              </div>
+              <div class="om-pill">
+                <div class="om-pval" style="color:#93c5fd">₹9,100</div>
+                <div class="om-plabel">ToD Premium</div>
+              </div>
+            </div>
+            <div class="om-kanban">
+              <div>
+                <div class="om-kcol-hdr" style="color:rgba(255,255,255,.35)">Drafted</div>
+                <div class="om-kcard">
+                  <div class="om-kcard-co">Bharat Steel</div>
+                  <div class="om-kcard-amt" style="color:#fbbf24">₹38,200</div>
+                </div>
+              </div>
+              <div>
+                <div class="om-kcol-hdr" style="color:#93c5fd">Filed</div>
+                <div class="om-kcard">
+                  <div class="om-kcard-co">Bharat Steel</div>
+                  <div class="om-kcard-amt" style="color:#93c5fd">₹42,500</div>
+                </div>
+              </div>
+              <div>
+                <div class="om-kcol-hdr" style="color:#fbbf24">Review</div>
+                <div class="om-kcard">
+                  <div class="om-kcard-co">Bharat Steel</div>
+                  <div class="om-kcard-amt" style="color:#fbbf24">₹27,800</div>
+                </div>
+              </div>
+              <div>
+                <div class="om-kcol-hdr" style="color:#34d399">Done</div>
+                <div class="om-kcard">
+                  <div class="om-kcard-co">Bharat Steel</div>
+                  <div class="om-kcard-amt" style="color:#34d399">₹68,000</div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
       <div class="cs-body">
         <div class="cs-meta">
           <span class="cs-badge cb-o">Founder · Live Product</span>
           <span class="cs-yr">2025 · Ongoing</span>
         </div>
         <h3 class="cs-h">OptiBill</h3>
-        <p class="cs-p">I was the user first. 2 hours waiting. ₹1,200 in travel. A day's leave. Then 28 factory and industrial unit interviews. The anger was real — penalties up to ₹5 lakh. Then I built an AI-powered electricity bill auditor using OCR and Gemini LLM.</p>
+        <p class="cs-p">I was the user. 2 hours queuing. ₹1,200 in travel. A day's leave. Then 28 factory interviews revealed the real scale — penalties up to ₹5 lakh, silent, invisible by design.</p>
         <div class="cs-mets">
           <div class="cs-met"><div class="cs-mv">28</div><div class="cs-ml">User<br>Interviews</div></div>
+          <div class="cs-met"><div class="cs-mv">94%</div><div class="cs-ml">AI Audit<br>Success Rate</div></div>
           <div class="cs-met"><div class="cs-mv">₹5L</div><div class="cs-ml">Max Factory<br>Penalty</div></div>
-          <div class="cs-met"><div class="cs-mv">OCR</div><div class="cs-ml">+Gemini<br>LLM</div></div>
+          <div class="cs-met"><div class="cs-mv">14d</div><div class="cs-ml">Avg<br>Resolution</div></div>
         </div>
         <div class="cs-tags">
           <span class="cs-tag">Founder Story</span>
           <span class="cs-tag">OCR + Gemini LLM</span>
           <span class="cs-tag">Maharashtra Regulations</span>
-          <span class="cs-tag">Auto PDF Filing</span>
           <span class="cs-tag">Multi-Meter Dashboard</span>
+          <span class="cs-tag">IGRC Auto-Filing</span>
         </div>
         <div class="cs-cta"><div class="cta-l"></div>View Full Case Study</div>
       </div>
-    </div>
-  </a>
+    </a>
+
+  </div>
 </section>
 
 <!-- ══ PROCESS — dark section ══ -->
