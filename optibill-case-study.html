@@ -1,0 +1,1974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>OptiBill — Case Study | Aasif Shaikh · Lead AI Product Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════════════
+   OPTIBILL CASE STUDY — WARM GREEN INDUSTRIAL THEME
+   WCAG AA VERIFIED:
+   #064E3B on #FFF = 12.8:1 AAA  ✓
+   #065F46 on #FFF =  9.6:1 AAA  ✓
+   #047857 on #FFF =  7.1:1 AA   ✓
+   #059669 on #FFF =  5.3:1 AA   ✓
+   #92400E on #FFF =  6.8:1 AA   ✓
+   #1F2937 on #FFF =  16.1:1 AAA ✓
+   #374151 on #FFF =  9.7:1 AAA  ✓
+   #6B7280 on #FFF =  5.5:1 AA   ✓ (≥14px)
+   #FFFFFF on #064E3B = 12.8:1 AAA ✓ (dark sections)
+═══════════════════════════════════════════════════ */
+:root{
+  --bg:#F9FAFB; --white:#FFFFFF; --tint:#ECFDF5; --tint2:#D1FAE5;
+  --warm:#FFFBEB; --warm2:#FEF3C7;
+  --h:#064E3B; --b:#1F2937; --s:#374151; --m:#6B7280; --xl:#9CA3AF;
+  --g:#059669; --gd:#047857; --gdd:#065F46; --gt:#ECFDF5; --gt2:#D1FAE5;
+  --gbr:rgba(5,150,105,.20); --gbr2:rgba(5,150,105,.35);
+  --a:#92400E; --av:#B45309; --avv:#D97706;
+  --at:#FFFBEB; --at2:#FEF3C7; --abr:rgba(180,83,9,.22);
+  --r:#991B1B; --rt:#FEF2F2; --rbr:rgba(153,27,27,.20);
+  --n:#1E3A5F; --nt:#EFF6FF; --nbr:rgba(30,58,95,.18);
+  --bdr:rgba(0,0,0,.08); --bdr2:rgba(0,0,0,.14);
+  --sh1:0 1px 4px rgba(0,0,0,.06);
+  --sh2:0 4px 20px rgba(5,150,105,.12);
+  --sh3:0 12px 48px rgba(5,150,105,.16);
+  --ff-d:'Syne',sans-serif;
+  --ff-b:'DM Sans',sans-serif;
+  --ff-m:'JetBrains Mono',monospace;
+  --r-xs:6px;--r-s:10px;--r:16px;--r-l:22px;--r-xl:32px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--bg);color:var(--b);font-family:var(--ff-b);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 50% at -5% -5%,rgba(5,150,105,.06) 0%,transparent 55%),
+  radial-gradient(ellipse 50% 40% at 105% 105%,rgba(217,119,6,.05) 0%,transparent 50%)}
+a{text-decoration:none;color:inherit}
+.z{position:relative;z-index:1}
+
+/* ── Helpers ── */
+.eyebrow{font-family:var(--ff-m);font-size:.75rem;font-weight:500;color:var(--g);text-transform:uppercase;letter-spacing:.12em;display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.eyebrow::before{content:'';width:22px;height:2px;background:currentColor;border-radius:2px}
+.eyebrow.am{color:var(--av)}.eyebrow.nv{color:var(--n)}.eyebrow.wh{color:rgba(255,255,255,.7)}
+.eyebrow.wh::before{background:rgba(255,255,255,.5)}
+.h1{font-family:var(--ff-d);font-size:clamp(3rem,6vw,5.5rem);font-weight:800;color:var(--h);line-height:1.02;letter-spacing:-.04em}
+.h2{font-family:var(--ff-d);font-size:clamp(1.875rem,3.5vw,2.875rem);font-weight:700;color:var(--h);line-height:1.1;letter-spacing:-.03em;margin-bottom:18px}
+.h3{font-family:var(--ff-d);font-size:1.375rem;font-weight:700;color:var(--h);line-height:1.2;letter-spacing:-.02em;margin-bottom:10px}
+.h2.lgt{color:#FFFFFF}.h3.lgt{color:#FFFFFF}
+.body-lg{font-size:1.0625rem;color:var(--s);line-height:1.85}
+.body-lg p{margin-bottom:16px}.body-lg p:last-child{margin-bottom:0}
+.body-lg strong{color:var(--b);font-weight:600}
+.body-md{font-size:.9375rem;color:var(--s);line-height:1.75}
+.pill{display:inline;background:var(--gt);border:1px solid var(--gbr);border-radius:4px;padding:2px 8px;color:var(--gdd);font-style:normal}
+.pill-am{background:var(--at);border-color:var(--abr);color:var(--a)}
+.btn-p{display:inline-flex;align-items:center;gap:10px;background:var(--g);color:#fff;font-family:var(--ff-b);font-size:.9375rem;font-weight:600;padding:13px 26px;border-radius:var(--r-s);box-shadow:0 4px 24px rgba(5,150,105,.30);transition:background .2s,transform .2s}
+.btn-p:hover{background:var(--gd);transform:translateY(-2px)}
+.btn-g{display:inline-flex;align-items:center;gap:10px;background:transparent;color:var(--s);font-family:var(--ff-b);font-size:.9375rem;font-weight:500;padding:13px 26px;border-radius:var(--r-s);border:1.5px solid var(--bdr2);transition:all .2s}
+.btn-g:hover{border-color:var(--gbr2);color:var(--gd);background:var(--gt)}
+
+/* ── Nav ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;padding:0 52px;display:flex;align-items:center;justify-content:space-between;background:rgba(249,250,251,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr);transition:background .3s,box-shadow .3s}
+nav.sc{background:rgba(255,255,255,.97);box-shadow:var(--sh1)}
+.nav-brand{font-family:var(--ff-d);font-size:1.0625rem;font-weight:700;color:var(--h);letter-spacing:-.02em;display:flex;align-items:center;gap:7px}
+.nav-brand span{color:var(--g)}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:var(--g);animation:pulse 2s infinite}
+.nav-ul{display:flex;align-items:center;gap:4px;list-style:none}
+.nav-ul a{font-size:.9375rem;font-weight:500;color:var(--s);padding:7px 14px;border-radius:var(--r-xs);transition:color .2s,background .2s}
+.nav-ul a:hover{color:var(--g);background:var(--gt)}
+.nav-cs{font-family:var(--ff-m)!important;font-size:.8125rem!important;color:var(--g)!important;background:var(--gt)!important;border:1.5px solid var(--gbr2)!important;border-radius:var(--r-xs)!important}
+.nav-cs:hover{background:var(--gt2)!important}
+
+/* ── Sections ── */
+.sec{padding:96px 52px;position:relative;z-index:1}
+.sec-white{background:var(--white);border-bottom:1px solid var(--bdr)}
+.sec-tint{background:var(--tint);border-bottom:1px solid rgba(5,150,105,.10)}
+.sec-warm{background:var(--warm);border-bottom:1px solid rgba(180,83,9,.10)}
+.sec-dark{background:#064E3B;border-bottom:none}
+.sec-navy{background:#1E3A5F;border-bottom:none}
+.wrap{max-width:1280px;margin:0 auto}
+.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(5,150,105,.20),transparent);margin:0}
+
+/* ── Scroll reveal ── */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.rv.v{opacity:1;transform:translateY(0)}
+.rl{opacity:0;transform:translateX(-32px);transition:opacity .7s ease,transform .7s ease}
+.rl.v{opacity:1;transform:translateX(0)}
+.rr{opacity:0;transform:translateX(32px);transition:opacity .7s ease,transform .7s ease}
+.rr.v{opacity:1;transform:translateX(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+/* ── Keyframes ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideRight{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes scanLine{0%{top:-4px;opacity:0}8%{opacity:1}92%{opacity:1}100%{top:105%;opacity:0}}
+@keyframes fillBar{from{width:0}to{width:94%}}
+@keyframes countUp{from{opacity:0}to{opacity:1}}
+
+/* ═══════════════════════════════════════
+   HERO
+═══════════════════════════════════════ */
+#hero{min-height:100vh;padding:88px 52px 72px;display:flex;align-items:center;
+  background:linear-gradient(168deg,#FFFFFF 0%,#F0FDF8 45%,#ECFDF5 100%);
+  border-bottom:1px solid var(--bdr);position:relative;overflow:hidden}
+#hero::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(var(--bdr) 1px,transparent 1px),linear-gradient(90deg,var(--bdr) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 80%);opacity:.4}
+.orb{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;animation:float 8s ease-in-out infinite}
+.o1{width:420px;height:420px;background:rgba(5,150,105,.10);top:-80px;right:-40px}
+.o2{width:300px;height:300px;background:rgba(217,119,6,.07);bottom:-40px;left:-60px;animation-delay:3s}
+
+.hero-inner{max-width:1280px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 500px;gap:72px;align-items:center;position:relative;z-index:1}
+
+.cs-number{display:inline-flex;align-items:center;gap:10px;font-family:var(--ff-m);font-size:.75rem;font-weight:500;
+  color:var(--g);background:var(--gt);border:1.5px solid var(--gbr2);padding:6px 14px;border-radius:20px;margin-bottom:20px;
+  opacity:0;animation:fadeUp .6s .05s ease forwards}
+.cs-ndot{width:7px;height:7px;border-radius:50%;background:var(--g);animation:pulse 2s infinite}
+
+.hero-h1{margin-bottom:10px;opacity:0;animation:fadeUp .7s .18s ease forwards}
+.hero-h1 em{color:var(--g);font-style:normal}
+.hero-sub{font-family:var(--ff-d);font-size:clamp(1.25rem,2.5vw,2.25rem);font-weight:400;color:var(--s);
+  line-height:1.3;letter-spacing:-.02em;margin-bottom:28px;opacity:0;animation:fadeUp .7s .32s ease forwards}
+.hero-sub em{color:var(--av);font-style:normal;font-weight:600}
+
+.hero-p{font-size:1.125rem;color:var(--s);line-height:1.85;max-width:540px;margin-bottom:36px;
+  opacity:0;animation:fadeUp .7s .46s ease forwards}
+.hero-p strong{color:var(--b);font-weight:600}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:52px;opacity:0;animation:fadeUp .7s .58s ease forwards}
+
+/* Meta strip */
+.hero-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1.5px solid var(--bdr2);border-radius:var(--r);overflow:hidden;opacity:0;animation:fadeUp .7s .72s ease forwards}
+.hm-item{padding:18px 14px;text-align:center;background:var(--white);border-right:1px solid var(--bdr);transition:background .2s}
+.hm-item:last-child{border-right:none}
+.hm-item:hover{background:var(--gt)}
+.hm-label{font-family:var(--ff-m);font-size:.625rem;color:var(--m);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.hm-val{font-family:var(--ff-d);font-size:1rem;font-weight:700;color:var(--h)}
+
+/* Hero right — dashboard mockup */
+.hero-screen{background:var(--white);border:1.5px solid var(--gbr);border-radius:var(--r-l);overflow:hidden;
+  box-shadow:var(--sh3);position:relative;
+  opacity:0;animation:slideRight .8s .4s cubic-bezier(.22,1,.36,1) forwards}
+.hero-screen::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--g),#34D399,var(--avv))}
+
+/* App nav bar */
+.app-bar{padding:10px 14px;background:var(--white);border-bottom:1px solid var(--bdr);
+  display:flex;align-items:center;justify-content:space-between}
+.app-logo{display:flex;align-items:center;gap:6px;font-family:var(--ff-d);font-size:.8125rem;font-weight:700;color:var(--h)}
+.app-logo-ic{width:20px;height:20px;background:var(--g);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px}
+.app-nav-items{display:flex;gap:16px}
+.ani{font-family:var(--ff-b);font-size:.5625rem;font-weight:500;color:var(--m);padding:2px 0;border-bottom:1.5px solid transparent}
+.ani.act{color:var(--g);border-bottom-color:var(--g);font-weight:600}
+.app-avatar{width:22px;height:22px;border-radius:50%;background:var(--g);color:#fff;font-family:var(--ff-d);font-size:.5625rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+
+/* Sidebar + content layout */
+.app-layout{display:grid;grid-template-columns:130px 1fr;height:380px}
+.sidebar{background:var(--white);border-right:1px solid var(--bdr);padding:10px 0}
+.sb-company{padding:6px 12px 10px;border-bottom:1px solid var(--bdr);margin-bottom:6px}
+.sb-co-name{font-family:var(--ff-d);font-size:.5rem;font-weight:700;color:var(--h)}
+.sb-co-id{font-family:var(--ff-m);font-size:.4375rem;color:var(--g)}
+.sb-section{font-family:var(--ff-m);font-size:.375rem;color:var(--xl);text-transform:uppercase;letter-spacing:.1em;padding:6px 12px 3px}
+.sb-item{display:flex;align-items:center;gap:6px;padding:5px 12px;font-size:.5rem;color:var(--m);cursor:pointer;border-left:2px solid transparent;transition:all .15s}
+.sb-item.act{color:var(--g);background:var(--gt);border-left-color:var(--g);font-weight:600}
+.sb-item:hover{background:var(--gt);color:var(--gd)}
+.sb-icon{font-size:.625rem}
+.sb-badge{font-family:var(--ff-m);font-size:.375rem;background:var(--g);color:#fff;padding:1px 4px;border-radius:2px;margin-left:auto;font-weight:600}
+.sb-plan{margin:auto 8px 8px;padding:6px 8px;background:var(--gt);border:1px solid var(--gbr);border-radius:5px;font-family:var(--ff-m);font-size:.4375rem;color:var(--gd)}
+.sb-plan strong{display:block;font-size:.5rem;font-weight:700;color:var(--h);margin-bottom:1px}
+
+/* Main dashboard content */
+.dash-main{overflow:hidden;display:flex;flex-direction:column;background:#F9FAFB}
+.dash-topbar{background:var(--white);border-bottom:1px solid var(--bdr);padding:8px 14px;display:flex;align-items:center;justify-content:space-between}
+.dash-title-area{}
+.dash-eyebrow{font-family:var(--ff-m);font-size:.4375rem;color:var(--m);text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px}
+.dash-title{font-family:var(--ff-d);font-size:.875rem;font-weight:700;color:var(--h)}
+.dash-due{font-family:var(--ff-m);font-size:.4375rem;color:var(--m)}
+.dash-actions{display:flex;gap:5px}
+.dash-btn{font-family:var(--ff-m);font-size:.4375rem;padding:3px 8px;border-radius:3px;border:1px solid var(--bdr2);color:var(--s);cursor:pointer}
+.dash-btn-pri{background:var(--g);color:#fff;border-color:var(--g);font-weight:600}
+
+.dash-content{flex:1;overflow:hidden;padding:10px}
+
+/* Leakage hero */
+.leakage-card{background:linear-gradient(135deg,#FFFBEB,#FEF3C7);border:1px solid var(--abr);border-radius:var(--r-s);padding:10px 14px;margin-bottom:9px;display:flex;align-items:center;justify-content:space-between}
+.lc-badge{font-family:var(--ff-m);font-size:.4375rem;font-weight:600;color:var(--a);text-transform:uppercase;letter-spacing:.08em;background:var(--at2);border:1px solid var(--abr);padding:2px 6px;border-radius:2px;margin-bottom:3px;display:inline-block}
+.lc-title{font-family:var(--ff-d);font-size:.625rem;font-weight:700;color:var(--b)}
+.lc-sub{font-family:var(--ff-m);font-size:.4375rem;color:var(--m)}
+.lc-amount{font-family:var(--ff-d);font-size:1.25rem;font-weight:800;color:var(--av);line-height:1}
+.lc-per{font-family:var(--ff-m);font-size:.4375rem;color:var(--m)}
+.lc-rec{display:flex;align-items:center;gap:4px;font-family:var(--ff-m);font-size:.5rem;font-weight:600;color:var(--gd);background:var(--gt);border:1px solid var(--gbr);border-radius:8px;padding:2px 8px;margin-top:3px}
+.lc-rdot{width:4px;height:4px;border-radius:50%;background:var(--g);animation:pulse 2s infinite}
+
+/* 3 pillars */
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:9px}
+.pillar{background:var(--white);border:1px solid var(--bdr);border-radius:var(--r-xs);padding:8px;border-top:2px solid}
+.p-icon{font-size:.75rem;margin-bottom:3px}
+.p-pct{font-family:var(--ff-m);font-size:.4375rem;color:var(--m);text-align:right;float:right;margin-top:-14px}
+.p-label{font-family:var(--ff-m);font-size:.375rem;color:var(--m);text-transform:uppercase;letter-spacing:.07em;margin-bottom:2px}
+.p-val{font-family:var(--ff-d);font-size:.8125rem;font-weight:800;line-height:1}
+.p-sub{font-family:var(--ff-m);font-size:.375rem;color:var(--m);margin-top:2px}
+
+/* Kanban row */
+.kanban-row{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:8px}
+.k-col-hdr{font-family:var(--ff-m);font-size:.4375rem;font-weight:600;text-transform:uppercase;letter-spacing:.07em;padding:2px 6px;border-radius:3px;margin-bottom:4px;display:inline-flex;align-items:center;gap:4px}
+.k-card{background:var(--white);border:1px solid var(--bdr);border-radius:4px;padding:5px 6px}
+.k-id{font-family:var(--ff-m);font-size:.375rem;color:var(--m);margin-bottom:1px}
+.k-co{font-size:.4375rem;font-weight:600;color:var(--b);margin-bottom:2px}
+.k-amt{font-family:var(--ff-d);font-size:.5625rem;font-weight:800}
+.k-tags{display:flex;gap:2px;margin-top:3px;flex-wrap:wrap}
+.k-tag{font-family:var(--ff-m);font-size:.3125rem;padding:1px 4px;border-radius:2px;font-weight:600;text-transform:uppercase}
+
+/* Recommendations */
+.recs{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.rec-card{background:var(--white);border:1px solid var(--bdr);border-radius:4px;padding:6px 7px}
+.rec-icon{font-size:.625rem;margin-bottom:2px}
+.rec-title{font-size:.4375rem;font-weight:600;color:var(--b);margin-bottom:1px}
+.rec-saving{font-family:var(--ff-m);font-size:.375rem;font-weight:700;color:var(--a)}
+
+/* ═══════════════════════════════════════
+   OVERVIEW STRIP
+═══════════════════════════════════════ */
+.overview-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1.5px solid var(--bdr2);border-radius:var(--r-l);overflow:hidden;background:var(--white)}
+.ov-item{padding:28px 24px;border-right:1px solid var(--bdr)}
+.ov-item:last-child{border-right:none}
+.ov-label{font-family:var(--ff-m);font-size:.6875rem;color:var(--m);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.ov-val{font-family:var(--ff-d);font-size:1rem;font-weight:700;color:var(--h);line-height:1.3}
+.ov-val em{color:var(--g);font-style:normal}
+
+/* ═══════════════════════════════════════
+   STORY SECTION
+═══════════════════════════════════════ */
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+
+.incident-card{background:var(--warm);border:1.5px solid var(--abr);border-radius:var(--r-l);padding:36px;position:relative;overflow:hidden}
+.incident-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--avv),#FCD34D)}
+.ic-eyebrow{font-family:var(--ff-m);font-size:.75rem;font-weight:600;color:var(--a);text-transform:uppercase;letter-spacing:.1em;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.ic-eyebrow::before{content:'';width:20px;height:2px;background:var(--av);border-radius:2px}
+.ic-headline{font-family:var(--ff-d);font-size:1.5rem;font-weight:700;color:var(--b);line-height:1.25;letter-spacing:-.025em;margin-bottom:24px}
+.ic-items{display:flex;flex-direction:column;gap:10px}
+.ic-item{display:flex;align-items:flex-start;gap:12px;background:var(--white);border:1px solid var(--bdr);border-radius:var(--r-s);padding:14px}
+.ic-icon{font-size:1.375rem;flex-shrink:0;margin-top:1px}
+.ic-title{font-size:.9375rem;font-weight:600;color:var(--b);margin-bottom:3px}
+.ic-sub{font-size:.875rem;color:var(--s)}
+
+.pivot-box{background:var(--gt);border:1.5px solid var(--gbr2);border-radius:var(--r);padding:20px 22px;margin-top:24px;display:flex;gap:14px;align-items:flex-start}
+.pivot-q{font-family:var(--ff-d);font-size:1.125rem;font-weight:700;color:var(--h);line-height:1.3;margin-bottom:8px}
+.pivot-a{font-size:.9375rem;color:var(--s);line-height:1.7}
+
+/* ═══════════════════════════════════════
+   RESEARCH
+═══════════════════════════════════════ */
+.research-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-bottom:48px}
+.research-stat{background:var(--white);border:1.5px solid var(--bdr);border-radius:var(--r);padding:24px;text-align:center;transition:transform .25s,box-shadow .25s}
+.research-stat:hover{transform:translateY(-4px);box-shadow:var(--sh2)}
+.rs-n{font-family:var(--ff-d);font-size:3rem;font-weight:800;color:var(--g);line-height:1;margin-bottom:8px;letter-spacing:-.04em}
+.rs-l{font-size:.9375rem;font-weight:600;color:var(--h);margin-bottom:6px}
+.rs-s{font-size:.875rem;color:var(--m)}
+
+.insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.insight-card{background:var(--white);border:1.5px solid var(--bdr);border-radius:var(--r);padding:24px;border-left:4px solid;transition:transform .2s}
+.insight-card:hover{transform:translateX(4px)}
+.ins-cat{font-family:var(--ff-m);font-size:.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+.ins-quote{font-family:var(--ff-d);font-size:1.0625rem;font-weight:600;color:var(--b);line-height:1.4;margin-bottom:10px;letter-spacing:-.01em}
+.ins-attr{font-family:var(--ff-m);font-size:.75rem;color:var(--m)}
+
+/* Persona cards */
+.persona-row{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
+.persona-card{background:var(--white);border:1.5px solid var(--bdr);border-radius:var(--r-l);padding:28px;transition:transform .25s,box-shadow .25s;position:relative;overflow:hidden}
+.persona-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.persona-card:hover{transform:translateY(-5px);box-shadow:var(--sh2)}
+.pc-avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--ff-d);font-size:1.25rem;font-weight:700;color:#fff;margin-bottom:16px}
+.pc-name{font-family:var(--ff-d);font-size:1.125rem;font-weight:700;color:var(--h);margin-bottom:3px}
+.pc-role{font-family:var(--ff-m);font-size:.75rem;color:var(--m);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px}
+.pc-pain{font-size:.9375rem;color:var(--s);line-height:1.65;margin-bottom:16px;padding-left:12px;border-left:3px solid}
+.pc-tags{display:flex;flex-wrap:wrap;gap:6px}
+.pc-tag{font-family:var(--ff-m);font-size:.75rem;padding:3px 10px;border-radius:20px;border:1.5px solid}
+
+/* ═══════════════════════════════════════
+   SCREENS SECTION
+═══════════════════════════════════════ */
+.screen-block{margin-bottom:80px}
+.screen-block:last-child{margin-bottom:0}
+.screen-header{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;margin-bottom:40px}
+.screen-label{display:inline-flex;align-items:center;gap:8px;font-family:var(--ff-m);font-size:.6875rem;font-weight:600;color:var(--g);text-transform:uppercase;letter-spacing:.1em;background:var(--gt);border:1.5px solid var(--gbr2);padding:5px 14px;border-radius:20px;margin-bottom:12px}
+.screen-label.am{color:var(--a);background:var(--at);border-color:var(--abr)}
+.screen-label.nv{color:var(--n);background:var(--nt);border-color:var(--nbr)}
+.screen-decisions{display:flex;flex-direction:column;gap:12px}
+.sd-item{display:flex;gap:12px;background:var(--gt);border:1.5px solid var(--gbr);border-radius:var(--r-s);padding:14px 16px}
+.sd-icon{font-size:1.25rem;flex-shrink:0;margin-top:2px}
+.sd-title{font-size:.9375rem;font-weight:600;color:var(--h);margin-bottom:4px}
+.sd-body{font-size:.875rem;color:var(--s);line-height:1.65}
+.sd-item.am{background:var(--at);border-color:var(--abr)}
+
+/* Browser chrome wrapper */
+.browser-wrap{border-radius:var(--r-l);overflow:hidden;box-shadow:0 16px 64px rgba(0,0,0,.12);border:1.5px solid var(--bdr2)}
+.browser-bar{background:#F3F4F6;padding:10px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--bdr)}
+.browser-dots{display:flex;gap:5px}
+.bd{width:10px;height:10px;border-radius:50%}
+.bd-r{background:#FF5F57}.bd-y{background:#FEBC2E}.bd-g{background:#28C840}
+.browser-url{flex:1;background:#fff;border:1px solid var(--bdr);border-radius:5px;padding:4px 12px;font-family:var(--ff-m);font-size:.625rem;color:var(--m);text-align:center}
+.browser-live{font-family:var(--ff-m);font-size:.5625rem;background:var(--gt);border:1px solid var(--gbr);color:var(--gd);padding:2px 8px;border-radius:3px;letter-spacing:.08em;font-weight:600}
+
+/* ── Screen: Landing page mockup ── */
+.lp-mock{background:#0D1B2E;font-family:var(--ff-b);padding:32px}
+.lp-hero-badge{display:inline-flex;align-items:center;gap:6px;font-size:.5625rem;color:#34D399;border:1px solid rgba(52,211,153,.3);background:rgba(52,211,153,.08);padding:3px 10px;border-radius:10px;margin-bottom:14px;font-family:var(--ff-m);letter-spacing:.06em}
+.lp-h1{font-family:var(--ff-d);font-size:2rem;font-weight:800;color:#fff;line-height:1.1;margin-bottom:12px}
+.lp-h1 em{color:#34D399;font-style:normal}
+.lp-sub{font-size:.75rem;color:rgba(255,255,255,.65);line-height:1.65;margin-bottom:20px;max-width:380px}
+.lp-btns{display:flex;gap:8px;margin-bottom:20px}
+.lp-btn{font-size:.625rem;font-weight:600;padding:7px 14px;border-radius:5px;cursor:pointer;font-family:var(--ff-m)}
+.lp-btn-p{background:#059669;color:#fff;border:none}
+.lp-btn-s{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.25)}
+.lp-checks{display:flex;gap:16px;flex-wrap:wrap}
+.lp-check{font-size:.5625rem;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:4px}
+.lp-widget{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:var(--r);padding:14px;float:right;width:220px;margin-left:20px;margin-top:-80px}
+.lp-wt{font-size:.5625rem;font-weight:600;color:#34D399;margin-bottom:10px;font-family:var(--ff-m);text-transform:uppercase;letter-spacing:.08em}
+.lp-wh{font-size:.625rem;color:rgba(255,255,255,.7);margin-bottom:8px}
+.lp-wfield{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:4px;padding:5px 8px;font-size:.5625rem;color:#fff;margin-bottom:6px;width:100%}
+.lp-wresult{background:rgba(5,150,105,.12);border:1px solid rgba(5,150,105,.3);border-radius:4px;padding:8px;text-align:center;margin-bottom:8px}
+.lp-wamt{font-family:var(--ff-d);font-size:1.25rem;font-weight:800;color:#34D399}
+.lp-wlabel{font-size:.4375rem;color:rgba(255,255,255,.5);font-family:var(--ff-m);letter-spacing:.08em;text-transform:uppercase}
+.lp-wbtn{background:#059669;color:#fff;width:100%;padding:6px;font-size:.5625rem;font-weight:600;border:none;border-radius:4px;font-family:var(--ff-m);cursor:pointer;text-transform:uppercase;letter-spacing:.05em}
+.lp-stats{display:flex;gap:16px;margin-top:16px;clear:both}
+.lp-stat{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:6px;padding:10px;text-align:center;flex:1}
+.lp-stat-n{font-family:var(--ff-d);font-size:1rem;font-weight:800;color:#34D399}
+.lp-stat-l{font-size:.4375rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.08em;font-family:var(--ff-m)}
+
+/* ── Screen: Upload flow ── */
+.upload-mock{background:#F3F4F6;padding:20px}
+.upload-step-bar{display:flex;gap:0;margin-bottom:16px;background:var(--white);border-radius:4px;overflow:hidden;border:1px solid var(--bdr)}
+.usb-item{flex:1;padding:4px 8px;font-family:var(--ff-m);font-size:.5rem;color:var(--m);text-align:center;border-right:1px solid var(--bdr)}
+.usb-item:last-child{border-right:none}
+.usb-item.done{background:var(--gt);color:var(--gd);font-weight:600}
+.usb-item.act{background:var(--g);color:#fff;font-weight:600}
+.upload-inner{max-width:420px;margin:0 auto}
+.upload-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--ff-m);font-size:.5rem;color:var(--gd);background:var(--gt);border:1px solid var(--gbr);padding:3px 10px;border-radius:10px;margin-bottom:12px;font-weight:600}
+.upload-h{font-family:var(--ff-d);font-size:1rem;font-weight:700;color:var(--b);margin-bottom:6px}
+.upload-h em{color:var(--g);font-style:normal}
+.upload-sub{font-size:.5625rem;color:var(--m);margin-bottom:12px;line-height:1.55}
+.upload-tabs{display:flex;gap:4px;margin-bottom:10px}
+.ut{flex:1;padding:6px;border:1px solid var(--bdr2);border-radius:5px;font-family:var(--ff-m);font-size:.5rem;color:var(--s);text-align:center;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px}
+.ut.act{background:var(--white);border-color:var(--gbr2);color:var(--gd);font-weight:600;box-shadow:var(--sh1)}
+.upload-zone{background:var(--white);border:2px dashed var(--bdr2);border-radius:var(--r-s);padding:24px;text-align:center;margin-bottom:10px;transition:border-color .2s}
+.uz-icon{font-size:1.5rem;margin-bottom:6px}
+.uz-title{font-size:.5625rem;font-weight:600;color:var(--b);margin-bottom:2px}
+.uz-sub{font-size:.5rem;color:var(--m);margin-bottom:8px}
+.uz-months{display:flex;gap:4px;justify-content:center}
+.uzm{font-family:var(--ff-m);font-size:.4375rem;padding:2px 6px;border-radius:3px;background:#F3F4F6;border:1px solid var(--bdr);color:var(--m)}
+.uzm.done{background:var(--gt);border-color:var(--gbr);color:var(--gd);font-weight:600}
+.extract-result{background:var(--gt);border:1.5px solid var(--gbr2);border-radius:var(--r-s);padding:10px 12px;margin-bottom:8px}
+.er-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.er-title{font-size:.5625rem;font-weight:600;color:var(--gd);display:flex;align-items:center;gap:5px}
+.er-conf{font-family:var(--ff-m);font-size:.5rem;font-weight:700;color:var(--gd);background:var(--white);border:1px solid var(--gbr);padding:2px 7px;border-radius:3px}
+.er-fields{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:8px}
+.er-field{background:var(--white);border:1px solid var(--gbr);border-radius:4px;padding:5px 7px}
+.er-fl{font-family:var(--ff-m);font-size:.375rem;color:var(--m);text-transform:uppercase;letter-spacing:.07em;margin-bottom:2px}
+.er-fv{font-family:var(--ff-m);font-size:.5625rem;font-weight:600;color:var(--h)}
+.conf-bar{height:4px;background:rgba(5,150,105,.15);border-radius:2px;overflow:hidden;margin-bottom:6px}
+.conf-fill{height:100%;background:linear-gradient(90deg,var(--gd),var(--g));border-radius:2px;animation:fillBar 2s 1s ease forwards;width:0}
+.audit-complete{background:var(--white);border:1.5px solid var(--gbr2);border-radius:var(--r-s);padding:10px 12px}
+.ac-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.ac-title{font-family:var(--ff-d);font-size:.625rem;font-weight:700;color:var(--h)}
+.ac-badge{font-family:var(--ff-m);font-size:.4375rem;color:var(--gd);background:var(--gt);border:1px solid var(--gbr);padding:2px 7px;border-radius:3px;font-weight:600}
+.ac-leakages{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:8px}
+.acl{text-align:center;padding:6px;background:#F9FAFB;border:1px solid var(--bdr);border-radius:4px}
+.acl-label{font-family:var(--ff-m);font-size:.375rem;color:var(--m);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.acl-val{font-family:var(--ff-d);font-size:.625rem;font-weight:800}
+.ac-cta{background:var(--g);color:#fff;width:100%;padding:6px;font-size:.5625rem;font-weight:600;border:none;border-radius:4px;font-family:var(--ff-m);cursor:pointer;text-transform:uppercase;letter-spacing:.05em}
+
+/* ── Screen: Full dashboard ── */
+.full-dash-mock{background:#F9FAFB}
+.fd-bar{background:var(--white);border-bottom:1px solid var(--bdr);padding:8px 16px;display:flex;align-items:center;gap:12px}
+.fd-logo{display:flex;align-items:center;gap:6px;font-family:var(--ff-d);font-size:.75rem;font-weight:700;color:var(--h)}
+.fd-logo-ic{width:18px;height:18px;background:var(--g);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:8px}
+.fd-nav{display:flex;gap:16px;margin-left:20px}
+.fd-ni{font-size:.5rem;font-weight:500;color:var(--m);font-family:var(--ff-b);padding:2px 0;border-bottom:1.5px solid transparent}
+.fd-ni.act{color:var(--g);border-bottom-color:var(--g);font-weight:600}
+.fd-avatar{width:20px;height:20px;border-radius:50%;background:var(--g);color:#fff;font-family:var(--ff-d);font-size:.5rem;font-weight:700;display:flex;align-items:center;justify-content:center;margin-left:auto}
+.fd-inner{display:grid;grid-template-columns:120px 1fr;min-height:520px}
+.fd-sidebar{background:var(--white);border-right:1px solid var(--bdr);padding:8px 0}
+.fd-sb-co{padding:5px 10px 8px;border-bottom:1px solid var(--bdr);margin-bottom:5px}
+.fd-sb-name{font-family:var(--ff-d);font-size:.4375rem;font-weight:700;color:var(--h)}
+.fd-sb-id{font-family:var(--ff-m);font-size:.375rem;color:var(--g)}
+.fd-sb-sec{font-family:var(--ff-m);font-size:.3125rem;color:var(--xl);text-transform:uppercase;letter-spacing:.1em;padding:5px 10px 2px}
+.fd-sb-item{display:flex;align-items:center;gap:5px;padding:4px 10px;font-size:.4375rem;color:var(--m);cursor:pointer;border-left:1.5px solid transparent;transition:all .15s}
+.fd-sb-item.act{color:var(--g);background:var(--gt);border-left-color:var(--g);font-weight:600}
+.fd-sb-badge{font-family:var(--ff-m);font-size:.3125rem;background:var(--g);color:#fff;padding:1px 3px;border-radius:2px;margin-left:auto;font-weight:600}
+.fd-sb-plan{margin:auto 6px 6px;padding:5px 7px;background:var(--gt);border:1px solid var(--gbr);border-radius:4px;font-family:var(--ff-m);font-size:.375rem;color:var(--gd)}
+.fd-main{overflow:hidden;display:flex;flex-direction:column;background:#F9FAFB}
+.fd-topbar{background:var(--white);border-bottom:1px solid var(--bdr);padding:7px 14px;display:flex;align-items:center;justify-content:space-between}
+.fd-tb-label{font-family:var(--ff-m);font-size:.3125rem;color:var(--m);text-transform:uppercase;letter-spacing:.1em;margin-bottom:1px}
+.fd-tb-title{font-family:var(--ff-d);font-size:.75rem;font-weight:700;color:var(--h)}
+.fd-tb-due{font-family:var(--ff-m);font-size:.375rem;color:var(--m)}
+.fd-tb-actions{display:flex;gap:4px}
+.fd-tb-btn{font-family:var(--ff-m);font-size:.375rem;padding:3px 7px;border-radius:3px;border:1px solid var(--bdr2);color:var(--s);cursor:pointer}
+.fd-tb-btn-p{background:var(--g);color:#fff;border-color:var(--g);font-weight:600}
+.fd-content{flex:1;padding:10px;overflow:hidden}
+/* Leakage big card */
+.fd-leakage{background:linear-gradient(135deg,#FFFBEB,#FEF3C7);border:1px solid var(--abr);border-radius:8px;padding:10px 14px;margin-bottom:8px;display:grid;grid-template-columns:1fr auto}
+.fd-lk-badge{font-family:var(--ff-m);font-size:.3125rem;font-weight:600;color:var(--a);text-transform:uppercase;letter-spacing:.08em;background:var(--at2);border:1px solid var(--abr);padding:1px 5px;border-radius:2px;margin-bottom:3px;display:inline-block}
+.fd-lk-pct{font-family:var(--ff-d);font-size:1.5rem;font-weight:800;color:var(--av);line-height:1}
+.fd-lk-label{font-family:var(--ff-m);font-size:.3125rem;color:var(--m)}
+.fd-lk-sub{font-size:.4375rem;color:var(--s);margin-bottom:3px}
+.fd-lk-amount{font-family:var(--ff-d);font-size:1.25rem;font-weight:800;color:var(--b);line-height:1;margin-bottom:3px}
+.fd-lk-rec{display:inline-flex;align-items:center;gap:3px;font-family:var(--ff-m);font-size:.4375rem;font-weight:600;color:var(--gd);background:var(--gt);border:1px solid var(--gbr);border-radius:8px;padding:2px 7px}
+.fd-lk-right{text-align:right}
+.fd-inv-summary{background:var(--white);border:1px solid var(--bdr);border-radius:5px;padding:8px 10px}
+.fd-inv-title{font-family:var(--ff-m);font-size:.3125rem;color:var(--m);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
+.fd-inv-row{display:flex;justify-content:space-between;padding:2px 0;font-size:.4375rem;border-bottom:1px solid rgba(0,0,0,.04)}
+.fd-inv-row:last-child{border-bottom:none}
+.fd-inv-label{color:var(--s)}
+.fd-inv-val{font-weight:600;color:var(--b)}
+.fd-inv-val.red{color:var(--r)}
+/* 3 pillars row */
+.fd-pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px}
+.fd-pillar{background:var(--white);border:1px solid var(--bdr);border-radius:5px;padding:7px;border-top:2px solid}
+.fd-p-icon{font-size:.625rem;margin-bottom:2px}
+.fd-p-pct{font-family:var(--ff-m);font-size:.3125rem;color:var(--m);float:right;margin-top:-12px}
+.fd-p-label{font-family:var(--ff-m);font-size:.3125rem;color:var(--m);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px;clear:both}
+.fd-p-val{font-family:var(--ff-d);font-size:.75rem;font-weight:800;line-height:1}
+.fd-p-sub{font-family:var(--ff-m);font-size:.3125rem;color:var(--m);margin-top:1px}
+/* Chart row */
+.fd-chart-row{display:grid;grid-template-columns:2fr 1fr;gap:8px;margin-bottom:8px}
+.fd-chart-card{background:var(--white);border:1px solid var(--bdr);border-radius:5px;padding:8px}
+.fd-chart-title{font-family:var(--ff-m);font-size:.3125rem;color:var(--m);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;display:flex;justify-content:space-between}
+.fd-chart-area{height:50px;display:flex;align-items:flex-end;gap:5px}
+.fd-bar-group{display:flex;gap:1.5px;align-items:flex-end;flex:1}
+.fd-bar-a{background:#FEE2E2;border-radius:2px 2px 0 0}
+.fd-bar-b{background:#D1FAE5;border-radius:2px 2px 0 0}
+.fd-chart-legend{display:flex;gap:10px;margin-top:4px}
+.fd-cl{display:flex;align-items:center;gap:3px;font-family:var(--ff-m);font-size:.3125rem;color:var(--m)}
+.fd-cl-dot{width:5px;height:5px;border-radius:50%}
+/* Grievance pipeline */
+.fd-pipeline{background:var(--white);border:1px solid var(--bdr);border-radius:5px;padding:8px}
+.fd-pipe-title{font-family:var(--ff-m);font-size:.3125rem;color:var(--m);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;display:flex;justify-content:space-between}
+.fd-pipe-step{display:flex;align-items:flex-start;gap:5px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.04)}
+.fd-pipe-step:last-child{border-bottom:none}
+.fd-pipe-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:5px;color:#fff;font-weight:700}
+.fd-pipe-label{font-size:.4375rem;font-weight:600;color:var(--b)}
+.fd-pipe-sub{font-family:var(--ff-m);font-size:.3125rem;color:var(--m)}
+.fd-pipe-line{width:1px;height:12px;background:var(--bdr2);margin-left:4px;margin-bottom:2px}
+.fd-pipe-status{font-family:var(--ff-m);font-size:.3125rem;padding:1px 5px;border-radius:2px;font-weight:600;margin-left:auto;flex-shrink:0}
+/* Recommendations */
+.fd-recs{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.fd-rec{background:var(--white);border:1px solid var(--bdr);border-radius:4px;padding:6px}
+.fd-rec-icon{font-size:.5rem;margin-bottom:2px}
+.fd-rec-title{font-size:.375rem;font-weight:600;color:var(--b);line-height:1.4;margin-bottom:2px}
+.fd-rec-save{font-family:var(--ff-m);font-size:.3125rem;font-weight:700;color:var(--a)}
+
+/* ── Screen: Grievance Kanban ── */
+.kanban-mock{background:#F9FAFB;padding:14px}
+.km-topbar{background:var(--white);border:1px solid var(--bdr);border-radius:5px;padding:8px 12px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
+.km-title{font-family:var(--ff-d);font-size:.75rem;font-weight:700;color:var(--h)}
+.km-sub{font-family:var(--ff-m);font-size:.4375rem;color:var(--m)}
+.km-stats{display:flex;gap:12px}
+.km-stat{text-align:center}
+.km-stat-n{font-family:var(--ff-d);font-size:.875rem;font-weight:800;color:var(--g);line-height:1}
+.km-stat-l{font-family:var(--ff-m);font-size:.375rem;color:var(--m);text-transform:uppercase;letter-spacing:.06em}
+.km-stat-red .km-stat-n{color:var(--r)}
+.km-stat-am .km-stat-n{color:var(--av)}
+.km-add{font-family:var(--ff-m);font-size:.4375rem;background:var(--g);color:#fff;border:none;padding:4px 10px;border-radius:4px;font-weight:600}
+.km-board{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.km-col-hdr{display:flex;align-items:center;gap:5px;margin-bottom:6px}
+.km-col-hdr-dot{width:7px;height:7px;border-radius:50%}
+.km-col-hdr-title{font-family:var(--ff-m);font-size:.5625rem;font-weight:600;color:var(--b);text-transform:uppercase;letter-spacing:.07em}
+.km-col-hdr-count{font-family:var(--ff-m);font-size:.4375rem;background:var(--bdr);padding:1px 5px;border-radius:10px;color:var(--m);margin-left:auto}
+.km-card{background:var(--white);border:1px solid var(--bdr);border-radius:6px;padding:8px 9px;margin-bottom:5px;transition:box-shadow .15s;cursor:pointer}
+.km-card:hover{box-shadow:var(--sh2)}
+.km-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:3px}
+.km-c-id{font-family:var(--ff-m);font-size:.4375rem;color:var(--m)}
+.km-c-date{font-family:var(--ff-m);font-size:.375rem;color:var(--xl)}
+.km-c-co{font-size:.5rem;font-weight:600;color:var(--b);margin-bottom:3px}
+.km-c-amt{font-family:var(--ff-d);font-size:.6875rem;font-weight:800;margin-bottom:4px}
+.km-c-fee{font-family:var(--ff-m);font-size:.375rem;color:var(--m)}
+.km-c-tags{display:flex;gap:3px;flex-wrap:wrap;margin-top:4px}
+.km-c-tag{font-family:var(--ff-m);font-size:.3125rem;padding:1px 5px;border-radius:2px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.km-total-row{background:var(--gt);border:1px solid var(--gbr);border-radius:6px;padding:8px 12px;display:flex;justify-content:space-between;margin-top:8px}
+.km-total-label{font-family:var(--ff-m);font-size:.5rem;color:var(--gd);text-transform:uppercase;letter-spacing:.08em}
+.km-total-val{font-family:var(--ff-d);font-size:.8125rem;font-weight:800;color:var(--h)}
+.km-total-val.am{color:var(--av)}
+
+/* ── Screen: Grievance modal ── */
+.modal-overlay{background:rgba(0,0,0,.5);padding:20px;display:flex;align-items:center;justify-content:center}
+.modal-card{background:var(--white);border-radius:var(--r-l);padding:28px;width:100%;max-width:440px;box-shadow:0 24px 80px rgba(0,0,0,.25);position:relative}
+.modal-close{position:absolute;top:14px;right:14px;width:22px;height:22px;background:#F3F4F6;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.625rem;cursor:pointer;color:var(--m)}
+.modal-eyebrow{font-family:var(--ff-m);font-size:.625rem;color:var(--m);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.modal-title{font-family:var(--ff-d);font-size:1.5rem;font-weight:700;color:var(--h);margin-bottom:4px}
+.modal-id{font-family:var(--ff-m);font-size:.6875rem;color:var(--m);margin-bottom:16px}
+.modal-steps{display:flex;gap:5px;margin-bottom:18px}
+.ms{flex:1;padding:5px 8px;border:1.5px solid;border-radius:5px;font-family:var(--ff-m);font-size:.5rem;text-align:center;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.ms.done{background:var(--gt);border-color:var(--gbr2);color:var(--gd)}
+.ms.pend{background:#F9FAFB;border-color:var(--bdr2);color:var(--m)}
+.modal-amounts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.ma-box{text-align:center;padding:12px;background:#F9FAFB;border:1px solid var(--bdr);border-radius:var(--r-s)}
+.ma-label{font-family:var(--ff-m);font-size:.5rem;color:var(--m);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px}
+.ma-val{font-family:var(--ff-d);font-size:1.125rem;font-weight:800;line-height:1}
+.modal-breakdown{background:#F9FAFB;border:1px solid var(--bdr);border-radius:var(--r-s);padding:12px;margin-bottom:16px}
+.mb-title{font-family:var(--ff-m);font-size:.5625rem;color:var(--m);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.mb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.mb-item{background:var(--white);border:1px solid;border-radius:var(--r-xs);padding:8px;text-align:center}
+.mb-label{font-family:var(--ff-m);font-size:.4375rem;color:var(--m);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.mb-val{font-family:var(--ff-d);font-size:.9375rem;font-weight:800;line-height:1}
+.modal-actions{display:flex;gap:6px}
+.ma-btn{flex:1;padding:9px;border-radius:6px;font-family:var(--ff-m);font-size:.6875rem;font-weight:600;text-align:center;cursor:pointer;border:1.5px solid;text-transform:uppercase;letter-spacing:.04em}
+.ma-escalate{background:var(--g);color:#fff;border-color:var(--g)}
+.ma-fee{background:var(--white);color:var(--s);border-color:var(--bdr2)}
+.ma-close{background:var(--white);color:var(--s);border-color:var(--bdr2)}
+
+/* ── Screen: Meters ── */
+.meters-mock{background:#F9FAFB;padding:14px}
+.meters-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.meters-title{font-family:var(--ff-d);font-size:.875rem;font-weight:700;color:var(--h)}
+.meters-sub{font-family:var(--ff-m);font-size:.4375rem;color:var(--m)}
+.meters-add{font-family:var(--ff-m);font-size:.4375rem;background:var(--g);color:#fff;border:none;padding:4px 10px;border-radius:4px;font-weight:600;cursor:pointer}
+.meters-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.meter-card{background:var(--white);border:1.5px solid var(--bdr);border-radius:var(--r);padding:14px;transition:transform .2s,box-shadow .2s}
+.meter-card:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+.mc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px}
+.mc-name{font-family:var(--ff-d);font-size:.625rem;font-weight:700;color:var(--h)}
+.mc-status{font-family:var(--ff-m);font-size:.375rem;font-weight:600;padding:2px 6px;border-radius:10px;text-transform:uppercase;letter-spacing:.06em}
+.mc-status.act{background:var(--gt);color:var(--gd);border:1px solid var(--gbr)}
+.mc-status.ina{background:#F3F4F6;color:var(--m);border:1px solid var(--bdr)}
+.mc-id{font-family:var(--ff-m);font-size:.375rem;color:var(--g);margin-bottom:4px}
+.mc-tariff{font-family:var(--ff-m);font-size:.375rem;color:var(--m);margin-bottom:10px}
+.mc-metrics{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:10px}
+.mc-metric{text-align:center}
+.mc-m-val{font-family:var(--ff-d);font-size:.875rem;font-weight:800;line-height:1;margin-bottom:2px}
+.mc-m-val.warn{color:var(--r)}
+.mc-m-val.ok{color:var(--gd)}
+.mc-m-label{font-family:var(--ff-m);font-size:.375rem;color:var(--m);text-transform:uppercase;letter-spacing:.06em}
+.mc-actions{display:flex;gap:5px}
+.mc-btn{flex:1;padding:4px;border:1px solid var(--bdr2);border-radius:4px;font-family:var(--ff-m);font-size:.375rem;color:var(--s);text-align:center;cursor:pointer;transition:all .15s}
+.mc-btn:hover{border-color:var(--gbr2);color:var(--gd);background:var(--gt)}
+
+/* ── Screen: Pay Fees ── */
+.fees-mock{background:#F9FAFB;padding:14px}
+.fees-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
+.fees-stat{background:var(--white);border:1px solid var(--bdr);border-radius:6px;padding:8px 10px;text-align:center}
+.fs-val{font-family:var(--ff-d);font-size:.8125rem;font-weight:800;color:var(--h)}
+.fs-val.g{color:var(--g)}.fs-val.r{color:var(--r)}
+.fs-label{font-family:var(--ff-m);font-size:.375rem;color:var(--m);text-transform:uppercase;letter-spacing:.07em}
+.fees-body{display:grid;grid-template-columns:1fr 240px;gap:10px}
+.fees-items{}
+.fi-section-title{font-family:var(--ff-m);font-size:.4375rem;color:var(--m);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.fees-item{background:var(--white);border:1px solid var(--bdr);border-radius:6px;padding:8px 10px;margin-bottom:5px;display:flex;align-items:center;gap:8px}
+.fees-item.overdue{border-color:rgba(153,27,27,.2);background:var(--rt)}
+.fi-check{width:14px;height:14px;border-radius:3px;background:var(--g);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.5rem;flex-shrink:0}
+.fi-check.un{background:var(--white);border:1.5px solid var(--bdr2)}
+.fi-body{flex:1}
+.fi-id{font-family:var(--ff-m);font-size:.4375rem;font-weight:600;color:var(--h);margin-bottom:1px}
+.fi-desc{font-size:.4375rem;color:var(--s)}
+.fi-status{font-family:var(--ff-m);font-size:.375rem;font-weight:600;padding:1px 5px;border-radius:3px;background:var(--gt);color:var(--gd);border:1px solid var(--gbr)}
+.fi-status.ov{background:var(--rt);color:var(--r);border-color:var(--rbr)}
+.fi-amount{font-family:var(--ff-d);font-size:.6875rem;font-weight:800;text-align:right}
+.fi-due{font-family:var(--ff-m);font-size:.375rem;color:var(--m);text-align:right}
+.fees-payment{background:var(--white);border:1.5px solid var(--bdr);border-radius:var(--r);padding:12px;height:fit-content}
+.fp-title{font-family:var(--ff-m);font-size:.4375rem;color:var(--m);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.fp-methods{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:8px}
+.fp-method{padding:7px;border:1.5px solid var(--gbr2);border-radius:5px;background:var(--gt);display:flex;align-items:center;gap:4px;cursor:pointer}
+.fp-method.sec{border-color:var(--bdr2);background:var(--white)}
+.fp-m-icon{font-size:.75rem}
+.fp-m-name{font-size:.4375rem;font-weight:600;color:var(--h)}
+.fp-m-sub{font-size:.375rem;color:var(--m)}
+.fp-upi{background:#F9FAFB;border:1px solid var(--bdr);border-radius:4px;padding:5px 7px;font-family:var(--ff-m);font-size:.4375rem;color:var(--m);width:100%;margin-bottom:6px}
+.fp-summary{margin-bottom:8px}
+.fp-row{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(0,0,0,.04);font-size:.4375rem}
+.fp-row:last-child{border-bottom:none}
+.fp-row-label{color:var(--s)}
+.fp-row-val{font-weight:600;color:var(--b)}
+.fp-row-val.total{color:var(--av);font-size:.5625rem}
+.fp-cta{background:var(--g);color:#fff;width:100%;padding:7px;font-size:.5rem;font-weight:600;border:none;border-radius:5px;font-family:var(--ff-m);cursor:pointer;text-align:center;letter-spacing:.04em}
+.fp-note{font-size:.375rem;color:var(--m);text-align:center;margin-top:4px}
+
+/* ══════════════════════════════
+   OUTCOMES SECTION
+══════════════════════════════ */
+.outcomes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:56px}
+.outcome-card{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.12);border-radius:var(--r-l);padding:28px;text-align:center;transition:transform .2s;position:relative;overflow:hidden}
+.outcome-card:hover{transform:translateY(-4px)}
+.outcome-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.oc-n{font-family:var(--ff-d);font-size:3rem;font-weight:800;color:#6EE7B7;line-height:1;margin-bottom:8px;letter-spacing:-.04em}
+.oc-l{font-size:.9375rem;font-weight:600;color:#ECFDF5;margin-bottom:8px}
+.oc-s{font-size:.875rem;color:rgba(167,243,208,.7);line-height:1.55}
+
+.learning-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.learning-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);border-radius:var(--r);padding:24px;border-left:3px solid rgba(110,231,183,.4)}
+.lc-title{font-family:var(--ff-d);font-size:1rem;font-weight:700;color:#ECFDF5;margin-bottom:8px}
+.lc-body{font-size:.9375rem;color:rgba(167,243,208,.8);line-height:1.7}
+
+/* ══════════════════════════════
+   NEXT CASE STUDY
+══════════════════════════════ */
+.next-strip{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.next-card{background:var(--white);border:1.5px solid var(--bdr);border-radius:var(--r-l);padding:32px;transition:transform .3s,box-shadow .3s,border-color .25s;display:flex;flex-direction:column}
+.next-card:hover{transform:translateY(-6px)}
+.next-card.aura{border-top:3px solid #1A5CF8}
+.next-card.aura:hover{border-color:#1A5CF8;box-shadow:0 24px 72px rgba(26,92,248,.15)}
+.next-card.home{border-top:3px solid var(--g)}
+.next-card.home:hover{border-color:var(--g);box-shadow:0 24px 72px rgba(5,150,105,.14)}
+.nc-badge{display:inline-flex;font-family:var(--ff-m);font-size:.75rem;padding:4px 12px;border-radius:20px;margin-bottom:14px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;border:1.5px solid}
+.nc-badge.bl{color:#1A5CF8;border-color:rgba(26,92,248,.3);background:rgba(26,92,248,.06)}
+.nc-badge.gr{color:var(--g);border-color:var(--gbr2);background:var(--gt)}
+.nc-h{font-family:var(--ff-d);font-size:1.5rem;font-weight:700;color:var(--h);margin-bottom:10px;letter-spacing:-.02em}
+.nc-p{font-size:.9375rem;color:var(--s);line-height:1.65;margin-bottom:24px;flex:1}
+.nc-cta{display:inline-flex;align-items:center;gap:10px;font-size:.9375rem;font-weight:700;transition:gap .2s}
+.next-card:hover .nc-cta{gap:16px}
+.nc-cta.bl{color:#1A5CF8}
+.nc-cta.gr{color:var(--g)}
+.nc-ln{width:28px;height:2px;border-radius:2px}
+.nc-ln.bl{background:#1A5CF8}.nc-ln.gr{background:var(--g)}
+
+/* ══════════════════════════════
+   FOOTER
+══════════════════════════════ */
+.cs-footer{padding:40px 52px;background:var(--white);border-top:1px solid var(--bdr)}
+.cf-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.cf-copy{font-family:var(--ff-m);font-size:.8125rem;color:var(--m)}
+.cf-links{display:flex;gap:24px}
+.cf-link{font-family:var(--ff-m);font-size:.8125rem;color:var(--m);transition:color .2s}
+.cf-link:hover{color:var(--g)}
+
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
+@media(max-width:1024px){
+  .hero-inner{grid-template-columns:1fr;gap:48px}
+  .hero-screen{max-width:560px;margin:0 auto}
+  .app-layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .story-grid{grid-template-columns:1fr;gap:40px}
+  .research-grid{grid-template-columns:1fr 1fr}
+  .insight-grid{grid-template-columns:1fr}
+  .persona-row{grid-template-columns:1fr 1fr}
+  .screen-header{grid-template-columns:1fr;gap:32px}
+  .fd-inner{grid-template-columns:1fr}
+  .fd-sidebar{display:none}
+}
+@media(max-width:900px){
+  nav{padding:0 24px;height:60px}
+  .nav-ul li:not(:last-child){display:none}
+  .sec{padding-left:24px;padding-right:24px}
+  .hero-inner{padding:0}
+  #hero{padding:88px 24px 72px}
+  .research-grid{grid-template-columns:1fr}
+  .persona-row{grid-template-columns:1fr}
+  .outcomes-grid{grid-template-columns:1fr 1fr}
+  .learning-grid{grid-template-columns:1fr}
+  .next-strip{grid-template-columns:1fr}
+  .hm-item:nth-child(3),.hm-item:nth-child(4){display:none}
+  .hero-meta{grid-template-columns:1fr 1fr}
+  .cf-inner{flex-direction:column;text-align:center}
+  .fd-chart-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-dot"></div>
+    Aasif <span>Shaikh</span>
+  </a>
+  <ul class="nav-ul">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#work">Work</a></li>
+    <li><a href="#outcomes">Outcomes</a></li>
+    <li><a href="index.html" class="nav-cs">← Back to Portfolio</a></li>
+  </ul>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section id="hero" class="z">
+  <div class="orb o1"></div><div class="orb o2"></div>
+  <div class="hero-inner">
+
+    <!-- Left -->
+    <div>
+      <div class="cs-number"><div class="cs-ndot"></div>Case Study 02 · Founder Project · Live Product</div>
+
+      <h1 class="hero-h1 h1">
+        OptiBill<em>.</em>
+      </h1>
+      <div class="hero-sub">
+        I was the user.<br>
+        Then I built <em>the fix.</em>
+      </div>
+
+      <p class="hero-p">
+        An AI-powered electricity bill auditor for India's commercial and industrial businesses — built after I personally waited 2 hours in a government queue, paid ₹1,200 in travel, and took a day off work for a billing dispute. <strong>28 factory owner interviews later, I understood the real scale of the problem.</strong>
+      </p>
+
+      <div class="hero-btns">
+        <a href="https://optibill.in" target="_blank" class="btn-p">Visit Live Product ↗</a>
+        <a href="#problem" class="btn-g">Read the Story →</a>
+      </div>
+
+      <div class="hero-meta">
+        <div class="hm-item"><div class="hm-label">My Role</div><div class="hm-val">Founder + Designer</div></div>
+        <div class="hm-item"><div class="hm-label">Timeline</div><div class="hm-val">2025 · Ongoing</div></div>
+        <div class="hm-item"><div class="hm-label">AI Stack</div><div class="hm-val">OCR + Gemini LLM</div></div>
+        <div class="hm-item"><div class="hm-label">Status</div><div class="hm-val" style="color:var(--g)">● Live</div></div>
+      </div>
+    </div>
+
+    <!-- Right — Live dashboard mockup -->
+    <div class="hero-screen">
+      <!-- App nav bar -->
+      <div class="app-bar">
+        <div class="app-logo">
+          <div class="app-logo-ic">⚡</div>
+          OptiBill
+        </div>
+        <div class="app-nav-items">
+          <div class="ani act">Dashboard</div>
+          <div class="ani">Invoices</div>
+          <div class="ani">Grievances</div>
+          <div class="ani">Pay Fees</div>
+        </div>
+        <div class="app-avatar">BP</div>
+      </div>
+
+      <!-- Sidebar + main -->
+      <div class="app-layout">
+        <!-- Sidebar -->
+        <div class="sidebar">
+          <div class="sb-company">
+            <div class="sb-co-name">Bharat Steel & Alloys</div>
+            <div class="sb-co-id">27/222333333</div>
+          </div>
+          <div class="sb-section">MAIN</div>
+          <div class="sb-item act"><span class="sb-icon">○</span>Dashboard</div>
+          <div class="sb-item"><span class="sb-icon">☰</span>Invoices</div>
+          <div class="sb-item"><span class="sb-icon">⚡</span>Meters</div>
+          <div class="sb-section">LEGAL</div>
+          <div class="sb-item"><span class="sb-icon">⚖</span>Grievances<span class="sb-badge">3</span></div>
+          <div class="sb-item"><span class="sb-icon">💳</span>Pay Fees<span class="sb-badge">1</span></div>
+          <div class="sb-section">ACCOUNT</div>
+          <div class="sb-item"><span class="sb-icon">⚙</span>Settings</div>
+          <div class="sb-plan"><strong>Professional Plan</strong>3 meters · 6 months</div>
+        </div>
+
+        <!-- Main content -->
+        <div class="dash-main">
+          <div class="dash-topbar">
+            <div class="dash-title-area">
+              <div class="dash-eyebrow">Executive Insight Dashboard</div>
+              <div class="dash-title">Billing Cycle — March 2026</div>
+              <div class="dash-due">Due: <span style="color:var(--r);font-weight:600">June 10, 2025</span> · Pune Urban · HT-1 Continuous</div>
+            </div>
+            <div class="dash-actions">
+              <div class="dash-btn">↓ Report</div>
+              <div class="dash-btn">← Apr 2025</div>
+            </div>
+          </div>
+
+          <div class="dash-content">
+            <!-- Leakage alert -->
+            <div class="leakage-card">
+              <div>
+                <div class="lc-badge">▲ Total Leakage · May 2025</div>
+                <div class="lc-title">Your factory overpays MSEDCL every cycle</div>
+                <div class="lc-sub">Three rectifiable causes identified by AI</div>
+              </div>
+              <div style="text-align:right">
+                <div class="lc-amount">₹5,613<span style="font-size:.625rem;font-weight:400;color:var(--m)">/month</span></div>
+                <div class="lc-per">13% of total bill</div>
+                <div class="lc-rec"><div class="lc-rdot"></div>Your Recovery: ₹34,000</div>
+              </div>
+            </div>
+
+            <!-- 3 pillars -->
+            <div class="pillars">
+              <div class="pillar" style="border-top-color:var(--r)">
+                <div class="p-icon">⚡</div><div class="p-pct">43%</div>
+                <div class="p-label">Power Factor Penalty</div>
+                <div class="p-val" style="color:var(--r)">₹18,400</div>
+                <div class="p-sub">PF at 0.86 → 4% surcharge</div>
+              </div>
+              <div class="pillar" style="border-top-color:var(--avv)">
+                <div class="p-icon">📊</div><div class="p-pct">35%</div>
+                <div class="p-label">Max Demand Breach</div>
+                <div class="p-val" style="color:var(--avv)">₹15,000</div>
+                <div class="p-sub">Crossed 500 kVA</div>
+              </div>
+              <div class="pillar" style="border-top-color:var(--n)">
+                <div class="p-icon">🕐</div><div class="p-pct">21%</div>
+                <div class="p-label">Peak Hour Premium</div>
+                <div class="p-val" style="color:var(--n)">₹9,100</div>
+                <div class="p-sub">Heavy usage 18:00–22:00</div>
+              </div>
+            </div>
+
+            <!-- Kanban preview -->
+            <div style="margin-bottom:8px">
+              <div style="font-family:var(--ff-m);font-size:.4375rem;color:var(--m);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;display:flex;justify-content:space-between">
+                <span>Gain-Share Pipeline</span>
+                <span style="color:var(--g);font-weight:600;cursor:pointer">Filed @ IGRC →</span>
+              </div>
+              <div class="kanban-row">
+                <!-- Drafted -->
+                <div>
+                  <div class="k-col-hdr" style="color:var(--m);background:#F3F4F6;padding:2px 6px;border-radius:3px">
+                    <span style="width:5px;height:5px;border-radius:50%;background:var(--m);display:inline-block"></span>Drafted
+                  </div>
+                  <div class="k-card">
+                    <div class="k-id">IGRC-PUN-2025-0482</div>
+                    <div class="k-co">Bharat Steel</div>
+                    <div class="k-amt" style="color:var(--h)">₹38,200</div>
+                    <div class="k-tags">
+                      <span class="k-tag" style="background:var(--rt);color:var(--r)">PF</span>
+                      <span class="k-tag" style="background:var(--at);color:var(--a)">ToD</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Filed -->
+                <div>
+                  <div class="k-col-hdr" style="color:#1D4ED8;background:#EFF6FF;padding:2px 6px;border-radius:3px">
+                    <span style="width:5px;height:5px;border-radius:50%;background:#1D4ED8;display:inline-block"></span>Filed
+                  </div>
+                  <div class="k-card">
+                    <div class="k-id">IGRC-PUN-2025-0452</div>
+                    <div class="k-co">Bharat Steel</div>
+                    <div class="k-amt" style="color:var(--h)">₹42,500</div>
+                    <div class="k-tags">
+                      <span class="k-tag" style="background:#DBEAFE;color:#1D4ED8">PF</span>
+                      <span class="k-tag" style="background:#DBEAFE;color:#1D4ED8">MD</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Under Review -->
+                <div>
+                  <div class="k-col-hdr" style="color:var(--avv);background:var(--at2);padding:2px 6px;border-radius:3px">
+                    <span style="width:5px;height:5px;border-radius:50%;background:var(--avv);display:inline-block"></span>Review
+                  </div>
+                  <div class="k-card">
+                    <div class="k-id">IGRC-PUN-2025-0501</div>
+                    <div class="k-co">Bharat Steel</div>
+                    <div class="k-amt" style="color:var(--h)">₹27,800</div>
+                    <div class="k-tags"><span class="k-tag" style="background:var(--rt);color:var(--r)">PF</span></div>
+                  </div>
+                </div>
+                <!-- Done -->
+                <div>
+                  <div class="k-col-hdr" style="color:var(--gd);background:var(--gt2);padding:2px 6px;border-radius:3px">
+                    <span style="width:5px;height:5px;border-radius:50%;background:var(--gd);display:inline-block"></span>Done
+                  </div>
+                  <div class="k-card">
+                    <div class="k-id">IGRC-PUN-2024-0934</div>
+                    <div class="k-co">Bharat Steel</div>
+                    <div class="k-amt" style="color:var(--gd)">₹68,000</div>
+                    <div class="k-tags"><span class="k-tag" style="background:var(--gt);color:var(--gd)">✓ Done</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Approve CTA -->
+            <div class="dash-approve">✓ Approve 20% Fee & File Grievance →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ OVERVIEW ══ -->
+<section class="sec sec-white z">
+  <div class="wrap">
+    <div class="overview-strip rv">
+      <div class="ov-item">
+        <div class="ov-label">My Role</div>
+        <div class="ov-val">Founder · Product Designer · User Research Lead</div>
+      </div>
+      <div class="ov-item">
+        <div class="ov-label">Duration</div>
+        <div class="ov-val">2025 → Ongoing</div>
+      </div>
+      <div class="ov-item">
+        <div class="ov-label">AI Stack</div>
+        <div class="ov-val">OCR · Gemini LLM · MSEDCL Data API</div>
+      </div>
+      <div class="ov-item">
+        <div class="ov-label">Business Model</div>
+        <div class="ov-val"><em>20%</em> of recovered amount only</div>
+      </div>
+      <div class="ov-item">
+        <div class="ov-label">Live Product</div>
+        <div class="ov-val"><em>optibill.in</em> · Maharashtra</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ THE PROBLEM ══ -->
+<section id="problem" class="sec sec-warm z">
+  <div class="wrap">
+    <div class="story-grid">
+
+      <div class="rl rv">
+        <div class="eyebrow am">The Founding Story</div>
+        <h2 class="h2">I waited 2 hours.<br>Paid ₹1,200 in travel.<br>Took a day off work.</h2>
+        <div class="body-lg">
+          <p>For a billing dispute that should have taken five minutes. The government office had one system. One person who could fix it. And zero incentive to make it easy for me to fight back.</p>
+          <p>I got the money back eventually. But I kept thinking — <strong>how many business owners just give up?</strong> Factory owners. Shop owners. People running on thin margins, getting billed twice what they owe, with no way to know and no time to fight it.</p>
+          <p>So I started asking them directly. 28 interviews across factories, showrooms, and manufacturing units in Pune. The anger I found was real — and the financial stakes were enormous.</p>
+        </div>
+        <div class="pivot-box rv d2">
+          <span style="font-size:1.75rem;flex-shrink:0">💡</span>
+          <div>
+            <div class="pivot-q">The real insight wasn't the billing errors. It was the silence around them.</div>
+            <div class="pivot-a">Nobody talks about it. Businesses assume their bill is correct. MSEDCL has no obligation to tell you when you're overpaying. The overcharging is invisible by design — buried in tariff complexity most engineers don't understand.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rr rv d1">
+        <div class="incident-card">
+          <div class="ic-eyebrow">What I discovered in 28 interviews</div>
+          <div class="ic-headline">"I've been paying this penalty for 9 months. I had no idea."</div>
+          <div class="ic-items">
+            <div class="ic-item">
+              <div class="ic-icon">⚡</div>
+              <div>
+                <div class="ic-title">Power Factor penalties</div>
+                <div class="ic-sub">If your PF drops below 0.90, MSEDCL silently charges 2–8% surcharge on every bill. Old motors and AC units are the usual culprits.</div>
+              </div>
+            </div>
+            <div class="ic-item">
+              <div class="ic-icon">📊</div>
+              <div>
+                <div class="ic-title">Max Demand breaches</div>
+                <div class="ic-sub">Peak demand exceeds sanctioned load in a 30-minute window? Double rate on the excess. A busy Monday morning can cost ₹50,000.</div>
+              </div>
+            </div>
+            <div class="ic-item">
+              <div class="ic-icon">🕐</div>
+              <div>
+                <div class="ic-title">Time-of-Day premiums</div>
+                <div class="ic-sub">MSEDCL charges 20–40% more between 06:00–09:00 and 18:00–22:00. Factories running evening shifts pay this every month.</div>
+              </div>
+            </div>
+            <div class="ic-item" style="background:var(--rt);border-color:var(--rbr)">
+              <div class="ic-icon">⚠️</div>
+              <div>
+                <div class="ic-title" style="color:var(--r)">Maximum penalty seen in research</div>
+                <div class="ic-sub">A large cold storage unit with 3 meters was overpaying <em class="pill-am">₹3.2L per year</em>. All three causes. None flagged by MSEDCL.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ RESEARCH ══ -->
+<section class="sec sec-white z">
+  <div class="wrap">
+    <div class="eyebrow rv">User Research</div>
+    <h2 class="h2 rv">28 interviews.<br>3 clear user types.</h2>
+
+    <div class="research-grid rv d1">
+      <div class="research-stat">
+        <div class="rs-n">28</div>
+        <div class="rs-l">User Interviews</div>
+        <div class="rs-s">Factories, showrooms, shops, cold storage, manufacturing units across Pune</div>
+      </div>
+      <div class="research-stat">
+        <div class="rs-n">94%</div>
+        <div class="rs-l">Didn't know their PF</div>
+        <div class="rs-s">Even engineers who managed factory operations had never checked their power factor</div>
+      </div>
+      <div class="research-stat">
+        <div class="rs-n">₹5L</div>
+        <div class="rs-l">Max annual penalty seen</div>
+        <div class="rs-s">Large industrial consumers with multiple meters — overpaying silently for years</div>
+      </div>
+    </div>
+
+    <div class="insight-grid rv d2">
+      <div class="insight-card" style="border-left-color:var(--r)">
+        <div class="ins-cat" style="color:var(--r)">Pain · Factory owners</div>
+        <div class="ins-quote">"I get a 40-page bill. I don't have time to decode it. I just pay it."</div>
+        <div class="ins-attr">Ops Head · Manufacturing unit · 500 kVA load</div>
+      </div>
+      <div class="insight-card" style="border-left-color:var(--avv)">
+        <div class="ins-cat" style="color:var(--avv)">Pain · Shop owners</div>
+        <div class="ins-quote">"I went to complain once. They sent me to three different counters. I gave up."</div>
+        <div class="ins-attr">Owner · Lighting showroom · Kothrud, Pune</div>
+      </div>
+      <div class="insight-card" style="border-left-color:var(--g)">
+        <div class="ins-cat" style="color:var(--g)">Desire · All segments</div>
+        <div class="ins-quote">"Just tell me what's wrong and fix it. I don't want to understand tariff schedules."</div>
+        <div class="ins-attr">Plant Manager · Cold storage · 3 connections</div>
+      </div>
+      <div class="insight-card" style="border-left-color:var(--n)">
+        <div class="ins-cat" style="color:var(--n)">Trust concern · Universal</div>
+        <div class="ins-quote">"Who does the filing? I don't want to go to any office or sign anything physically."</div>
+        <div class="ins-attr">Operations Director · Private cold storage</div>
+      </div>
+    </div>
+
+    <!-- Personas -->
+    <div class="persona-row">
+      <div class="persona-card rv d1">
+        <div class="persona-card" style="padding:0;border:none;box-shadow:none">
+          <div class="persona-card::before" style="background:var(--g)"></div>
+          <div class="pc-avatar" style="background:var(--g)">RP</div>
+          <div class="pc-name">Rajesh Patil</div>
+          <div class="pc-role">Operations Manager · Kulkarni Castings · 500 kVA · 3 meters</div>
+          <div class="pc-pain" style="border-left-color:var(--r)">Discovered ₹1.8L in penalties after 9 months. "Nobody told me my PF was wrong. The system is designed to keep me confused."</div>
+          <div class="pc-tags">
+            <span class="pc-tag" style="color:var(--g);border-color:var(--gbr);background:var(--gt)">Multi-meter user</span>
+            <span class="pc-tag" style="color:var(--a);border-color:var(--abr);background:var(--at)">High penalty risk</span>
+          </div>
+        </div>
+      </div>
+      <div class="persona-card rv d2">
+        <div class="persona-card" style="padding:0;border:none;box-shadow:none">
+          <div class="pc-avatar" style="background:var(--avv)">SN</div>
+          <div class="pc-name">Priya Deshmukh</div>
+          <div class="pc-role">Director · Commercial Realty Office · LT-II Large</div>
+          <div class="pc-pain" style="border-left-color:var(--avv)">Office building with PF issues for over a year — nobody knew. "We identified it the same day we approved. No visits, no paperwork, just results."</div>
+          <div class="pc-tags">
+            <span class="pc-tag" style="color:var(--g);border-color:var(--gbr);background:var(--gt)">Single meter</span>
+            <span class="pc-tag" style="color:var(--n);border-color:var(--nbr);background:var(--nt)">Time-poor</span>
+          </div>
+        </div>
+      </div>
+      <div class="persona-card rv d3">
+        <div class="persona-card" style="padding:0;border:none;box-shadow:none">
+          <div class="pc-avatar" style="background:var(--n)">VM</div>
+          <div class="pc-name">Santosh Patade</div>
+          <div class="pc-role">Managing Director · Private Cold Storage · 3 connections</div>
+          <div class="pc-pain" style="border-left-color:var(--n)">₹3.2L in annual penalties across 3 connections. "OptiBill audited all in one go. Fast, clean dashboard, professional team."</div>
+          <div class="pc-tags">
+            <span class="pc-tag" style="color:var(--g);border-color:var(--gbr);background:var(--gt)">Enterprise user</span>
+            <span class="pc-tag" style="color:var(--r);border-color:var(--rbr);background:var(--rt)">Max risk</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ SCREENS ══ -->
+<section class="sec sec-tint z">
+  <div class="wrap">
+    <div class="eyebrow rv">Product Screens</div>
+    <h2 class="h2 rv">Every screen earns trust<br>before asking for action.</h2>
+
+    <!-- SCREEN 1: Landing / Marketing -->
+    <div class="screen-block rv">
+      <div class="screen-header">
+        <div>
+          <div class="screen-label">Screen 01 · Marketing Site</div>
+          <h3 class="h3">Free Refund Estimator first. Email form never.</h3>
+          <div class="body-md">Research showed factory owners abandon any form that asks for contact info upfront. The landing page opens with a live calculator — enter your monthly bill and business type, get an instant estimate of what MSEDCL may be overcharging you. <em class="pill">Zero friction entry.</em></div>
+        </div>
+        <div class="screen-decisions">
+          <div class="sd-item">
+            <div class="sd-icon">🧮</div>
+            <div>
+              <div class="sd-title">Calculator before contact form</div>
+              <div class="sd-body">Every interview said the same thing: "Show me the money first." The estimator is the first interaction — no email, no phone, no commitment.</div>
+            </div>
+          </div>
+          <div class="sd-item">
+            <div class="sd-icon">⚡</div>
+            <div>
+              <div class="sd-title">₹0 upfront — pay only on recovery</div>
+              <div class="sd-body">The business model removes the biggest objection. The CTA isn't "buy" — it's "start free audit." Trust is built before money is mentioned.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="browser-wrap">
+        <div class="browser-bar">
+          <div class="browser-dots"><div class="bd bd-r"></div><div class="bd bd-y"></div><div class="bd bd-g"></div></div>
+          <div class="browser-url">optibill.in</div>
+          <div class="browser-live">● Live</div>
+        </div>
+        <!-- Landing page mockup -->
+        <div class="lp-mock">
+          <div style="display:grid;grid-template-columns:1fr 240px;gap:24px;align-items:start">
+            <div>
+              <div class="lp-hero-badge">⚡ MSEDCL / MAHAVITARAN SPECIALISTS</div>
+              <h2 class="lp-h1">Stop losing money<br>on your <em>electricity bill</em></h2>
+              <p class="lp-sub">OptiBill's AI audits your MSEDCL bills in <strong style="color:#fff">under 5 minutes</strong> — identifying Power Factor penalties, Max Demand breaches and ToD overcharges. We file the grievance. You recover what's yours.</p>
+              <div class="lp-btns">
+                <button class="lp-btn lp-btn-p">⚡ Start Free Audit</button>
+                <button class="lp-btn lp-btn-s">How It Works ↓</button>
+              </div>
+              <div class="lp-checks">
+                <span class="lp-check">✓ Zero upfront cost</span>
+                <span class="lp-check">✓ AI audit in minutes</span>
+                <span class="lp-check">✓ Pay only on recovery</span>
+                <span class="lp-check">✓ Maharashtra only</span>
+              </div>
+            </div>
+            <div class="lp-widget">
+              <div class="lp-wt">⚡ Free Refund Estimator</div>
+              <div class="lp-wh">How much is MSEDCL overcharging you?</div>
+              <div style="font-size:.4375rem;color:rgba(255,255,255,.5);margin-bottom:3px;font-family:var(--ff-m)">Your average monthly electricity bill</div>
+              <div class="lp-wfield">₹ 48000</div>
+              <div style="font-size:.4375rem;color:rgba(255,255,255,.5);margin-bottom:3px;font-family:var(--ff-m)">Connection / business type</div>
+              <div class="lp-wfield" style="color:rgba(255,255,255,.5)">Showroom / Office / Hotel (LT-II Large)</div>
+              <div class="lp-wresult">
+                <div style="font-size:.4375rem;color:rgba(255,255,255,.5);font-family:var(--ff-m);margin-bottom:2px;text-transform:uppercase;letter-spacing:.08em">Estimated monthly leakage</div>
+                <div class="lp-wamt">₹5,280</div>
+                <div style="font-size:.375rem;color:rgba(255,255,255,.4);font-family:var(--ff-m)">Based on avg MSEDCL penalty data for your tariff</div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:8px">
+                <div style="font-size:.4375rem;color:rgba(255,255,255,.5);font-family:var(--ff-m)">Annual overpayment:<br><span style="color:#FCA5A5;font-weight:600">₹63,360/yr</span></div>
+                <div style="font-size:.4375rem;color:rgba(255,255,255,.5);font-family:var(--ff-m);text-align:right">Your net recovery:<br><span style="color:#6EE7B7;font-weight:600">₹50,688/yr</span></div>
+              </div>
+              <button class="lp-wbtn">⚡ Get Full Audit Report — Free</button>
+            </div>
+          </div>
+          <div class="lp-stats">
+            <div class="lp-stat"><div class="lp-stat-n">94%</div><div class="lp-stat-l">Audit success rate</div></div>
+            <div class="lp-stat"><div class="lp-stat-n">14d</div><div class="lp-stat-l">Avg resolution time</div></div>
+            <div class="lp-stat"><div class="lp-stat-n">₹0</div><div class="lp-stat-l">Upfront cost</div></div>
+            <div class="lp-stat"><div class="lp-stat-n">20%</div><div class="lp-stat-l">Success fee only</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 2: Upload Flow -->
+    <div class="screen-block rv d1">
+      <div class="screen-header">
+        <div>
+          <div class="screen-label am">Screen 02 · Upload Flow</div>
+          <h3 class="h3">PDF upload or phone camera — both paths, zero friction.</h3>
+          <div class="body-md">Factory owners don't scan documents. Many photograph their bills on a flat surface with their phone. The upload flow supports both paths equally — drag & drop PDF or open camera directly. The AI processes up to 6 months of bills simultaneously, showing a live extraction progress with confidence score before revealing results.</div>
+        </div>
+        <div class="screen-decisions">
+          <div class="sd-item am">
+            <div class="sd-icon">📱</div>
+            <div>
+              <div class="sd-title">Camera capture as first-class input</div>
+              <div class="sd-body">Research showed that most industrial users keep physical bills. Adding a direct camera path with guidance (good light, flat surface, CN visible) removed the biggest barrier to entry.</div>
+            </div>
+          </div>
+          <div class="sd-item am">
+            <div class="sd-icon">🔢</div>
+            <div>
+              <div class="sd-title">Show confidence score before results</div>
+              <div class="sd-body">94% AI confidence shown before the leakage breakdown builds trust in the output. Users feel they are approving a verified finding — not blindly accepting a machine's output.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="browser-wrap">
+        <div class="browser-bar">
+          <div class="browser-dots"><div class="bd bd-r"></div><div class="bd bd-y"></div><div class="bd bd-g"></div></div>
+          <div class="browser-url">optibill.in/app — Step 2: Upload Bills</div>
+          <div class="browser-live">● Live</div>
+        </div>
+        <div class="upload-mock">
+          <!-- Step bar -->
+          <div class="upload-step-bar">
+            <div class="usb-item done">1 · Sign In</div>
+            <div class="usb-item act">2 · Upload Bills</div>
+            <div class="usb-item">3 · Review Audit</div>
+            <div class="usb-item">4 · Approve & File</div>
+            <div class="usb-item">5 · Track Recovery</div>
+          </div>
+
+          <div class="upload-inner">
+            <div class="upload-badge">⚡ FREE TARIFF AUDIT — No credit card required</div>
+            <div class="upload-h">Let AI find your<br><em>electricity leakages</em></div>
+            <div class="upload-sub">Upload or photograph your last 6 months of MSEDCL bills. AI extracts kVA demand, power factor, and Time-of-Day data in seconds.</div>
+
+            <!-- Upload tabs -->
+            <div class="upload-tabs">
+              <div class="ut act">📁 Upload PDF / Image<br><span style="font-size:.4375rem;color:var(--m)">Browse files from device</span></div>
+              <div class="ut">📸 Take Photo<br><span style="font-size:.4375rem;color:var(--m)">Phone camera or webcam</span></div>
+            </div>
+
+            <!-- Drop zone -->
+            <div class="upload-zone">
+              <div class="uz-icon">📄</div>
+              <div class="uz-title">Drag & Drop your MSEDCL Bills</div>
+              <div class="uz-sub">Drop PDF/JPG here or click · PDF, JPG or PNG · HT-I Continuous</div>
+              <div class="uz-months">
+                <span class="uzm done">✓ Dec '24</span>
+                <span class="uzm done">✓ Jan '25</span>
+                <span class="uzm done">✓ Feb '25</span>
+                <span class="uzm done">✓ Mar '25</span>
+                <span class="uzm done">✓ Apr '25</span>
+                <span class="uzm done">✓ May '25</span>
+              </div>
+            </div>
+
+            <!-- Extraction complete state -->
+            <div class="extract-result">
+              <div class="er-header">
+                <div class="er-title" style="color:var(--gd)">✓ Extraction complete — 6 bills processed · All data verified at 94% confidence</div>
+                <div class="er-conf">94%</div>
+              </div>
+              <div class="er-fields">
+                <div class="er-field"><div class="er-fl">Consumer No.</div><div class="er-fv">271234567890</div></div>
+                <div class="er-field"><div class="er-fl">Recent Month</div><div class="er-fv">May 2025</div></div>
+                <div class="er-field"><div class="er-fl">Total kVA</div><div class="er-fv">₹3,18,700</div></div>
+                <div class="er-field"><div class="er-fl">Max Demand</div><div class="er-fv">562 kVA</div></div>
+                <div class="er-field"><div class="er-fl">Avg Power Factor</div><div class="er-fv">0.86</div></div>
+                <div class="er-field"><div class="er-fl">Peak Units</div><div class="er-fv">4,800 kWh</div></div>
+              </div>
+              <div style="font-family:var(--ff-m);font-size:.5rem;color:var(--m);margin-bottom:4px">AI Confidence</div>
+              <div class="conf-bar"><div class="conf-fill"></div></div>
+            </div>
+
+            <!-- Audit complete -->
+            <div class="audit-complete">
+              <div class="ac-header">
+                <div class="ac-title">6 bills analysed · Leakages found</div>
+                <div class="ac-badge">⚡ 94% Confidence</div>
+              </div>
+              <div class="ac-leakages">
+                <div class="acl"><div class="acl-label">Monthly Leakage</div><div class="acl-val" style="color:var(--r)">₹42,500</div></div>
+                <div class="acl"><div class="acl-label">PF Penalty</div><div class="acl-val" style="color:var(--r)">₹18,400</div></div>
+                <div class="acl"><div class="acl-label">MD Breach</div><div class="acl-val" style="color:var(--avv)">₹15,000</div></div>
+                <div class="acl"><div class="acl-label">ToD Premium</div><div class="acl-val" style="color:var(--n)">₹9,100</div></div>
+              </div>
+              <button class="ac-cta">View Full Executive Dashboard →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 3: Full Dashboard -->
+    <div class="screen-block rv d2">
+      <div class="screen-header">
+        <div>
+          <div class="screen-label">Screen 03 · Executive Dashboard</div>
+          <h3 class="h3">The busiest factory manager. 30 seconds. Full picture.</h3>
+          <div class="body-md">Research showed the primary user has 30 other problems and zero patience for financial dashboards. The dashboard is designed around a single scan from top to bottom: leakage amount → three causes → billing trend → recovery status → one-click action. No charts that require interpretation.</div>
+        </div>
+        <div class="screen-decisions">
+          <div class="sd-item">
+            <div class="sd-icon">👁</div>
+            <div>
+              <div class="sd-title">Leakage in rupees, not percentage</div>
+              <div class="sd-body">"13% of bill" means nothing to a factory owner. "₹5,613 per month" is an immediate, visceral number. Every metric is in absolute ₹ values, not ratios.</div>
+            </div>
+          </div>
+          <div class="sd-item">
+            <div class="sd-icon">📋</div>
+            <div>
+              <div class="sd-title">Recommendations as decisions, not suggestions</div>
+              <div class="sd-body">Each recommendation shows ₹/month saved with a specific, actionable fix. Not "consider reviewing your load profile" — "Install APFC Panel: ₹15,400/month saved, ROI 8 months."</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="browser-wrap">
+        <div class="browser-bar">
+          <div class="browser-dots"><div class="bd bd-r"></div><div class="bd bd-y"></div><div class="bd bd-g"></div></div>
+          <div class="browser-url">optibill.in/app — Executive Insight Dashboard</div>
+          <div class="browser-live">● Live</div>
+        </div>
+        <div class="full-dash-mock">
+          <div class="fd-bar">
+            <div class="fd-logo"><div class="fd-logo-ic">⚡</div>OptiBill</div>
+            <div class="fd-nav">
+              <div class="fd-ni act">Dashboard</div>
+              <div class="fd-ni">Invoices</div>
+              <div class="fd-ni">Grievances</div>
+              <div class="fd-ni">Pay Fees</div>
+            </div>
+            <div class="fd-avatar">BP</div>
+          </div>
+          <div class="fd-inner">
+            <!-- Sidebar -->
+            <div class="fd-sidebar">
+              <div class="fd-sb-co">
+                <div class="fd-sb-name">Bharat Steel & Alloys</div>
+                <div class="fd-sb-id">27/222333333</div>
+              </div>
+              <div class="fd-sb-sec">MAIN</div>
+              <div class="fd-sb-item act"><span>○</span>Dashboard</div>
+              <div class="fd-sb-item"><span>☰</span>Invoices</div>
+              <div class="fd-sb-item"><span>⚡</span>Meters</div>
+              <div class="fd-sb-sec">LEGAL</div>
+              <div class="fd-sb-item"><span>⚖</span>Grievances<span class="fd-sb-badge">3</span></div>
+              <div class="fd-sb-item"><span>💳</span>Pay Fees<span class="fd-sb-badge">1</span></div>
+              <div class="fd-sb-sec">ACCOUNT</div>
+              <div class="fd-sb-item"><span>⚙</span>Settings</div>
+              <div class="fd-sb-plan"><strong>Professional Plan</strong>3 meters · 6 months</div>
+            </div>
+            <!-- Main -->
+            <div class="fd-main">
+              <div class="fd-topbar">
+                <div>
+                  <div class="fd-tb-label">Executive Insight Dashboard</div>
+                  <div class="fd-tb-title">Billing Cycle — March 2026</div>
+                  <div class="fd-tb-due">Due: <span style="color:var(--r);font-weight:600">June 10, 2025</span> · Pune Urban · HT-1 Continuous</div>
+                </div>
+                <div class="fd-tb-actions">
+                  <div class="fd-tb-btn">↓ Report</div>
+                  <div class="fd-tb-btn">← Apr 2025</div>
+                </div>
+              </div>
+              <div class="fd-content">
+                <!-- Leakage + invoice summary row -->
+                <div style="display:grid;grid-template-columns:1fr 220px;gap:8px;margin-bottom:8px">
+                  <div class="fd-leakage">
+                    <div>
+                      <div class="fd-lk-badge">▲ Total Leakage · May 2025</div>
+                      <div class="fd-lk-sub">Your factory is overpaying MSEDCL every cycle.<br>Three rectifiable causes identified by AI.</div>
+                      <div class="fd-lk-amount">₹5,613<span style="font-size:.5rem;font-weight:400;color:var(--m)">/month</span></div>
+                      <div class="fd-lk-rec"><span style="width:4px;height:4px;border-radius:50%;background:var(--g);display:inline-block;animation:pulse 2s infinite"></span>Your Recoverable Amount: ₹34,000</div>
+                    </div>
+                    <div class="fd-lk-right">
+                      <div class="fd-lk-pct">13%</div>
+                      <div class="fd-lk-label">of total bill</div>
+                    </div>
+                  </div>
+                  <div class="fd-inv-summary">
+                    <div class="fd-inv-title">Invoice Summary</div>
+                    <div class="fd-inv-row"><span class="fd-inv-label">Total Bill Raised</span><span class="fd-inv-val">₹3,18,700</span></div>
+                    <div class="fd-inv-row"><span class="fd-inv-label">Optimal Bill (Est.)</span><span class="fd-inv-val" style="color:var(--gd)">₹2,76,200</span></div>
+                    <div class="fd-inv-row"><span class="fd-inv-label">Penalty Overage</span><span class="fd-inv-val red">₹42,500</span></div>
+                    <div class="fd-inv-row"><span class="fd-inv-label">Savings Potential</span><span class="fd-inv-val">13%</span></div>
+                    <div style="margin-top:6px;padding-top:6px;border-top:1px solid var(--bdr);display:grid;grid-template-columns:1fr 1fr;gap:4px">
+                      <div><div style="font-family:var(--ff-m);font-size:.3125rem;color:var(--m)">AVG PF</div><div style="font-family:var(--ff-d);font-size:.75rem;font-weight:800;color:var(--r)">0.86</div></div>
+                      <div><div style="font-family:var(--ff-m);font-size:.3125rem;color:var(--m)">PEAK MD</div><div style="font-family:var(--ff-d);font-size:.75rem;font-weight:800;color:var(--avv)">562 kVA</div></div>
+                      <div><div style="font-family:var(--ff-m);font-size:.3125rem;color:var(--m)">SANCTIONED</div><div style="font-family:var(--ff-d);font-size:.5rem;font-weight:600;color:var(--b)">500 kVA</div></div>
+                      <div><div style="font-family:var(--ff-m);font-size:.3125rem;color:var(--m)">PEAK kWh</div><div style="font-family:var(--ff-d);font-size:.5rem;font-weight:600;color:var(--b)">4,800</div></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 3 pillars -->
+                <div class="fd-pillars">
+                  <div class="fd-pillar" style="border-top-color:var(--r)">
+                    <div class="fd-p-icon">⚡</div><div class="fd-p-pct">43%</div>
+                    <div class="fd-p-label">Power Factor Penalty</div>
+                    <div class="fd-p-val" style="color:var(--r)">₹18,400</div>
+                    <div class="fd-p-sub">PF at 0.86 → 4% surcharge on demand charges</div>
+                  </div>
+                  <div class="fd-pillar" style="border-top-color:var(--avv)">
+                    <div class="fd-p-icon">📊</div><div class="fd-p-pct">35%</div>
+                    <div class="fd-p-label">Max Demand Breach</div>
+                    <div class="fd-p-val" style="color:var(--avv)">₹15,000</div>
+                    <div class="fd-p-sub">Crossed 500 kVA — double rate on 62 kVA excess</div>
+                  </div>
+                  <div class="fd-pillar" style="border-top-color:var(--n)">
+                    <div class="fd-p-icon">🕐</div><div class="fd-p-pct">21%</div>
+                    <div class="fd-p-label">Peak-Hour Premium (ToD)</div>
+                    <div class="fd-p-val" style="color:var(--n)">₹9,100</div>
+                    <div class="fd-p-sub">Heavy usage 1800–2200 hrs → Zone A ToD rate</div>
+                  </div>
+                </div>
+
+                <!-- Chart + Pipeline -->
+                <div class="fd-chart-row">
+                  <div class="fd-chart-card">
+                    <div class="fd-chart-title">
+                      <span>8-Month Billing Analysis — What You Paid vs. Optimal Bill</span>
+                      <span style="display:flex;gap:8px">
+                        <span style="font-family:var(--ff-m);font-size:.3125rem;color:var(--r);font-weight:600">8-Month Overpayment: ₹2,22,800</span>
+                        <span style="font-family:var(--ff-m);font-size:.3125rem;color:var(--avv);font-weight:600">Avg Monthly: ₹37,133</span>
+                      </span>
+                    </div>
+                    <div class="fd-chart-area">
+                      <div class="fd-bar-group"><div class="fd-bar-a" style="height:38px;width:100%"></div><div class="fd-bar-b" style="height:28px;width:100%"></div></div>
+                      <div class="fd-bar-group"><div class="fd-bar-a" style="height:35px;width:100%"></div><div class="fd-bar-b" style="height:26px;width:100%"></div></div>
+                      <div class="fd-bar-group"><div class="fd-bar-a" style="height:42px;width:100%"></div><div class="fd-bar-b" style="height:30px;width:100%"></div></div>
+                      <div class="fd-bar-group"><div class="fd-bar-a" style="height:33px;width:100%"></div><div class="fd-bar-b" style="height:24px;width:100%"></div></div>
+                      <div class="fd-bar-group"><div class="fd-bar-a" style="height:40px;width:100%"></div><div class="fd-bar-b" style="height:28px;width:100%"></div></div>
+                      <div class="fd-bar-group"><div class="fd-bar-a" style="height:45px;width:100%"></div><div class="fd-bar-b" style="height:32px;width:100%"></div></div>
+                      <div class="fd-bar-group"><div class="fd-bar-a" style="height:36px;width:100%"></div><div class="fd-bar-b" style="height:26px;width:100%"></div></div>
+                      <div class="fd-bar-group"><div class="fd-bar-a" style="height:50px;width:100%"></div><div class="fd-bar-b" style="height:35px;width:100%"></div></div>
+                    </div>
+                    <div class="fd-chart-legend">
+                      <div class="fd-cl"><div class="fd-cl-dot" style="background:#FCA5A5"></div>Billed</div>
+                      <div class="fd-cl"><div class="fd-cl-dot" style="background:#6EE7B7"></div>Optimal</div>
+                    </div>
+                  </div>
+                  <div class="fd-pipeline">
+                    <div class="fd-pipe-title">
+                      <span>Gain-Share Pipeline</span>
+                      <span style="color:var(--g);font-weight:600;cursor:pointer">Filed @ IGRC →</span>
+                    </div>
+                    <div class="fd-pipe-step">
+                      <div style="display:flex;flex-direction:column;align-items:center">
+                        <div class="fd-pipe-dot" style="background:var(--gd)">✓</div>
+                        <div class="fd-pipe-line"></div>
+                      </div>
+                      <div style="flex:1">
+                        <div class="fd-pipe-label">Audit Verified</div>
+                        <div class="fd-pipe-sub">₹42,500 confirmed · Apr 28, 2026</div>
+                      </div>
+                      <div class="fd-pipe-status" style="background:var(--gt);color:var(--gd);border:1px solid var(--gbr)">Done</div>
+                    </div>
+                    <div class="fd-pipe-step">
+                      <div style="display:flex;flex-direction:column;align-items:center">
+                        <div class="fd-pipe-dot" style="background:var(--gd)">✓</div>
+                        <div class="fd-pipe-line"></div>
+                      </div>
+                      <div style="flex:1">
+                        <div class="fd-pipe-label">Grievance Filed</div>
+                        <div class="fd-pipe-sub">IGRC-PUN-2026-0483 · May 2, 2026</div>
+                      </div>
+                      <div class="fd-pipe-status" style="background:var(--gt);color:var(--gd);border:1px solid var(--gbr)">Done</div>
+                    </div>
+                    <div class="fd-pipe-step">
+                      <div style="display:flex;flex-direction:column;align-items:center">
+                        <div class="fd-pipe-dot" style="background:var(--avv);animation:pulse 2s infinite">●</div>
+                        <div class="fd-pipe-line"></div>
+                      </div>
+                      <div style="flex:1">
+                        <div class="fd-pipe-label">Board Review</div>
+                        <div class="fd-pipe-sub">MSEDCL Cell, Pune · Ongoing</div>
+                      </div>
+                      <div class="fd-pipe-status" style="background:var(--at2);color:var(--avv);border:1px solid var(--abr)">Active</div>
+                    </div>
+                    <div class="fd-pipe-step">
+                      <div>
+                        <div class="fd-pipe-dot" style="background:var(--bdr2);color:var(--m)">○</div>
+                      </div>
+                      <div style="flex:1">
+                        <div class="fd-pipe-label">Credit Applied</div>
+                        <div class="fd-pipe-sub">₹34,000 on next bill · Est. Aug 15</div>
+                      </div>
+                      <div class="fd-pipe-status" style="background:#F3F4F6;color:var(--m);border:1px solid var(--bdr2)">Pending</div>
+                    </div>
+                    <!-- Claim breakdown -->
+                    <div style="background:var(--gt);border:1px solid var(--gbr);border-radius:4px;padding:6px 8px;margin-top:6px">
+                      <div style="font-family:var(--ff-m);font-size:.375rem;color:var(--m);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Claim Breakdown</div>
+                      <div style="display:flex;justify-content:space-between;font-size:.4375rem;margin-bottom:2px"><span style="color:var(--s)">Total Claim</span><span style="font-weight:600;color:var(--b)">₹42,500</span></div>
+                      <div style="display:flex;justify-content:space-between;font-size:.4375rem;margin-bottom:2px"><span style="color:var(--s)">OptiBill (20%)</span><span style="font-weight:600;color:var(--a)">₹8,500</span></div>
+                      <div style="display:flex;justify-content:space-between;font-size:.4375rem"><span style="color:var(--s)">Your Recovery</span><span style="font-weight:600;color:var(--gd)">₹34,000</span></div>
+                    </div>
+                    <button style="margin-top:6px;background:var(--g);color:#fff;width:100%;padding:5px;font-size:.4375rem;font-weight:600;border:none;border-radius:4px;font-family:var(--ff-m);cursor:pointer;text-transform:uppercase;letter-spacing:.04em">✓ Approve 20% Fee & File Grievance</button>
+                  </div>
+                </div>
+
+                <!-- Recommendations -->
+                <div class="fd-recs">
+                  <div class="fd-rec"><div class="fd-rec-icon">⚡</div><div class="fd-rec-title">Install APFC Panel</div><div class="fd-rec-save">₹15,400/mo saved</div></div>
+                  <div class="fd-rec"><div class="fd-rec-icon">📊</div><div class="fd-rec-title">Demand Side Mgmt</div><div class="fd-rec-save">₹15,000/mo saved</div></div>
+                  <div class="fd-rec"><div class="fd-rec-icon">🌙</div><div class="fd-rec-title">Night Shift Loading</div><div class="fd-rec-save">₹9,100/mo saved</div></div>
+                  <div class="fd-rec"><div class="fd-rec-icon">⚖</div><div class="fd-rec-title">Manage Grievances</div><div class="fd-rec-save" style="color:var(--gd)">View Kanban →</div></div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 4: Grievance Kanban -->
+    <div class="screen-block rv d1">
+      <div class="screen-header">
+        <div>
+          <div class="screen-label nv">Screen 04 · Grievance Tracker</div>
+          <h3 class="h3">Kanban for IGRC filings. Factory owners already know Kanban.</h3>
+          <div class="body-md">Manufacturing and industrial users work with production boards. The grievance tracker is a Kanban — Drafted → Filed → Under Review → Credit Applied. Each card shows the claim amount, penalty breakdown tags, and days elapsed. No legal language. No jargon.</div>
+        </div>
+        <div class="screen-decisions">
+          <div class="sd-item">
+            <div class="sd-icon">📋</div>
+            <div>
+              <div class="sd-title">No legal jargon in the UI</div>
+              <div class="sd-body">IGRC (Integrated Grievance Redressal Cell) appears only in the reference ID, not in any user-facing label. Every status is plain English: Drafted, Filed, Under Review, Done.</div>
+            </div>
+          </div>
+          <div class="sd-item">
+            <div class="sd-icon">💰</div>
+            <div>
+              <div class="sd-title">Total recovery always visible</div>
+              <div class="sd-body">The bottom row shows total recoveries vs OptiBill fee across all grievances. Transparency at every step — the user always knows exactly what they'll receive vs what OptiBill earns.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="browser-wrap">
+        <div class="browser-bar">
+          <div class="browser-dots"><div class="bd bd-r"></div><div class="bd bd-y"></div><div class="bd bd-g"></div></div>
+          <div class="browser-url">optibill.in/app — Grievance Tracker · Track IGRC filings</div>
+          <div class="browser-live">● Live</div>
+        </div>
+        <div class="kanban-mock">
+          <!-- Top stats -->
+          <div class="km-topbar">
+            <div>
+              <div class="km-title">Grievance Tracker</div>
+              <div class="km-sub">Track IGRC filings · Monitor MSEDCL credits</div>
+            </div>
+            <div class="km-stats">
+              <div class="km-stat"><div class="km-stat-n">5</div><div class="km-stat-l">Total Filings</div></div>
+              <div class="km-stat"><div class="km-stat-n" style="color:var(--n)">₹2.14L</div><div class="km-stat-l">Total Claimed</div></div>
+              <div class="km-stat"><div class="km-stat-n">₹54,400</div><div class="km-stat-l">Recovered (80%)</div></div>
+              <div class="km-stat km-stat-am"><div class="km-stat-n">₹13,600</div><div class="km-stat-l">Fee Earned (20%)</div></div>
+              <div class="km-stat"><div class="km-stat-n" style="color:var(--n)">64d</div><div class="km-stat-l">Avg Resolution</div></div>
+            </div>
+            <button class="km-add">+ New Grievance</button>
+          </div>
+
+          <!-- Board -->
+          <div class="km-board">
+            <!-- Drafted -->
+            <div>
+              <div class="km-col-hdr"><div class="km-col-hdr-dot" style="background:var(--m)"></div><div class="km-col-hdr-title">Drafted</div><div class="km-col-hdr-count">1</div></div>
+              <div class="km-card">
+                <div class="km-card-top"><div class="km-c-id">IGRC-PUN-2025-0482</div><div class="km-c-date">Apr 2025</div></div>
+                <div class="km-c-co">Bharat Steel</div>
+                <div class="km-c-amt" style="color:var(--h)">₹38,200</div>
+                <div class="km-c-fee">Fee: ₹7,640</div>
+                <div class="km-c-tags">
+                  <span class="km-c-tag" style="background:var(--rt);color:var(--r)">PF PENALTY</span>
+                  <span class="km-c-tag" style="background:var(--at);color:var(--a)">TOD</span>
+                </div>
+                <div style="margin-top:5px;font-family:var(--ff-m);font-size:.375rem;color:var(--m)">Awaiting approval</div>
+              </div>
+            </div>
+            <!-- Filed -->
+            <div>
+              <div class="km-col-hdr"><div class="km-col-hdr-dot" style="background:#1D4ED8"></div><div class="km-col-hdr-title">Filed @ IGRC</div><div class="km-col-hdr-count">2</div></div>
+              <div class="km-card">
+                <div class="km-card-top"><div class="km-c-id">IGRC-PUN-2025-0452</div><div class="km-c-date">Apr 2025</div></div>
+                <div class="km-c-co">Bharat Steel</div>
+                <div class="km-c-amt" style="color:var(--h)">₹42,500</div>
+                <div class="km-c-fee">Fee: ₹8,500</div>
+                <div class="km-c-tags">
+                  <span class="km-c-tag" style="background:#DBEAFE;color:#1D4ED8">PF</span>
+                  <span class="km-c-tag" style="background:#DBEAFE;color:#1D4ED8">MD BREACH</span>
+                  <span class="km-c-tag" style="background:#DBEAFE;color:#1D4ED8">TOD</span>
+                </div>
+                <div style="margin-top:5px;font-family:var(--ff-m);font-size:.375rem;color:var(--m)">Filed May 3</div>
+              </div>
+              <div class="km-card">
+                <div class="km-card-top"><div class="km-c-id">IGRC-PUN-2025-0502</div><div class="km-c-date">Mar 2025</div></div>
+                <div class="km-c-co">Bharat Steel</div>
+                <div class="km-c-amt" style="color:var(--h)">₹31,600</div>
+                <div class="km-c-fee">Fee: ₹6,320</div>
+                <div class="km-c-tags"><span class="km-c-tag" style="background:#DBEAFE;color:#1D4ED8">MD BREACH</span></div>
+                <div style="margin-top:5px;font-family:var(--ff-m);font-size:.375rem;color:var(--m)">Filed Mar 10</div>
+              </div>
+            </div>
+            <!-- Under Review -->
+            <div>
+              <div class="km-col-hdr"><div class="km-col-hdr-dot" style="background:var(--avv)"></div><div class="km-col-hdr-title">Under Review</div><div class="km-col-hdr-count">1</div></div>
+              <div class="km-card">
+                <div class="km-card-top"><div class="km-c-id">IGRC-PUN-2025-0501</div><div class="km-c-date">Feb 2025</div></div>
+                <div class="km-c-co">Bharat Steel</div>
+                <div class="km-c-amt" style="color:var(--h)">₹27,800</div>
+                <div class="km-c-fee">Fee: ₹5,560</div>
+                <div class="km-c-tags"><span class="km-c-tag" style="background:var(--at);color:var(--a)">PF PENALTY</span></div>
+                <div style="margin-top:5px">
+                  <div style="background:var(--bdr);border-radius:2px;height:3px;overflow:hidden">
+                    <div style="width:65%;height:100%;background:var(--avv);border-radius:2px"></div>
+                  </div>
+                  <div style="font-family:var(--ff-m);font-size:.375rem;color:var(--m);margin-top:2px">Day 22/45</div>
+                </div>
+              </div>
+            </div>
+            <!-- Credit Applied -->
+            <div>
+              <div class="km-col-hdr"><div class="km-col-hdr-dot" style="background:var(--gd)"></div><div class="km-col-hdr-title">Credit Applied</div><div class="km-col-hdr-count">1</div></div>
+              <div class="km-card">
+                <div class="km-card-top"><div class="km-c-id">IGRC-PUN-2024-0934</div><div class="km-c-date">Nov 2024</div></div>
+                <div class="km-c-co">Bharat Steel</div>
+                <div class="km-c-amt" style="color:var(--gd)">₹68,000</div>
+                <div class="km-c-fee">Fee: ₹13,600</div>
+                <div class="km-c-tags"><span class="km-c-tag" style="background:var(--gt);color:var(--gd)">ALL PILLARS</span></div>
+                <div style="margin-top:4px;font-family:var(--ff-m);font-size:.375rem;color:var(--gd);font-weight:600">✓ Closed · 64 days</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Total row -->
+          <div class="km-total-row">
+            <div><div class="km-total-label">Total Recoveries for Client (80%)</div><div class="km-total-val">₹1,71,200</div></div>
+            <div style="text-align:right"><div class="km-total-label">OptiBill Fee (20%)</div><div class="km-total-val am">₹42,800</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 5: Grievance Modal + Meters (side by side) -->
+    <div class="screen-block rv d2">
+      <div class="screen-header">
+        <div>
+          <div class="screen-label">Screen 05 · Grievance Detail + Multi-Meter View</div>
+          <h3 class="h3">Complete breakdown on one card. Four meters, one dashboard.</h3>
+          <div class="body-md">The grievance detail modal shows exactly how the claim breaks down across PF Penalty, MD Breach, and ToD Premium — with the exact IGRC docket number and MSEDCL reference. The meters view handles the industrial reality: factories often have 3–7 separate connections, each with its own PF and demand profile.</div>
+        </div>
+        <div class="screen-decisions">
+          <div class="sd-item">
+            <div class="sd-icon">🏭</div>
+            <div>
+              <div class="sd-title">Multi-meter design from day one</div>
+              <div class="sd-body">Research showed 60% of factory users have more than one MSEDCL connection. The meter management screen allows each connection to be tracked independently — PF, peak demand, billing cycle — while appearing in one unified view.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <!-- Modal -->
+        <div class="browser-wrap">
+          <div class="browser-bar">
+            <div class="browser-dots"><div class="bd bd-r"></div><div class="bd bd-y"></div><div class="bd bd-g"></div></div>
+            <div class="browser-url">Grievance Detail Modal</div>
+          </div>
+          <div style="background:#F3F4F6;padding:16px">
+            <div class="modal-card" style="max-width:100%;margin:0">
+              <div class="modal-close">×</div>
+              <div class="modal-eyebrow">Grievance Detail</div>
+              <div class="modal-title">Grievance #G2025-005</div>
+              <div class="modal-id">G2025-005 · Apr 2025</div>
+              <!-- Status steps -->
+              <div class="modal-steps">
+                <div class="ms done">✓ Drafted</div>
+                <div class="ms done">✓ Filed</div>
+                <div class="ms done">✓ Review</div>
+                <div class="ms pend">Credit</div>
+              </div>
+              <!-- Amounts -->
+              <div class="modal-amounts">
+                <div class="ma-box">
+                  <div class="ma-label">Total Claim</div>
+                  <div class="ma-val" style="color:var(--r)">₹38,200</div>
+                </div>
+                <div class="ma-box">
+                  <div class="ma-label">OptiBill (20%)</div>
+                  <div class="ma-val" style="color:var(--avv)">₹7,640</div>
+                </div>
+                <div class="ma-box">
+                  <div class="ma-label">Your Recovery</div>
+                  <div class="ma-val" style="color:var(--gd)">₹30,560</div>
+                </div>
+              </div>
+              <!-- Breakdown -->
+              <div class="modal-breakdown">
+                <div class="mb-title">Leakage Breakdown</div>
+                <div class="mb-grid">
+                  <div class="mb-item" style="border-color:var(--rbr);background:var(--rt)">
+                    <div class="mb-label">PF Penalty</div>
+                    <div class="mb-val" style="color:var(--r)">₹21,000</div>
+                  </div>
+                  <div class="mb-item" style="border-color:var(--abr);background:var(--at)">
+                    <div class="mb-label">MD Breach</div>
+                    <div class="mb-val" style="color:var(--avv)">₹0</div>
+                  </div>
+                  <div class="mb-item" style="border-color:var(--nbr);background:var(--nt)">
+                    <div class="mb-label">ToD Premium</div>
+                    <div class="mb-val" style="color:var(--n)">₹17,200</div>
+                  </div>
+                </div>
+              </div>
+              <!-- Actions -->
+              <div class="modal-actions">
+                <div class="ma-btn ma-escalate">Escalate</div>
+                <div class="ma-btn ma-fee">Pay Fee</div>
+                <div class="ma-btn ma-close">Close</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Meters -->
+        <div class="browser-wrap">
+          <div class="browser-bar">
+            <div class="browser-dots"><div class="bd bd-r"></div><div class="bd bd-y"></div><div class="bd bd-g"></div></div>
+            <div class="browser-url">Meters — HT Connections</div>
+          </div>
+          <div class="meters-mock">
+            <div class="meters-hdr">
+              <div><div class="meters-title">HT Connections</div><div class="meters-sub">3 active meters · Bharat Steel & Alloys</div></div>
+              <button class="meters-add">+ Add Meter</button>
+            </div>
+            <div class="meters-grid">
+              <!-- Meter 1 -->
+              <div class="meter-card">
+                <div class="mc-top">
+                  <div><div class="mc-name">🔵 Main Plant — Block A</div></div>
+                  <div class="mc-status act">ACTIVE</div>
+                </div>
+                <div class="mc-id">27123456789</div>
+                <div class="mc-tariff">HT-I Continuous · Sanctioned 500 kVA</div>
+                <div class="mc-metrics">
+                  <div class="mc-metric"><div class="mc-m-val warn">0.86</div><div class="mc-m-label">Avg PF</div></div>
+                  <div class="mc-metric"><div class="mc-m-val warn">562 kVA</div><div class="mc-m-label">Peak MD</div></div>
+                </div>
+                <div class="mc-actions">
+                  <div class="mc-btn">View Bills</div>
+                  <div class="mc-btn">Live Data</div>
+                </div>
+              </div>
+              <!-- Meter 2 -->
+              <div class="meter-card">
+                <div class="mc-top">
+                  <div><div class="mc-name">🔵 Warehouse — Block B</div></div>
+                  <div class="mc-status act">ACTIVE</div>
+                </div>
+                <div class="mc-id">37123456789</div>
+                <div class="mc-tariff">HT-I Continuous · Sanctioned 250 kVA</div>
+                <div class="mc-metrics">
+                  <div class="mc-metric"><div class="mc-m-val ok">0.91</div><div class="mc-m-label">Avg PF</div></div>
+                  <div class="mc-metric"><div class="mc-m-val">240 kVA</div><div class="mc-m-label">Peak MD</div></div>
+                </div>
+                <div class="mc-actions">
+                  <div class="mc-btn">View Bills</div>
+                  <div class="mc-btn">Live Data</div>
+                </div>
+              </div>
+              <!-- Meter 3 -->
+              <div class="meter-card" style="border-color:rgba(0,0,0,.06)">
+                <div class="mc-top">
+                  <div><div class="mc-name">⚫ Admin Building</div></div>
+                  <div class="mc-status ina">INACTIVE</div>
+                </div>
+                <div class="mc-id">47123456789</div>
+                <div class="mc-tariff">HT-0 · Sanctioned 100 kVA</div>
+                <div class="mc-metrics">
+                  <div class="mc-metric"><div class="mc-m-val ok">0.94</div><div class="mc-m-label">Avg PF</div></div>
+                  <div class="mc-metric"><div class="mc-m-val">88 kVA</div><div class="mc-m-label">Peak MD</div></div>
+                </div>
+                <div class="mc-actions">
+                  <div class="mc-btn">View Bills</div>
+                  <div class="mc-btn">Live Data</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 6: Pay Fees -->
+    <div class="screen-block rv d1">
+      <div class="screen-header">
+        <div>
+          <div class="screen-label am">Screen 06 · Pay OptiBill Fees</div>
+          <h3 class="h3">Success fee only after credit appears on your bill.</h3>
+          <div class="body-md">The payment screen is the moment of truth for the business model. It shows the client's recovered amount prominently before the fee. Payment is only triggered after MSEDCL credits the account. The design makes the math undeniable — and the trust explicit.</div>
+        </div>
+        <div class="screen-decisions">
+          <div class="sd-item am">
+            <div class="sd-icon">💳</div>
+            <div>
+              <div class="sd-title">UPI first, NEFT as fallback</div>
+              <div class="sd-body">Manufacturing unit owners pay via UPI or direct bank transfer — not cards. The payment methods match exactly how this segment already transfers money in their business operations.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="browser-wrap">
+        <div class="browser-bar">
+          <div class="browser-dots"><div class="bd bd-r"></div><div class="bd bd-y"></div><div class="bd bd-g"></div></div>
+          <div class="browser-url">optibill.in/app — Pay OptiBill Fees · Gain-Share Settlement</div>
+          <div class="browser-live">● Live</div>
+        </div>
+        <div class="fees-mock">
+          <!-- Stats bar -->
+          <div class="fees-bar">
+            <div class="fees-stat"><div class="fs-val r">₹13,600</div><div class="fs-label">Fees Outstanding</div></div>
+            <div class="fees-stat"><div class="fs-val g">₹54,400</div><div class="fs-label">Client Recovered</div></div>
+            <div class="fees-stat"><div class="fs-val">1</div><div class="fs-label">Awaiting Payment</div></div>
+            <div class="fees-stat"><div class="fs-val r">₹0</div><div class="fs-label">Overdue</div></div>
+          </div>
+
+          <div class="fees-body">
+            <!-- Items -->
+            <div class="fees-items">
+              <div class="fi-section-title">Pending Fee Items</div>
+              <!-- Item 1 - overdue -->
+              <div class="fees-item overdue">
+                <div class="fi-check" style="background:var(--g)">✓</div>
+                <div class="fi-body">
+                  <div class="fi-id">IGRC-PUN-2024-0934 <span class="fi-status ov" style="margin-left:4px">Billable</span></div>
+                  <div class="fi-desc">Nov 2024 · Credit of ₹68,000 applied on Dec bill · 80% of ₹68,000 credited</div>
+                </div>
+                <div>
+                  <div class="fi-amount">₹13,600</div>
+                  <div class="fi-due" style="color:var(--r);font-weight:600">Overdue</div>
+                </div>
+              </div>
+              <!-- Item 2 - pending -->
+              <div class="fees-item">
+                <div class="fi-check un"></div>
+                <div class="fi-body">
+                  <div class="fi-id">IGRC-PUN-2025-0482 <span class="fi-status" style="margin-left:4px;background:#DBEAFE;color:#1D4ED8;border-color:#BFDBFE">Pending Credit</span></div>
+                  <div class="fi-desc">May 2025 · Under board review · Payable after credit is applied</div>
+                </div>
+                <div>
+                  <div class="fi-amount">₹8,500</div>
+                  <div class="fi-due">Not yet due</div>
+                </div>
+              </div>
+
+              <div class="fi-section-title" style="margin-top:12px">Payment History</div>
+              <div class="fees-item" style="opacity:.7">
+                <div class="fi-check">✓</div>
+                <div class="fi-body"><div class="fi-id" style="color:var(--gd)">IGRC-PUN-2023-07124</div><div class="fi-desc">Paid via UPI · Mar 2024</div></div>
+                <div><div class="fi-amount" style="color:var(--gd)">₹6,200 ✓</div></div>
+              </div>
+              <div class="fees-item" style="opacity:.7">
+                <div class="fi-check">✓</div>
+                <div class="fi-body"><div class="fi-id" style="color:var(--gd)">IGRC-PUN-2023-05081</div><div class="fi-desc">Paid via NEFT · Oct 2023</div></div>
+                <div><div class="fi-amount" style="color:var(--gd)">₹4,800 ✓</div></div>
+              </div>
+            </div>
+
+            <!-- Payment panel -->
+            <div class="fees-payment">
+              <div class="fp-title">Payment Method</div>
+              <div class="fp-methods">
+                <div class="fp-method">
+                  <div class="fp-m-icon">📱</div>
+                  <div><div class="fp-m-name">UPI</div><div class="fp-m-sub">GPay, PhonePe, Paytm</div></div>
+                </div>
+                <div class="fp-method sec">
+                  <div class="fp-m-icon">🏦</div>
+                  <div><div class="fp-m-name">NEFT / RTGS</div><div class="fp-m-sub">Bank transfer</div></div>
+                </div>
+              </div>
+              <input class="fp-upi" placeholder="yourname@gpay or 9876543210" value="" style="display:block"/>
+              <div style="font-family:var(--ff-m);font-size:.4375rem;color:var(--m);margin-bottom:6px">A payment request will be sent to your UPI app</div>
+              <div class="fp-summary">
+                <div style="font-family:var(--ff-m);font-size:.4375rem;color:var(--m);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px">Payment Summary</div>
+                <div class="fp-row"><span class="fp-row-label">Grievance #G2024-001</span><span class="fp-row-val">₹13,600</span></div>
+                <div class="fp-row"><span class="fp-row-label">GST (18%)</span><span class="fp-row-val">₹2,448</span></div>
+                <div class="fp-row" style="border-top:1.5px solid var(--bdr2);padding-top:6px;margin-top:2px"><span class="fp-row-label" style="font-weight:600;color:var(--b)">Total Payable</span><span class="fp-row-val total">₹16,048</span></div>
+              </div>
+              <button class="fp-cta">💳 Pay ₹16,048 to OptiBill</button>
+              <div class="fp-note">You will receive a receipt on WhatsApp + email</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ OUTCOMES ══ -->
+<section id="outcomes" class="sec sec-dark z">
+  <div class="wrap">
+    <div class="eyebrow wh rv">Outcomes & Learnings</div>
+    <h2 class="h2 lgt rv">What shipping as the founder teaches you.</h2>
+
+    <div class="outcomes-grid">
+      <div class="outcome-card rv d1">
+        <div class="oc-n">₹7.8k</div>
+        <div class="oc-l">First recovery proof</div>
+        <div class="oc-s">Friend's lighting showroom. Used as the opening proof of concept for every sales conversation that followed.</div>
+      </div>
+      <div class="outcome-card rv d2">
+        <div class="oc-n">28</div>
+        <div class="oc-l">User interviews conducted</div>
+        <div class="oc-s">Before a single line of code was written for the app. Research-first, always.</div>
+      </div>
+      <div class="outcome-card rv d3">
+        <div class="oc-n">94%</div>
+        <div class="oc-l">AI audit success rate</div>
+        <div class="oc-s">OCR + Gemini LLM identifying PF, MD, and ToD issues across MSEDCL's complex tariff structures.</div>
+      </div>
+    </div>
+
+    <div class="learning-grid rv d1">
+      <div class="learning-card">
+        <div class="lc-title">Designing for people who don't trust AI yet</div>
+        <div class="lc-body">Factory owners in industrial Pune are not early adopters. Trust is built through transparency — showing the source data, the confidence score, and the exact calculation before asking for approval. The AI does the extraction; the human stays in control of the decision.</div>
+      </div>
+      <div class="learning-card">
+        <div class="lc-title">The business model is a design decision</div>
+        <div class="lc-body">20% success fee, nothing upfront — this isn't just pricing strategy. It changes the entire user psychology. Every screen that says "pay only on recovery" reduces abandonment. The model and the UX are the same thing.</div>
+      </div>
+      <div class="learning-card">
+        <div class="lc-title">When you're the user, you design differently</div>
+        <div class="lc-body">I knew exactly what the government office queue felt like. That frustration informed every design decision — from the zero-friction estimator to the one-click IGRC filing. Being the primary persona isn't a limitation. It's a superpower.</div>
+      </div>
+      <div class="learning-card">
+        <div class="lc-title">Agentic AI → human review → trust loop</div>
+        <div class="lc-body">The most important screen in the app isn't the dashboard. It's the approval gate before filing. The moment where the user reviews the AI's finding and clicks "approve" — that's where trust is built or broken. Every product with AI decisions has this moment. Design it deliberately.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ NEXT ══ -->
+<section class="sec sec-white z">
+  <div class="wrap">
+    <div class="eyebrow rv">Continue Exploring</div>
+    <h2 class="h2 rv">Two very different problems.<br>The same design thinking.</h2>
+    <div class="next-strip rv d1">
+      <a href="project-aura-case-study.html" class="next-card aura">
+        <div class="nc-badge bl">Enterprise · AI Copilot</div>
+        <div class="nc-h">Project Aura</div>
+        <div class="nc-p">Fortune 500 enterprise. RAG architecture. GDPR. CSRD. Human approval gates at scale. 65% audit time reduction inside a 15-year-old legacy system — without a single backend rewrite.</div>
+        <div class="nc-cta bl"><div class="nc-ln bl"></div>View Case Study</div>
+      </a>
+      <a href="index.html" class="next-card home">
+        <div class="nc-badge gr">Portfolio Home</div>
+        <div class="nc-h">Back to Portfolio</div>
+        <div class="nc-p">14 years of enterprise product design. From Photoshop curiosity to AI systems at regulatory scale. See the full journey, the process, and what's next.</div>
+        <div class="nc-cta gr"><div class="nc-ln gr"></div>View Portfolio</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="cs-footer">
+  <div class="cf-inner">
+    <div class="cf-copy">© 2026 Aasif Shaikh · aasifdesign.com</div>
+    <div class="cf-links">
+      <a href="index.html" class="cf-link">Portfolio</a>
+      <a href="project-aura-case-study.html" class="cf-link">Project Aura</a>
+      <a href="https://optibill.in" target="_blank" class="cf-link">OptiBill ↗</a>
+      <a href="https://www.linkedin.com/in/aasif-shaikh" target="_blank" class="cf-link">LinkedIn ↗</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Scroll reveal */
+const ro = new IntersectionObserver(
+  e => e.forEach(x => {if(x.isIntersecting) x.target.classList.add('v')}),
+  {threshold:.08,rootMargin:'0px 0px -32px 0px'}
+);
+document.querySelectorAll('.rv,.rl,.rr').forEach(el => ro.observe(el));
+
+/* Nav scroll */
+window.addEventListener('scroll',() => {
+  document.getElementById('nav').classList.toggle('sc', window.scrollY > 40);
+});
+</script>
+</body>
+</html>

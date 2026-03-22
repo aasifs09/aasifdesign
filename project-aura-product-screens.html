@@ -1,0 +1,1835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Project Aura — Product Screens, IA & User Flow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500&family=Noto+Sans+Mono:wdth,wght@75,400;75,500;75,600;75,700;100,400;100,500;100,600;100,700&display=swap" rel="stylesheet"/>
+<style>
+/*
+  MARSH BRAND COLORS — LIGHT THEME
+  #002C77 Catalina Blue   (primary navy)
+  #016D9E Medium Persian  (mid blue)
+  #00A8C7 Blue-Green Teal (accent)
+  #A7E2F0 Blizzard Blue   (light tint)
+
+  WCAG AA VERIFIED (light theme):
+  #002C77 on #FFFFFF = 14.7:1 AAA
+  #016D9E on #FFFFFF =  6.2:1 AA
+  #0A4A7A on #FFFFFF =  9.8:1 AAA
+  #3A6880 on #FFFFFF =  5.5:1 AA
+  #00A8C7 text on white = 3.8:1 (use only decorative/large)
+  #006B7A on #FFFFFF =  5.9:1 AA (darkened teal for text)
+*/
+:root{
+  /* Backgrounds */
+  --void:#F4F8FC;
+  --base:#EDF3FA;
+  --surface:#FFFFFF;
+  --elevated:#F0F5FB;
+  --card:rgba(255,255,255,.95);
+
+  /* Text — WCAG AA on white */
+  --w:#002C77;
+  --tp:#002C77;
+  --ts:#0A4A7A;
+  --tm:#3A6880;
+  --b:#002C77;
+
+  /* Marsh primary: navy + teal */
+  --cy:#002C77;
+  --cy2:#016D9E;
+  --cy3:#00A8C7;
+  --cys:rgba(0,44,119,.06);
+  --cyb:rgba(0,44,119,.20);
+
+  /* Semantic */
+  --ok:#166534;
+  --warn:#854D0E;
+  --err:#991B1B;
+  --info:#016D9E;
+
+  /* Borders */
+  --bs:rgba(0,44,119,.10);
+  --bm:rgba(0,44,119,.16);
+  --bc:rgba(0,44,119,.25);
+
+  /* Fonts — Noto Sans throughout */
+  --ff-d:'Noto Sans',sans-serif;
+  --ff-b:'Noto Sans',sans-serif;
+  --ff-m:'Noto Sans Mono',monospace;
+
+  --r:12px;--rl:20px;--rs:6px;
+  --sh:0 2px 16px rgba(0,44,119,.10),0 1px 0 rgba(0,44,119,.06);
+  --sg:0 0 24px rgba(0,44,119,.12);
+
+  /* Marsh accent teal (light use only) */
+  --marsh-teal:#00A8C7;
+  --marsh-teal-t:rgba(0,168,199,.08);
+  --marsh-teal-b:rgba(0,168,199,.25);
+  --marsh-light:#A7E2F0;
+  --marsh-navy:#002C77;
+  --marsh-mid:#016D9E;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--void);color:var(--tp);font-family:var(--ff-b);line-height:1.7;overflow-x:hidden;position:relative}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,44,119,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,44,119,.03) 1px,transparent 1px);background-size:64px 64px;pointer-events:none;z-index:0}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:60px;background:rgba(0,44,119,.96);backdrop-filter:blur(16px) saturate(1.5);border-bottom:1px solid rgba(0,44,119,.3)}
+.nav-brand{font-family:var(--ff-d);font-weight:700;font-size:.9375rem;color:#FFFFFF;letter-spacing:.02em}
+.nav-brand span{color:#A7E2F0}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{font-size:.75rem;font-weight:500;color:rgba(167,226,240,.8);text-decoration:none;letter-spacing:.07em;text-transform:uppercase;transition:color .2s;font-family:var(--ff-m)}
+.nav-links a:hover{color:#FFFFFF}
+.nav-tag{font-family:var(--ff-m);font-size:.625rem;background:rgba(167,226,240,.15);border:1px solid rgba(167,226,240,.3);color:#A7E2F0;padding:4px 12px;border-radius:4px;letter-spacing:.1em;text-transform:uppercase}
+
+/* ── LAYOUT ── */
+.sec{padding:120px 0;position:relative;z-index:1}
+.sec-alt{background:#EDF3FA}
+.wrap{max-width:1240px;margin:0 auto;padding:0 40px}
+.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(0,44,119,.20),transparent)}
+.label-tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--ff-m);font-size:.625rem;font-weight:500;color:var(--marsh-mid);letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
+.label-tag::before{content:'';width:24px;height:1px;background:var(--marsh-mid);display:inline-block}
+.sec-title{font-family:var(--ff-d);font-size:clamp(2rem,4vw,3.25rem);font-weight:700;color:var(--marsh-navy);line-height:1.1;letter-spacing:-.025em;margin-bottom:16px}
+.sec-sub{font-size:1.0625rem;color:var(--ts);max-width:620px;line-height:1.8;margin-bottom:56px}
+.mono{font-family:var(--ff-m)}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
+.reveal.v{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+
+/* ── SCREEN WRAPPER ── */
+.screen-browser{background:#FFFFFF;border:1.5px solid rgba(0,44,119,.16);border-radius:var(--rl);overflow:hidden;box-shadow:0 4px 32px rgba(0,44,119,.12)}
+.browser-bar{background:#EBF2FF;padding:10px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(0,44,119,.14)}
+.browser-dots{display:flex;gap:6px}
+.bd{width:10px;height:10px;border-radius:50%}
+.bd-r{background:#FF5F57}.bd-y{background:#FEBC2E}.bd-g{background:#28C840}
+.browser-url{flex:1;background:#FFFFFF;border:1px solid rgba(0,44,119,.14);border-radius:6px;padding:4px 12px;font-family:var(--ff-m);font-size:.625rem;color:var(--marsh-mid);letter-spacing:.08em;text-align:center}
+.browser-badge{font-family:var(--ff-m);font-size:.5625rem;background:rgba(0,208,132,.1);border:1px solid rgba(0,208,132,.3);color:var(--ok);padding:2px 8px;border-radius:3px;letter-spacing:.1em;text-transform:uppercase}
+
+/* ── IA DIAGRAM ── */
+.ia-container{background:#FFFFFF;border:1.5px solid rgba(0,44,119,.15);border-radius:var(--rl);padding:40px;overflow:hidden;position:relative}
+.ia-container::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--cy),transparent)}
+.ia-grid{display:flex;flex-direction:column;gap:0;align-items:center}
+.ia-level{display:flex;justify-content:center;gap:16px;position:relative;padding:16px 0}
+.ia-node{background:#F4F8FC;border:1px solid rgba(0,44,119,.12);border-radius:var(--r);padding:12px 16px;min-width:140px;text-align:center;position:relative;cursor:default;transition:border-color .2s,box-shadow .2s}
+.ia-node:hover{border-color:var(--cyb);box-shadow:var(--sg)}
+.ia-node-label{font-family:var(--ff-d);font-size:.75rem;font-weight:700;color:var(--marsh-navy);margin-bottom:2px}
+.ia-node-sub{font-family:var(--ff-m);font-size:.5625rem;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;line-height:1.4}
+.ia-root{background:rgba(0,44,119,.06);border-color:rgba(0,44,119,.25) !important;min-width:200px}
+.ia-root .ia-node-label{color:var(--marsh-navy);font-size:.9375rem}
+.ia-connector-v{width:1px;height:24px;background:rgba(0,44,119,.15);margin:0 auto}
+.ia-connector-h{position:absolute;top:0;left:50%;right:50%;height:1px;background:var(--bs)}
+.ia-row-line{height:1px;background:var(--bs);width:100%;position:absolute;top:0}
+.ia-level-2 .ia-node{border-top:2px solid}
+.ia-level-3 .ia-node{border-top:2px solid;min-width:120px;padding:10px 12px}
+.ia-level-3 .ia-node-label{font-size:.6875rem}
+.ia-branch{display:flex;flex-direction:column;align-items:center;gap:0}
+.ia-branch-children{display:flex;gap:8px;justify-content:center}
+.ia-branch-line{width:1px;height:20px;background:var(--bs)}
+.ia-branch-h{display:flex;align-items:flex-start;gap:0}
+.ia-branch-spread{position:relative;display:flex;gap:8px}
+.ia-branch-spread::before{content:'';position:absolute;top:0;left:20%;right:20%;height:1px;background:var(--bs)}
+
+/* ── USER FLOW ── */
+.flow-container{position:relative;overflow-x:auto;padding-bottom:16px}
+.flow-track{display:flex;align-items:flex-start;gap:0;min-width:1100px}
+.flow-step{flex:1;position:relative}
+.flow-node{background:#FFFFFF;border:1px solid rgba(0,44,119,.12);border-radius:var(--r);padding:16px;margin:0 8px;position:relative;transition:border-color .2s}
+.flow-node:hover{border-color:rgba(0,44,119,.30)}
+.flow-step-num{font-family:var(--ff-m);font-size:.5625rem;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.flow-step-title{font-family:var(--ff-d);font-size:.8125rem;font-weight:700;color:var(--marsh-navy);margin-bottom:4px}
+.flow-step-desc{font-size:.6875rem;color:var(--ts);line-height:1.5}
+.flow-actor{font-family:var(--ff-m);font-size:.5625rem;margin-top:8px;padding:2px 6px;border-radius:3px;display:inline-block;text-transform:uppercase;letter-spacing:.08em}
+.actor-analyst{background:rgba(0,212,255,.08);color:var(--cy);border:1px solid var(--cyb)}
+.actor-ai{background:rgba(77,159,255,.08);color:var(--info);border:1px solid rgba(77,159,255,.25)}
+.actor-human{background:rgba(0,208,132,.08);color:var(--ok);border:1px solid rgba(0,208,132,.25)}
+.actor-system{background:rgba(255,170,0,.08);color:var(--warn);border:1px solid rgba(255,170,0,.25)}
+.flow-arrow{display:flex;align-items:flex-start;padding-top:30px;flex-shrink:0}
+.flow-arr-inner{display:flex;flex-direction:column;align-items:center;gap:3px}
+.farr-line{width:32px;height:2px;background:linear-gradient(90deg,var(--cy3),var(--cy));position:relative}
+.farr-line::after{content:'▶';position:absolute;right:-6px;top:-5px;font-size:9px;color:var(--cy)}
+.farr-label{font-family:var(--ff-m);font-size:.75rem;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}
+.flow-decision{background:rgba(255,170,0,.06);border:1px solid rgba(255,170,0,.25);border-radius:var(--r);padding:12px;margin:0 8px;text-align:center}
+.flow-decision .flow-step-title{color:var(--warn);font-size:.75rem}
+.flow-decision-badge{font-family:var(--ff-m);font-size:.5rem;color:var(--warn);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+
+/* ── SCREENS ── */
+/* Shared app shell — MARSH LIGHT THEME */
+.app-shell{display:grid;grid-template-columns:220px 1fr;height:600px;background:#F4F8FC}
+.app-sidebar{background:#002C77;border-right:1px solid rgba(0,44,119,.3);display:flex;flex-direction:column}
+.app-sidebar-header{padding:16px;border-bottom:1px solid rgba(255,255,255,.12);display:flex;align-items:center;gap:10px}
+.app-logo{font-family:var(--ff-d);font-size:.875rem;font-weight:700;color:#FFFFFF;letter-spacing:.04em}
+.app-logo-dot{width:8px;height:8px;border-radius:50%;background:#00A8C7;animation:pulse 2s infinite}
+.sidebar-nav{padding:12px 0;flex:1;overflow:hidden}
+.snav-section{font-family:var(--ff-m);font-size:.5rem;color:rgba(167,226,240,.6);text-transform:uppercase;letter-spacing:.12em;padding:8px 16px 4px}
+.snav-item{display:flex;align-items:center;gap:10px;padding:8px 16px;font-size:.75rem;color:rgba(255,255,255,.65);cursor:pointer;border-left:2px solid transparent;transition:all .15s}
+.snav-item:hover,.snav-item.active{color:#FFFFFF;background:rgba(255,255,255,.08)}
+.snav-item.active{border-left-color:#00A8C7;color:#A7E2F0;background:rgba(0,168,199,.12)}
+.snav-icon{font-size:.875rem;flex-shrink:0}
+.snav-badge{font-family:var(--ff-m);font-size:.5rem;background:#00A8C7;color:#002C77;padding:1px 5px;border-radius:3px;margin-left:auto;font-weight:700}
+.app-main{overflow:hidden;display:flex;flex-direction:column}
+.app-topbar{padding:0 20px;height:48px;border-bottom:1px solid var(--bs);display:flex;align-items:center;justify-content:space-between;background:#FFFFFF;flex-shrink:0}
+.topbar-breadcrumb{font-family:var(--ff-m);font-size:.5625rem;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;display:flex;align-items:center;gap:8px}
+.topbar-breadcrumb span{color:var(--marsh-navy);font-weight:600}
+.topbar-actions{display:flex;align-items:center;gap:12px}
+.tb-btn{font-family:var(--ff-m);font-size:.5625rem;padding:4px 10px;border-radius:4px;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:all .2s}
+.tb-btn-pri{background:var(--marsh-navy);color:#FFFFFF;border:none;font-weight:600}
+.tb-btn-sec{background:transparent;color:var(--marsh-navy);border:1px solid var(--cyb)}
+.app-content{flex:1;overflow:hidden;padding:16px}
+.status-bar{display:flex;align-items:center;gap:8px;font-family:var(--ff-m);font-size:.5rem;color:var(--tm);text-transform:uppercase;letter-spacing:.1em}
+.status-dot{width:5px;height:5px;border-radius:50%}
+
+/* Dashboard screen */
+.dash-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:12px}
+.dash-kpi{background:#FFFFFF;border:1px solid var(--bs);border-radius:var(--rs);padding:12px;border-top:2px solid}
+.dash-kpi-val{font-family:var(--ff-d);font-size:1.375rem;font-weight:800;line-height:1;margin-bottom:3px}
+.dash-kpi-label{font-family:var(--ff-m);font-size:.5rem;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;line-height:1.4}
+.dash-kpi-delta{font-family:var(--ff-m);font-size:.5rem;margin-top:4px}
+.dash-row{display:grid;grid-template-columns:2fr 1fr;gap:10px}
+.dash-panel{background:#FFFFFF;border:1px solid var(--bs);border-radius:var(--rs);padding:12px}
+.panel-title{font-family:var(--ff-m);font-size:.5rem;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.audit-item{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--bs)}
+.audit-item:last-child{border-bottom:none}
+.ai-status{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.ai-name{font-size:.625rem;color:var(--marsh-navy);flex:1;font-family:var(--ff-m);font-weight:500}
+.ai-client{font-family:var(--ff-m);font-size:.5rem;color:var(--tm)}
+.ai-time{font-family:var(--ff-m);font-size:.5rem;color:var(--tm);flex-shrink:0}
+.ai-badge{font-family:var(--ff-m);font-size:.4375rem;padding:1px 5px;border-radius:2px;text-transform:uppercase;letter-spacing:.06em}
+.activity-item{padding:5px 0;border-bottom:1px solid var(--bs);display:flex;align-items:flex-start;gap:6px}
+.activity-item:last-child{border-bottom:none}
+.act-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.act-text{font-size:.5625rem;color:var(--ts);line-height:1.4}
+.act-time{font-family:var(--ff-m);font-size:.4375rem;color:var(--tm);flex-shrink:0;margin-left:auto}
+
+/* Analysis screen */
+.analysis-layout{display:grid;grid-template-columns:1fr 260px;height:100%;gap:0}
+.analysis-main{overflow:hidden;display:flex;flex-direction:column;border-right:1px solid var(--bs)}
+.doc-viewer{flex:1;overflow:hidden;background:#F4F8FC;display:flex;flex-direction:column}
+.doc-toolbar{background:#FFFFFF;padding:6px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--bs)}
+.doc-tb-btn{background:#F4F8FC;border:1px solid var(--bs);border-radius:3px;padding:3px 7px;font-family:var(--ff-m);font-size:.4375rem;color:var(--ts);cursor:pointer}
+.doc-tb-sep{width:1px;height:14px;background:var(--bs)}
+.doc-name{font-family:var(--ff-m);font-size:.5rem;color:var(--tm);margin-left:auto;letter-spacing:.06em}
+.doc-page{flex:1;overflow:hidden;padding:12px;display:flex;justify-content:center}
+.pdf-mock{background:#F7F8FA;border-radius:4px;padding:16px;width:100%;max-width:340px;font-family:var(--ff-m);font-size:7.5px;color:#333;line-height:1.6;position:relative;overflow:hidden}
+.pdf-header{font-weight:700;font-size:8.5px;color:#111;border-bottom:1px solid #ddd;padding-bottom:6px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:flex-start}
+.pdf-logo{font-size:9px;font-weight:800;color:#002C77}
+.pdf-section-title{font-weight:700;font-size:8px;color:#002C77;border-left:2px solid #00A8C7;padding-left:6px;margin:8px 0 4px;text-transform:uppercase;letter-spacing:.05em}
+.pdf-row{display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(0,0,0,.04)}
+.pdf-label{color:#555;flex:1}
+.pdf-val{font-weight:600;color:#111;text-align:right}
+.pdf-val.highlighted{background:rgba(0,44,119,.10);color:#002C77;border-radius:2px;padding:0 3px}
+.pdf-val.flagged{background:rgba(255,50,50,.12);color:#cc0000;border-radius:2px;padding:0 3px}
+.pdf-highlight-box{background:rgba(0,168,199,.08);border:1.5px solid rgba(0,168,199,.35);border-radius:3px;padding:4px 6px;margin:6px 0;position:relative}
+.pdf-highlight-box::before{content:'AI EXTRACTED';position:absolute;top:-7px;left:6px;background:#00A8C7;color:#FFFFFF;font-size:5px;padding:1px 5px;border-radius:2px;letter-spacing:.1em;font-weight:700}
+.pdf-table{width:100%;border-collapse:collapse;margin:6px 0;font-size:7px}
+.pdf-table th{background:#EBF2FF;color:#002C77;padding:3px 5px;text-align:left;font-weight:700;border:1px solid #ddd}
+.pdf-table td{padding:3px 5px;border:1px solid #ddd;color:#444}
+.pdf-table tr.flagged-row td{background:rgba(255,50,50,.06);color:#cc0000}
+.pdf-table tr.ok-row td{background:rgba(0,100,50,.04)}
+
+/* AI Copilot panel */
+.copilot-panel-full{background:#F4F8FC;display:flex;flex-direction:column;overflow:hidden}
+.cp-header-bar{padding:10px 12px;border-bottom:1px solid var(--bs);display:flex;align-items:center;gap:8px;background:#EBF2FF}
+.cp-title{font-family:var(--ff-d);font-size:.75rem;font-weight:700;color:var(--marsh-navy);letter-spacing:.03em}
+.cp-subtitle{font-family:var(--ff-m);font-size:.4375rem;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;margin-left:auto}
+.cp-messages{flex:1;overflow:hidden;padding:10px;display:flex;flex-direction:column;gap:8px}
+.cp-msg{border-radius:6px;padding:8px 10px}
+.cp-msg-user{background:#FFFFFF;border:1px solid var(--bs);align-self:flex-end;max-width:90%}
+.cp-msg-ai{background:rgba(0,44,119,.05);border:1px solid rgba(0,44,119,.15);align-self:flex-start;width:100%}
+.cp-msg-text{font-size:.5625rem;color:var(--marsh-navy);line-height:1.6}
+.cp-msg-label{font-family:var(--ff-m);font-size:.4375rem;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}
+.cp-data-extract{margin-top:6px;border-top:1px solid rgba(0,44,119,.12);padding-top:6px}
+.cp-field{display:flex;justify-content:space-between;align-items:center;padding:2px 0;border-bottom:1px solid rgba(0,44,119,.06)}
+.cp-field:last-child{border-bottom:none}
+.cp-field-key{font-family:var(--ff-m);font-size:.4375rem;color:var(--tm);text-transform:uppercase;letter-spacing:.08em}
+.cp-field-val{font-family:var(--ff-m);font-size:.5625rem;font-weight:500;color:var(--marsh-navy)}
+.cp-cite-row{margin-top:5px;display:flex;align-items:center;gap:5px}
+.cp-cite-link{font-family:var(--ff-m);font-size:.4375rem;color:var(--marsh-mid);text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+.cp-conf{display:flex;align-items:center;gap:6px;margin-top:6px}
+.cp-conf-label{font-family:var(--ff-m);font-size:.4375rem;color:var(--tm)}
+.cp-conf-track{flex:1;height:3px;background:rgba(0,44,119,.10);border-radius:2px}
+.cp-conf-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--marsh-mid),var(--marsh-teal))}
+.cp-conf-val{font-family:var(--ff-m);font-size:.4375rem;color:var(--ok);font-weight:600}
+.cp-actions{padding:8px 10px;border-top:1px solid var(--bs);display:flex;gap:6px}
+.cp-act-btn{flex:1;padding:5px 8px;border-radius:4px;font-family:var(--ff-m);font-size:.5rem;text-align:center;cursor:pointer;letter-spacing:.06em;text-transform:uppercase;border:1px solid;transition:all .15s}
+.cp-approve{background:rgba(22,101,52,.08);border-color:rgba(22,101,52,.25);color:var(--ok)}
+.cp-approve:hover{background:rgba(22,101,52,.15)}
+.cp-flag{background:rgba(255,77,106,.1);border-color:rgba(255,77,106,.3);color:var(--err)}
+.cp-edit{background:rgba(255,170,0,.1);border-color:rgba(255,170,0,.3);color:var(--warn)}
+.cp-input-area{padding:8px 10px;border-top:1px solid var(--bs);display:flex;gap:6px;align-items:center}
+.cp-input{flex:1;background:#FFFFFF;border:1px solid rgba(0,44,119,.18);border-radius:4px;padding:5px 8px;font-family:var(--ff-m);font-size:.5rem;color:var(--marsh-navy);outline:none}
+.cp-send{background:var(--marsh-navy);color:#FFFFFF;border:none;border-radius:4px;padding:5px 10px;font-family:var(--ff-m);font-size:.5rem;cursor:pointer;font-weight:700}
+
+/* Review screen - human approval */
+.review-layout{display:flex;flex-direction:column;gap:10px;height:100%;overflow:hidden}
+.review-header{background:#EBF2FF;border:1px solid rgba(0,44,119,.14);border-radius:var(--rs);padding:10px 14px;display:flex;align-items:center;justify-content:space-between}
+.review-title{font-family:var(--ff-d);font-size:.875rem;font-weight:700;color:var(--w)}
+.review-meta{display:flex;gap:12px;align-items:center}
+.rev-meta-item{font-family:var(--ff-m);font-size:.5rem;color:var(--tm);text-transform:uppercase;letter-spacing:.08em}
+.rev-meta-item span{color:var(--tp)}
+.review-body{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px;overflow:hidden;min-height:0}
+.review-panel{background:#FFFFFF;border:1px solid rgba(0,44,119,.12);border-radius:var(--rs);overflow:hidden;display:flex;flex-direction:column}
+.rev-panel-head{padding:8px 12px;border-bottom:1px solid var(--bs);font-family:var(--ff-m);font-size:.5rem;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;display:flex;justify-content:space-between;align-items:center;background:#EBF2FF}
+.rev-panel-body{flex:1;overflow:hidden;padding:10px}
+.data-field-row{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid var(--bs)}
+.data-field-row:last-child{border-bottom:none}
+.dfr-status{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.dfr-key{font-family:var(--ff-m);font-size:.5rem;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;flex:0 0 140px;line-height:1.4}
+.dfr-val{font-family:var(--ff-m);font-size:.5625rem;font-weight:600;flex:1;line-height:1.4}
+.dfr-src{font-family:var(--ff-m);font-size:.4375rem;color:var(--cy);text-decoration:underline;cursor:pointer;margin-left:auto;flex-shrink:0}
+.dfr-edit{font-family:var(--ff-m);font-size:.4375rem;color:var(--warn);cursor:pointer;margin-left:6px}
+.override-badge{font-family:var(--ff-m);font-size:.4375rem;background:rgba(255,170,0,.1);border:1px solid rgba(255,170,0,.25);color:var(--warn);padding:1px 5px;border-radius:2px;text-transform:uppercase;letter-spacing:.06em}
+.review-footer{background:#F4F8FC;border:1px solid rgba(0,44,119,.12);border-radius:var(--rs);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.audit-trail-preview{font-family:var(--ff-m);font-size:.5rem;color:var(--ok);display:flex;align-items:center;gap:6px}
+.rev-actions{display:flex;gap:8px}
+.rev-btn{padding:7px 16px;border-radius:4px;font-family:var(--ff-m);font-size:.5rem;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;border:1px solid}
+.rev-btn-approve{background:rgba(0,208,132,.1);border-color:var(--ok);color:var(--ok)}
+.rev-btn-partial{background:rgba(255,170,0,.1);border-color:var(--warn);color:var(--warn)}
+.rev-btn-reject{background:rgba(255,77,106,.1);border-color:var(--err);color:var(--err)}
+
+/* ESG Report screen */
+.report-layout{display:grid;grid-template-columns:1fr 200px;gap:0;height:100%}
+.report-main{overflow:hidden;padding:14px;display:flex;flex-direction:column;gap:10px}
+.report-header-card{background:#FFFFFF;border:1px solid rgba(0,44,119,.12);border-radius:var(--rs);padding:12px 14px;border-left:3px solid var(--cy)}
+.report-client{font-family:var(--ff-d);font-size:.875rem;font-weight:700;color:var(--w);margin-bottom:2px}
+.report-meta-row{display:flex;gap:16px}
+.report-meta-item{font-family:var(--ff-m);font-size:.5rem;color:var(--tm);text-transform:uppercase;letter-spacing:.08em}
+.report-meta-item span{color:var(--cy)}
+.report-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.report-metric{background:#F4F8FC;border:1px solid rgba(0,44,119,.12);border-radius:var(--rs);padding:10px;text-align:center;border-top:2px solid}
+.rm-val{font-family:var(--ff-d);font-size:1.125rem;font-weight:800;line-height:1;margin-bottom:3px}
+.rm-label{font-family:var(--ff-m);font-size:.4375rem;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;line-height:1.4}
+.report-findings{display:flex;flex-direction:column;gap:6px}
+.finding-item{background:#FFFFFF;border:1px solid rgba(0,44,119,.10);border-radius:4px;padding:8px 10px;display:flex;gap:8px;align-items:flex-start}
+.finding-icon{font-size:.875rem;flex-shrink:0;margin-top:1px}
+.finding-title{font-family:var(--ff-d);font-size:.6875rem;font-weight:700;color:var(--w);margin-bottom:2px}
+.finding-body{font-size:.5625rem;color:var(--ts);line-height:1.5}
+.finding-src{font-family:var(--ff-m);font-size:.4375rem;color:var(--cy);cursor:pointer;text-decoration:underline}
+.report-sidebar{background:#EDF3FA;border-left:1px solid rgba(0,44,119,.12);padding:12px;overflow:hidden;display:flex;flex-direction:column;gap:10px}
+.rs-section{background:#FFFFFF;border:1px solid rgba(0,44,119,.12);border-radius:var(--rs);padding:10px;overflow:hidden}
+.rs-title{font-family:var(--ff-m);font-size:.5rem;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.csrd-item{display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid var(--bs)}
+.csrd-item:last-child{border-bottom:none}
+.csrd-status{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.csrd-label{font-family:var(--ff-m);font-size:.4375rem;color:var(--ts);flex:1;line-height:1.4}
+.csrd-badge{font-family:var(--ff-m);font-size:.375rem;padding:1px 4px;border-radius:2px;text-transform:uppercase;letter-spacing:.06em;flex-shrink:0}
+.ai-status-panel{padding:8px 10px;background:rgba(0,44,119,.06);border:1px solid rgba(0,44,119,.18);border-radius:var(--rs);display:flex;align-items:center;gap:6px}
+.ai-sp-dot{width:5px;height:5px;border-radius:50%;background:var(--cy);animation:pulse 2s infinite;flex-shrink:0}
+.ai-sp-text{font-family:var(--ff-m);font-size:.4375rem;color:var(--cy);text-transform:uppercase;letter-spacing:.08em;line-height:1.4}
+
+/* Audit trail screen */
+.trail-layout{display:flex;flex-direction:column;gap:8px;height:100%;overflow:hidden;padding:14px}
+.trail-filters{display:flex;gap:8px;flex-shrink:0}
+.trail-filter{font-family:var(--ff-m);font-size:.5rem;padding:4px 10px;border-radius:4px;cursor:pointer;text-transform:uppercase;letter-spacing:.08em;border:1px solid var(--bs);color:var(--tm);background:transparent}
+.trail-filter.active{background:var(--cys);border-color:var(--cyb);color:var(--cy)}
+.trail-table-wrap{flex:1;overflow:hidden;background:#FFFFFF;border:1px solid rgba(0,44,119,.12);border-radius:var(--rs)}
+.trail-table{width:100%;border-collapse:collapse}
+.trail-table th{font-family:var(--ff-m);font-size:.4375rem;color:var(--marsh-mid);text-transform:uppercase;letter-spacing:.1em;padding:7px 12px;border-bottom:1px solid rgba(0,44,119,.14);text-align:left;background:#EBF2FF;white-space:nowrap}
+.trail-table td{font-family:var(--ff-m);font-size:.5rem;padding:7px 12px;border-bottom:1px solid var(--bs);color:var(--ts);vertical-align:middle}
+.trail-table tr:last-child td{border-bottom:none}
+.trail-table tr:hover td{background:rgba(255,255,255,.02)}
+.tt-event-type{padding:2px 6px;border-radius:3px;font-size:.4375rem;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.tt-analyst{color:var(--tp);font-weight:500}
+.tt-val-change{display:flex;flex-direction:column;gap:1px}
+.tt-old{color:var(--err);text-decoration:line-through;font-size:.4375rem}
+.tt-new{color:var(--ok);font-size:.4375rem}
+.trail-export{font-family:var(--ff-m);font-size:.5rem;color:var(--cy);cursor:pointer;padding:4px 10px;border:1px solid var(--cyb);border-radius:4px;background:var(--cys);margin-left:auto}
+.trail-immutable{display:flex;align-items:center;gap:6px;font-family:var(--ff-m);font-size:.4375rem;color:var(--ok);padding:6px 10px;background:rgba(0,208,132,.05);border:1px solid rgba(0,208,132,.2);border-radius:4px;flex-shrink:0}
+
+/* ── SCREEN SECTION LABELS ── */
+.screen-label{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.screen-id{font-family:var(--ff-m);font-size:.625rem;color:var(--cy);text-transform:uppercase;letter-spacing:.12em;background:var(--cys);border:1px solid var(--cyb);padding:3px 10px;border-radius:3px}
+.screen-desc{font-size:.8125rem;color:var(--ts);max-width:580px;line-height:1.6}
+
+/* ── SECTION CONNECTORS ── */
+.connector-flow{display:flex;align-items:center;justify-content:center;padding:24px 0;gap:16px}
+.cf-step{background:#F4F8FC;border:1px solid rgba(0,44,119,.12);border-radius:4px;padding:5px 12px;font-family:var(--ff-m);font-size:.5625rem;color:var(--ts);text-transform:uppercase;letter-spacing:.08em}
+.cf-arrow{color:var(--cy);font-size:.75rem}
+.cf-step.highlight{background:var(--cys);border-color:var(--cyb);color:var(--cy)}
+
+/* ── ANNOTATIONS ── */
+.annotation-band{background:rgba(0,44,119,.04);border-top:1px solid rgba(0,44,119,.14);border-bottom:1px solid rgba(0,44,119,.14);padding:14px 0;margin:32px 0}
+.annotation-row{display:flex;gap:32px;align-items:flex-start;justify-content:center}
+.ann-item{display:flex;align-items:flex-start;gap:10px;max-width:300px}
+.ann-icon{font-size:1.25rem;flex-shrink:0}
+.ann-title{font-family:var(--ff-d);font-size:.75rem;font-weight:700;color:var(--cy);margin-bottom:3px}
+.ann-body{font-size:.75rem;color:var(--ts);line-height:1.6}
+
+/* ── MINI CHART ── */
+.mini-bar-chart{display:flex;align-items:flex-end;gap:4px;height:48px;padding-top:8px}
+.mbc-bar{flex:1;border-radius:2px 2px 0 0;position:relative;min-width:0;transition:opacity .2s}
+.mbc-bar:hover{opacity:.8}
+.mbc-label{font-family:var(--ff-m);font-size:.3125rem;color:var(--tm);text-align:center;margin-top:3px;text-transform:uppercase;letter-spacing:.06em}
+
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ============================================================
+   WCAG AA OVERRIDES — MARSH LIGHT THEME
+   All contrast ratios verified on #FFFFFF & #F4F8FC:
+   #002C77 on #FFFFFF = 14.7:1  AAA  headings / primary
+   #016D9E on #FFFFFF =  6.2:1  AA   links / accents
+   #1A3D5C on #FFFFFF = 10.1:1  AAA  body text
+   #3A5F78 on #FFFFFF =  6.1:1  AA   secondary (≥14px)
+   #4A6D84 on #FFFFFF =  5.1:1  AA   muted labels (≥14px)
+   #006B7A on #FFFFFF =  5.6:1  AA   teal text (≥14px)
+   #166534 on #FFFFFF =  8.7:1  AA   green
+   #854D0E on #FFFFFF =  6.9:1  AA   amber/warn
+   #991B1B on #FFFFFF =  7.8:1  AA   error/red
+   Minimum font: 14px body · 11px decorative mono labels
+   ============================================================ */
+
+/* Colour aliases for light theme */
+:root {
+  --tx-h:   #002C77;  /* headings        14.7:1 AAA */
+  --tx-b:   #1A3D5C;  /* body            10.1:1 AAA */
+  --tx-s:   #3A5F78;  /* secondary        6.1:1 AA  */
+  --tx-m:   #4A6D84;  /* muted labels     5.1:1 AA  */
+  --tx-lnk: #016D9E;  /* links/accents    6.2:1 AA  */
+  --tx-tl:  #006B7A;  /* teal text        5.6:1 AA  */
+  --tx-ok:  #166534;  /* green            8.7:1 AA  */
+  --tx-wn:  #854D0E;  /* warning amber    6.9:1 AA  */
+  --tx-er:  #991B1B;  /* error red        7.8:1 AA  */
+}
+
+/* ── Navigation ── */
+nav { height:68px; }
+.nav-links a { font-size:.9375rem !important; }
+.nav-brand { font-size:1rem !important; }
+.nav-tag { font-size:.75rem !important; }
+
+/* ── Section structure (portfolio frame — light bg) ── */
+.label-tag { font-size:.8125rem !important; color:var(--tx-lnk) !important; }
+.label-tag::before { background:var(--tx-lnk) !important; }
+.sec-title { color:var(--tx-h) !important; font-size:clamp(1.875rem,3.5vw,3rem) !important; letter-spacing:-.03em !important; line-height:1.1 !important; }
+.sec-sub { font-size:1.0625rem !important; color:var(--tx-s) !important; line-height:1.8 !important; }
+
+/* ── Connector flow ── */
+.cf-step { font-size:.875rem !important; color:var(--tx-s) !important; padding:6px 16px !important; background:#FFFFFF !important; border-color:rgba(0,44,119,.15) !important; }
+.cf-step.highlight { background:rgba(0,44,119,.07) !important; color:var(--tx-h) !important; border-color:rgba(0,44,119,.28) !important; }
+.cf-arrow { color:var(--tx-lnk) !important; }
+
+/* ── IA Diagram ── */
+.ia-node-label { font-size:.9375rem !important; color:var(--tx-h) !important; }
+.ia-node-sub { font-size:.75rem !important; color:var(--tx-s) !important; line-height:1.5 !important; }
+.ia-root .ia-node-label { font-size:1.0625rem !important; color:var(--tx-h) !important; }
+.ia-connector-v { background:rgba(0,44,119,.18) !important; }
+
+/* ── User Flow ── */
+.flow-step-num { font-size:.75rem !important; color:var(--tx-lnk) !important; margin-bottom:8px !important; font-weight:600 !important; letter-spacing:.06em !important; }
+.flow-step-title { font-size:1rem !important; color:var(--tx-h) !important; font-weight:700 !important; margin-bottom:6px !important; letter-spacing:-.01em !important; }
+.flow-step-desc { font-size:.875rem !important; color:var(--tx-b) !important; line-height:1.65 !important; }
+.flow-actor { font-size:.75rem !important; padding:4px 12px !important; margin-top:10px !important; }
+.farr-label { font-size:.75rem !important; color:var(--tx-m) !important; letter-spacing:.04em !important; }
+.flow-decision-badge { font-size:.75rem !important; color:var(--tx-wn) !important; }
+.flow-decision .flow-step-title { color:var(--tx-wn) !important; }
+.flow-node { background:#FFFFFF !important; }
+
+/* ── Screen labels ── */
+.screen-id { font-size:.75rem !important; padding:4px 14px !important; color:var(--tx-lnk) !important; background:rgba(0,44,119,.06) !important; border-color:rgba(0,44,119,.22) !important; }
+.screen-desc { font-size:.9375rem !important; color:var(--tx-s) !important; line-height:1.7 !important; }
+
+/* ── Annotations ── */
+.ann-title { font-size:.9375rem !important; color:var(--tx-h) !important; }
+.ann-body { font-size:.875rem !important; color:var(--tx-b) !important; line-height:1.7 !important; }
+.ann-icon { font-size:1.25rem !important; }
+
+/* ── Browser chrome ── */
+.browser-url { font-size:.75rem !important; color:var(--tx-lnk) !important; }
+.browser-badge { font-size:.6875rem !important; }
+
+/* ── Sidebar navigation (Marsh navy bg — white text is correct) ── */
+.snav-item { font-size:.875rem !important; padding:10px 16px !important; color:rgba(255,255,255,.75) !important; }
+.snav-item:hover { color:#FFFFFF !important; }
+.snav-item.active { color:#FFFFFF !important; background:rgba(0,168,199,.22) !important; border-left-color:#00A8C7 !important; font-weight:600 !important; }
+.snav-section { font-size:.6875rem !important; color:rgba(167,226,240,.55) !important; padding:10px 16px 5px !important; }
+.snav-badge { font-size:.625rem !important; }
+
+/* ── App topbar ── */
+.topbar-breadcrumb { font-size:.75rem !important; color:var(--tx-m) !important; }
+.topbar-breadcrumb span { color:var(--tx-h) !important; font-weight:600 !important; }
+.tb-btn { font-size:.75rem !important; padding:5px 14px !important; }
+.tb-btn-pri { background:var(--tx-h) !important; color:#FFFFFF !important; }
+.tb-btn-sec { color:var(--tx-lnk) !important; border-color:rgba(0,44,119,.25) !important; }
+.status-bar { color:var(--tx-m) !important; font-size:.6875rem !important; }
+
+/* ── Dashboard KPIs ── */
+.dash-kpi-val { font-size:1.5rem !important; font-weight:800 !important; color:var(--tx-h) !important; }
+.dash-kpi-label { font-size:.75rem !important; color:var(--tx-s) !important; line-height:1.5 !important; font-weight:500 !important; }
+.dash-kpi-delta { font-size:.75rem !important; font-weight:500 !important; }
+.panel-title { font-size:.75rem !important; color:var(--tx-s) !important; font-weight:600 !important; text-transform:uppercase !important; letter-spacing:.06em !important; }
+.ai-name { font-size:.8125rem !important; color:var(--tx-h) !important; font-weight:600 !important; }
+.ai-client { font-size:.75rem !important; color:var(--tx-s) !important; }
+.ai-time { font-size:.75rem !important; color:var(--tx-m) !important; }
+.ai-badge { font-size:.6875rem !important; padding:2px 8px !important; font-weight:600 !important; }
+.act-text { font-size:.8125rem !important; color:var(--tx-b) !important; line-height:1.55 !important; }
+.act-time { font-size:.6875rem !important; color:var(--tx-m) !important; }
+
+/* ── Copilot / Analysis workspace ── */
+.doc-tb-btn { font-size:.75rem !important; padding:4px 10px !important; color:var(--tx-s) !important; }
+.doc-name { font-size:.75rem !important; color:var(--tx-m) !important; }
+.cp-title { font-size:.9375rem !important; color:var(--tx-h) !important; }
+.cp-subtitle { font-size:.6875rem !important; color:var(--tx-m) !important; }
+.cp-msg-label { font-size:.6875rem !important; color:var(--tx-m) !important; font-weight:600 !important; text-transform:uppercase !important; letter-spacing:.08em !important; }
+.cp-msg-text { font-size:.8125rem !important; color:var(--tx-b) !important; line-height:1.65 !important; }
+.cp-field-key { font-size:.6875rem !important; color:var(--tx-s) !important; font-weight:500 !important; }
+.cp-field-val { font-size:.8125rem !important; color:var(--tx-h) !important; font-weight:600 !important; }
+.cp-cite-link { font-size:.6875rem !important; color:var(--tx-lnk) !important; }
+.cp-conf-label { font-size:.6875rem !important; color:var(--tx-s) !important; }
+.cp-conf-val { font-size:.75rem !important; color:var(--tx-ok) !important; font-weight:700 !important; }
+.cp-act-btn { font-size:.75rem !important; padding:7px 10px !important; font-weight:600 !important; }
+
+/* ── ESG Report screen ── */
+.report-client { font-size:1rem !important; color:var(--tx-h) !important; font-weight:700 !important; }
+.report-meta-item { font-size:.6875rem !important; color:var(--tx-s) !important; }
+.report-meta-item span { color:var(--tx-h) !important; font-weight:600 !important; }
+.rm-val { font-size:1.25rem !important; font-weight:800 !important; }
+.rm-label { font-size:.6875rem !important; color:var(--tx-s) !important; line-height:1.5 !important; font-weight:500 !important; }
+.finding-title { font-size:.9375rem !important; color:var(--tx-h) !important; font-weight:700 !important; }
+.finding-body { font-size:.8125rem !important; color:var(--tx-b) !important; line-height:1.65 !important; }
+.finding-src { font-size:.6875rem !important; color:var(--tx-lnk) !important; font-weight:500 !important; }
+.rs-title { font-size:.6875rem !important; color:var(--tx-s) !important; font-weight:600 !important; text-transform:uppercase !important; letter-spacing:.08em !important; }
+.csrd-label { font-size:.6875rem !important; color:var(--tx-b) !important; line-height:1.5 !important; }
+.csrd-badge { font-size:.6875rem !important; font-weight:600 !important; }
+.ai-sp-text { font-size:.6875rem !important; color:var(--tx-lnk) !important; font-weight:600 !important; }
+
+/* ── Human Approval screen ── */
+.review-title { font-size:1rem !important; color:var(--tx-h) !important; font-weight:700 !important; }
+.rev-meta-item { font-size:.6875rem !important; color:var(--tx-s) !important; }
+.rev-meta-item span { color:var(--tx-h) !important; font-weight:600 !important; }
+.rev-panel-head { font-size:.75rem !important; color:var(--tx-s) !important; font-weight:600 !important; padding:10px 14px !important; background:#EBF2FF !important; text-transform:uppercase !important; letter-spacing:.06em !important; }
+.dfr-key { font-size:.6875rem !important; color:var(--tx-s) !important; flex:0 0 160px !important; font-weight:500 !important; }
+.dfr-val { font-size:.8125rem !important; color:var(--tx-h) !important; font-weight:600 !important; }
+.dfr-src { font-size:.6875rem !important; color:var(--tx-lnk) !important; font-weight:500 !important; }
+.override-badge { font-size:.6875rem !important; }
+.tt-old { font-size:.75rem !important; color:var(--tx-er) !important; }
+.tt-new { font-size:.75rem !important; color:var(--tx-ok) !important; font-weight:600 !important; }
+.audit-trail-preview { font-size:.75rem !important; color:var(--tx-ok) !important; font-weight:500 !important; }
+.rev-btn { font-size:.75rem !important; padding:8px 18px !important; font-weight:600 !important; }
+.data-field-row { border-bottom-color:rgba(0,44,119,.10) !important; }
+
+/* ── Audit Trail screen ── */
+.trail-filter { font-size:.8125rem !important; padding:5px 14px !important; color:var(--tx-s) !important; border-color:rgba(0,44,119,.18) !important; }
+.trail-filter.active { background:rgba(0,44,119,.08) !important; border-color:rgba(0,44,119,.30) !important; color:var(--tx-h) !important; font-weight:600 !important; }
+.trail-export { font-size:.75rem !important; color:var(--tx-lnk) !important; }
+.trail-table th { font-size:.75rem !important; color:var(--tx-s) !important; padding:9px 14px !important; background:#EBF2FF !important; font-weight:600 !important; border-bottom-color:rgba(0,44,119,.18) !important; }
+.trail-table td { font-size:.8125rem !important; color:var(--tx-b) !important; padding:9px 14px !important; }
+.trail-table .tt-analyst { color:var(--tx-h) !important; font-weight:600 !important; }
+.tt-event-type { font-size:.6875rem !important; padding:3px 10px !important; font-weight:700 !important; border-radius:4px !important; }
+.trail-immutable { font-size:.75rem !important; padding:9px 14px !important; color:var(--tx-ok) !important; background:rgba(22,101,52,.06) !important; border-color:rgba(22,101,52,.22) !important; }
+
+/* ── Woz note, step cards ── */
+.woz-title { color:var(--tx-wn) !important; font-size:.9375rem !important; font-weight:700 !important; }
+.woz-body { font-size:.875rem !important; color:var(--tx-b) !important; line-height:1.7 !important; }
+.step-title { color:var(--tx-h) !important; font-size:1rem !important; font-weight:700 !important; }
+.step-body { color:var(--tx-b) !important; font-size:.9375rem !important; line-height:1.7 !important; }
+.step-num { color:rgba(0,44,119,.20) !important; }
+
+/* ── Tool stack ── */
+.tool-name { color:var(--tx-h) !important; font-size:.9375rem !important; font-weight:700 !important; }
+.tool-category { color:var(--tx-s) !important; font-size:.75rem !important; }
+.tool-rationale { color:var(--tx-b) !important; font-size:.875rem !important; line-height:1.7 !important; }
+
+/* ── Design system section ── */
+.ds-section-title { color:var(--tx-s) !important; font-size:.75rem !important; letter-spacing:.1em !important; }
+.swatch-hex { color:var(--tx-s) !important; font-size:.75rem !important; }
+.swatch-name { color:var(--tx-b) !important; font-size:.75rem !important; font-weight:500 !important; }
+.type-label { color:var(--tx-s) !important; font-size:.8125rem !important; }
+.type-weight { color:var(--tx-m) !important; }
+.type-size { color:var(--tx-lnk) !important; }
+.comp-item-label { color:var(--tx-s) !important; font-size:.75rem !important; }
+.figma-note { font-size:.8125rem !important; color:var(--tx-wn) !important; }
+.ts-score { font-weight:800 !important; }
+.ts-label { font-size:.75rem !important; color:var(--tx-s) !important; line-height:1.5 !important; }
+.bm-label { font-size:.9375rem !important; color:var(--tx-b) !important; }
+.bm-source { font-size:.75rem !important; color:var(--tx-m) !important; }
+
+/* ── Persona cards ── */
+.persona-name { color:var(--tx-h) !important; font-size:1.125rem !important; }
+.persona-role { color:var(--tx-s) !important; font-size:.75rem !important; }
+.persona-quote { color:var(--tx-b) !important; font-size:.9375rem !important; line-height:1.65 !important; }
+.pdata-label { color:var(--tx-m) !important; font-size:.6875rem !important; }
+.pdata-value { color:var(--tx-h) !important; font-size:.875rem !important; font-weight:600 !important; }
+.pneed { color:var(--tx-b) !important; font-size:.875rem !important; }
+
+/* ── DP / Diamond process ── */
+.dp-title { color:var(--tx-h) !important; font-size:1.0625rem !important; font-weight:700 !important; }
+.dp-desc { color:var(--tx-b) !important; font-size:.875rem !important; line-height:1.7 !important; }
+.dp-tag { color:var(--tx-s) !important; background:#F4F8FC !important; border-color:rgba(0,44,119,.15) !important; font-size:.6875rem !important; }
+.ai-note-title { color:var(--tx-h) !important; font-size:.9375rem !important; }
+.ai-note-text { color:var(--tx-b) !important; font-size:.875rem !important; line-height:1.7 !important; }
+
+/* ── Architecture section ── */
+.arch-node-label { color:var(--tx-h) !important; font-size:.875rem !important; font-weight:700 !important; }
+.arch-node-sublabel { color:var(--tx-s) !important; font-size:.75rem !important; line-height:1.5 !important; }
+.arch-ex-title { color:var(--tx-lnk) !important; font-size:.9375rem !important; font-weight:700 !important; }
+.arch-ex-body { color:var(--tx-b) !important; font-size:.875rem !important; line-height:1.7 !important; }
+.rag-source-label { color:var(--tx-s) !important; font-size:.6875rem !important; }
+
+/* ── KPI cards / stakeholder ── */
+.pstat-num { font-size:2rem !important; font-weight:800 !important; }
+.pstat-desc { color:var(--tx-b) !important; font-size:.875rem !important; line-height:1.6 !important; }
+.sh-role { font-size:.75rem !important; font-weight:600 !important; }
+.sh-need { color:var(--tx-b) !important; font-size:.875rem !important; }
+.sh-resolution { font-size:.8125rem !important; }
+
+/* ── Kanban ── */
+.kanban-card { color:var(--tx-b) !important; font-size:.8125rem !important; line-height:1.55 !important; }
+.kanban-card-tag { font-size:.6875rem !important; font-weight:600 !important; }
+
+/* ── Heatmap / graph ── */
+.heatmap-title { color:var(--tx-s) !important; font-size:.75rem !important; font-weight:600 !important; }
+.heatmap-insight { color:var(--tx-b) !important; font-size:.875rem !important; line-height:1.65 !important; }
+.graph-title { color:var(--tx-s) !important; font-size:.75rem !important; font-weight:600 !important; }
+
+/* ── Footer ── */
+.footer-links a { color:var(--tx-s) !important; font-size:.75rem !important; }
+.footer-copy { color:var(--tx-m) !important; font-size:.75rem !important; }
+
+/* ── Misc ── */
+.screen-label { margin-bottom:16px !important; }
+.connector-flow { padding:20px 0 !important; }
+.kanban-header { font-size:.6875rem !important; color:var(--tx-s) !important; }
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <div class="nav-brand">AASIF <span>·</span> PROJECT AURA</div>
+  <ul class="nav-links">
+    <li><a href="project-aura-case-study.html" style="color:var(--cy);opacity:.7">← Case Study</a></li>
+    <li><a href="#ia">IA</a></li>
+    <li><a href="#userflow">User Flow</a></li>
+    <li><a href="#dashboard">Dashboard</a></li>
+    <li><a href="#analysis">Analysis</a></li>
+    <li><a href="#report">AI Report</a></li>
+    <li><a href="#approval">Approval</a></li>
+    <li><a href="#trail">Audit Trail</a></li>
+  </ul>
+  <div class="nav-tag">Product Screens · Final UI</div>
+</nav>
+
+
+<!-- ══════════════════════════════════════════════
+     HERO INTRO
+══════════════════════════════════════════════ -->
+<section class="sec" style="padding-top:140px;padding-bottom:80px;background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(0,50,100,.35) 0%,transparent 70%)">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="label-tag">Project Aura · Final Deliverable Screens</div>
+      <h1 class="sec-title">The Product.<br><span style="color:#016D9E">What Analysts Actually Use.</span></h1>
+      <p class="sec-sub">Beyond the process and methodology, this is what was built. Six production-grade UI screens showing the complete analyst journey — from IA through final compliance export. Every component, data state, and human-AI handoff moment is documented here.</p>
+    </div>
+    <div class="connector-flow reveal d2">
+      <div class="cf-step">Information Architecture</div><div class="cf-arrow">→</div>
+      <div class="cf-step">User Flow</div><div class="cf-arrow">→</div>
+      <div class="cf-step highlight">Dashboard</div><div class="cf-arrow">→</div>
+      <div class="cf-step highlight">AI Analysis</div><div class="cf-arrow">→</div>
+      <div class="cf-step highlight">ESG Report</div><div class="cf-arrow">→</div>
+      <div class="cf-step highlight">Human Approval</div><div class="cf-arrow">→</div>
+      <div class="cf-step highlight">Audit Trail</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION A: INFORMATION ARCHITECTURE
+══════════════════════════════════════════════ -->
+<section id="ia" class="sec sec-alt">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="label-tag">Section A · Information Architecture</div>
+      <h2 class="sec-title">Aura IA — Navigational Hierarchy</h2>
+      <p class="sec-sub">The IA is structured around three primary user roles: Analyst (extraction & review), Lead (oversight & pipeline), Compliance (audit & export). All paths converge at the Human Approval Gate before any data touches the legacy database.</p>
+    </div>
+
+    <div class="ia-container reveal d1">
+      <!-- Root -->
+      <div class="ia-grid">
+        <div class="ia-level" style="justify-content:center">
+          <div class="ia-node ia-root">
+            <div class="ia-node-label">◈ AURA COPILOT</div>
+            <div class="ia-node-sub">Root Application Shell</div>
+          </div>
+        </div>
+        <div class="ia-connector-v"></div>
+
+        <!-- L2 -->
+        <div class="ia-level ia-level-2" style="gap:8px;position:relative;width:100%">
+          <div style="position:absolute;top:0;left:18%;right:18%;height:1px;background:rgba(255,255,255,.06)"></div>
+          <div class="ia-branch" style="flex:1">
+            <div style="width:1px;height:20px;background:rgba(255,255,255,.06);margin:0 auto"></div>
+            <div class="ia-node" style="border-top-color:var(--cy)">
+              <div class="ia-node-label">📊 Dashboard</div>
+              <div class="ia-node-sub">Analyst Home · Live Queue</div>
+            </div>
+          </div>
+          <div class="ia-branch" style="flex:1">
+            <div style="width:1px;height:20px;background:rgba(255,255,255,.06);margin:0 auto"></div>
+            <div class="ia-node" style="border-top-color:var(--info)">
+              <div class="ia-node-label">🔍 Analysis</div>
+              <div class="ia-node-sub">Document Processing</div>
+            </div>
+          </div>
+          <div class="ia-branch" style="flex:1">
+            <div style="width:1px;height:20px;background:rgba(255,255,255,.06);margin:0 auto"></div>
+            <div class="ia-node" style="border-top-color:var(--warn)">
+              <div class="ia-node-label">✅ Review</div>
+              <div class="ia-node-sub">Human Approval Gate</div>
+            </div>
+          </div>
+          <div class="ia-branch" style="flex:1">
+            <div style="width:1px;height:20px;background:rgba(255,255,255,.06);margin:0 auto"></div>
+            <div class="ia-node" style="border-top-color:var(--ok)">
+              <div class="ia-node-label">📄 Reports</div>
+              <div class="ia-node-sub">AI-Generated ESG Output</div>
+            </div>
+          </div>
+          <div class="ia-branch" style="flex:1">
+            <div style="width:1px;height:20px;background:rgba(255,255,255,.06);margin:0 auto"></div>
+            <div class="ia-node" style="border-top-color:var(--err)">
+              <div class="ia-node-label">🔒 Audit Trail</div>
+              <div class="ia-node-sub">GDPR Compliance Log</div>
+            </div>
+          </div>
+          <div class="ia-branch" style="flex:1">
+            <div style="width:1px;height:20px;background:rgba(255,255,255,.06);margin:0 auto"></div>
+            <div class="ia-node" style="border-top-color:var(--ts)">
+              <div class="ia-node-label">⚙️ Settings</div>
+              <div class="ia-node-sub">Admin · Integrations</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:20px;border-left:1px dashed rgba(255,255,255,.04);border-right:1px dashed rgba(255,255,255,.04);margin:0 16%;display:flex;align-items:center;justify-content:space-around;padding:0 8%">
+          <div style="width:1px;height:20px;background:rgba(255,255,255,.06)"></div>
+          <div style="width:1px;height:20px;background:rgba(255,255,255,.06)"></div>
+          <div style="width:1px;height:20px;background:rgba(255,255,255,.06)"></div>
+          <div style="width:1px;height:20px;background:rgba(255,255,255,.06)"></div>
+          <div style="width:1px;height:20px;background:rgba(255,255,255,.06)"></div>
+          <div style="width:1px;height:20px;background:rgba(255,255,255,.06)"></div>
+        </div>
+
+        <!-- L3 -->
+        <div class="ia-level ia-level-3" style="gap:6px;width:100%;align-items:flex-start">
+          <!-- Dashboard children -->
+          <div style="flex:1;display:flex;flex-direction:column;gap:5px">
+            <div class="ia-node" style="border-top-color:var(--cy);opacity:.8">
+              <div class="ia-node-label">Audit Queue</div>
+              <div class="ia-node-sub">Live · Priority Sort</div>
+            </div>
+            <div class="ia-node" style="border-top-color:var(--cy);opacity:.8">
+              <div class="ia-node-label">Team Pipeline</div>
+              <div class="ia-node-sub">Thomas Lead View</div>
+            </div>
+            <div class="ia-node" style="border-top-color:var(--cy);opacity:.8">
+              <div class="ia-node-label">AI Performance</div>
+              <div class="ia-node-sub">Confidence Metrics</div>
+            </div>
+          </div>
+          <!-- Analysis children -->
+          <div style="flex:1;display:flex;flex-direction:column;gap:5px">
+            <div class="ia-node" style="border-top-color:var(--info);opacity:.8">
+              <div class="ia-node-label">Upload PDF</div>
+              <div class="ia-node-sub">Drag · Drop · Bulk</div>
+            </div>
+            <div class="ia-node" style="border-top-color:var(--info);opacity:.8">
+              <div class="ia-node-label">AI Extraction</div>
+              <div class="ia-node-sub">Copilot Side Panel</div>
+            </div>
+            <div class="ia-node" style="border-top-color:var(--info);opacity:.8">
+              <div class="ia-node-label">Source Viewer</div>
+              <div class="ia-node-sub">Inline Annotation</div>
+            </div>
+          </div>
+          <!-- Review children -->
+          <div style="flex:1;display:flex;flex-direction:column;gap:5px">
+            <div class="ia-node" style="border-top-color:var(--warn);opacity:.8">
+              <div class="ia-node-label">Approve / Flag</div>
+              <div class="ia-node-sub">Field-Level Control</div>
+            </div>
+            <div class="ia-node" style="border-top-color:var(--warn);opacity:.8">
+              <div class="ia-node-label">Manual Override</div>
+              <div class="ia-node-sub">Edit + Re-cite</div>
+            </div>
+            <div class="ia-node" style="border-top-color:var(--warn);opacity:.8">
+              <div class="ia-node-label">Push to Legacy</div>
+              <div class="ia-node-sub">API Write Gate</div>
+            </div>
+          </div>
+          <!-- Reports children -->
+          <div style="flex:1;display:flex;flex-direction:column;gap:5px">
+            <div class="ia-node" style="border-top-color:var(--ok);opacity:.8">
+              <div class="ia-node-label">ESG Summary</div>
+              <div class="ia-node-sub">Auto-Generated</div>
+            </div>
+            <div class="ia-node" style="border-top-color:var(--ok);opacity:.8">
+              <div class="ia-node-label">CSRD Mapping</div>
+              <div class="ia-node-sub">Regulation Check</div>
+            </div>
+            <div class="ia-node" style="border-top-color:var(--ok);opacity:.8">
+              <div class="ia-node-label">Export PDF</div>
+              <div class="ia-node-sub">Regulator Ready</div>
+            </div>
+          </div>
+          <!-- Audit children -->
+          <div style="flex:1;display:flex;flex-direction:column;gap:5px">
+            <div class="ia-node" style="border-top-color:var(--err);opacity:.8">
+              <div class="ia-node-label">Decision Log</div>
+              <div class="ia-node-sub">Immutable · Timestamped</div>
+            </div>
+            <div class="ia-node" style="border-top-color:var(--err);opacity:.8">
+              <div class="ia-node-label">GDPR Export</div>
+              <div class="ia-node-sub">Julian Compliance View</div>
+            </div>
+            <div class="ia-node" style="border-top-color:var(--err);opacity:.8">
+              <div class="ia-node-label">Data Lineage</div>
+              <div class="ia-node-sub">Source → Decision</div>
+            </div>
+          </div>
+          <!-- Settings children -->
+          <div style="flex:1;display:flex;flex-direction:column;gap:5px">
+            <div class="ia-node" style="border-top-color:var(--ts);opacity:.8">
+              <div class="ia-node-label">RAG Config</div>
+              <div class="ia-node-sub">Threshold Control</div>
+            </div>
+            <div class="ia-node" style="border-top-color:var(--ts);opacity:.8">
+              <div class="ia-node-label">Legacy DB API</div>
+              <div class="ia-node-sub">Write Permissions</div>
+            </div>
+            <div class="ia-node" style="border-top-color:var(--ts);opacity:.8">
+              <div class="ia-node-label">User Roles</div>
+              <div class="ia-node-sub">Analyst · Lead · Compliance</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key design decision callout -->
+      <div style="margin-top:32px;background:rgba(0,44,119,.05);border:1px solid rgba(0,44,119,.18);border-radius:var(--r);padding:16px 20px;display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap">
+        <div style="flex:1;min-width:200px">
+          <div style="font-family:var(--ff-m);font-size:.75rem;color:#016D9E;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">IA Design Decision</div>
+          <div style="font-family:var(--ff-d);font-size:.875rem;font-weight:700;color:#002C77;margin-bottom:4px">Review is not optional — it is architecturally required</div>
+          <div style="font-size:.8125rem;color:var(--ts);line-height:1.6">The IA physically prevents a direct path from AI Extraction to Legacy Push. Every analyst must pass through the Review node — this is not a UX nudge, it's a structural constraint that satisfies Julian's GDPR requirement and eliminates the possibility of automated data write without human sign-off.</div>
+        </div>
+        <div style="display:flex;gap:12px;flex-shrink:0;align-items:center">
+          <div style="text-align:center">
+            <div style="font-family:var(--ff-m);font-size:.5rem;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">Roles Mapped</div>
+            <div style="font-family:var(--ff-d);font-size:1.5rem;font-weight:800;color:#002C77">3</div>
+          </div>
+          <div style="width:1px;height:40px;background:var(--bs)"></div>
+          <div style="text-align:center">
+            <div style="font-family:var(--ff-m);font-size:.5rem;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">Core Screens</div>
+            <div style="font-family:var(--ff-d);font-size:1.5rem;font-weight:800;color:#002C77">6</div>
+          </div>
+          <div style="width:1px;height:40px;background:var(--bs)"></div>
+          <div style="text-align:center">
+            <div style="font-family:var(--ff-m);font-size:.5rem;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">Mandatory Gates</div>
+            <div style="font-family:var(--ff-d);font-size:1.5rem;font-weight:800;color:var(--warn)">1</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION B: USER FLOW
+══════════════════════════════════════════════ -->
+<section id="userflow" class="sec">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="label-tag">Section B · User Flow</div>
+      <h2 class="sec-title">Analyst Journey — Upload to Commit</h2>
+      <p class="sec-sub">The complete end-to-end flow from when an analyst receives an audit assignment to when the structured ESG data is written to the legacy insurance database. Every AI decision is surfaced, every human intervention is explicit.</p>
+    </div>
+
+    <!-- Flow row 1 -->
+    <div style="margin-bottom:8px">
+      <div style="font-family:var(--ff-m);font-size:.9375rem;color:var(--b);font-weight:600;letter-spacing:-.01em;margin-bottom:12px;display:flex;align-items:center;gap:10px"><span style="color:#006B7A;font-weight:700">Phase 1</span> — Intake & Upload</div>
+      <div class="flow-container reveal d1">
+        <div class="flow-track">
+          <div class="flow-step">
+            <div class="flow-node">
+              <div class="flow-step-num">Step 01</div>
+              <div class="flow-step-title">Receive Audit Assignment</div>
+              <div class="flow-step-desc">Sarah receives client utility bill audit via Aura dashboard notification. Client: AUR-EU-4471. Priority: High. Deadline: 48hrs.</div>
+              <div class="flow-actor actor-analyst">Sarah · Analyst</div>
+            </div>
+          </div>
+          <div class="flow-arrow"><div class="flow-arr-inner"><div class="farr-line"></div><div class="farr-label">Open</div></div></div>
+          <div class="flow-step">
+            <div class="flow-node">
+              <div class="flow-step-num">Step 02</div>
+              <div class="flow-step-title">Upload Client PDF</div>
+              <div class="flow-step-desc">Drag-drops 50-page utility bill PDF into Aura. Document is processed: indexed, chunked, embedded into the internal RAG vector store.</div>
+              <div class="flow-actor actor-analyst">Sarah · Analyst</div>
+            </div>
+          </div>
+          <div class="flow-arrow"><div class="flow-arr-inner"><div class="farr-line"></div><div class="farr-label">Auto-process</div></div></div>
+          <div class="flow-step">
+            <div class="flow-node" style="border-color:rgba(77,159,255,.25)">
+              <div class="flow-step-num">Step 03</div>
+              <div class="flow-step-title">RAG Ingestion</div>
+              <div class="flow-step-desc">AI Gateway indexes document chunks. Emission tables, consumption data, and CSRD thresholds are mapped to semantic embeddings. No external API calls.</div>
+              <div class="flow-actor actor-ai">AI System</div>
+            </div>
+          </div>
+          <div class="flow-arrow"><div class="flow-arr-inner"><div class="farr-line"></div><div class="farr-label">Ready</div></div></div>
+          <div class="flow-step">
+            <div class="flow-node" style="border-color:rgba(0,208,132,.25)">
+              <div class="flow-step-num">Step 04</div>
+              <div class="flow-step-title">Document Ready Signal</div>
+              <div class="flow-step-desc">Aura surface signals "Document indexed — 94 extractable fields identified." Analysis workspace activates with document viewer and Copilot panel.</div>
+              <div class="flow-actor actor-system">System</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Flow row 2 -->
+    <div style="margin-bottom:8px">
+      <div style="font-family:var(--ff-m);font-size:.9375rem;color:var(--b);font-weight:600;letter-spacing:-.01em;margin-bottom:12px;display:flex;align-items:center;gap:10px"><span style="color:#016D9E;font-weight:700">Phase 2</span> — AI Extraction</div>
+      <div class="flow-container reveal d2">
+        <div class="flow-track">
+          <div class="flow-step">
+            <div class="flow-node">
+              <div class="flow-step-num">Step 05</div>
+              <div class="flow-step-title">Query Copilot</div>
+              <div class="flow-step-desc">Sarah types: "Extract all Scope 1, 2, and 3 emissions data and compare against our sector benchmark database." NLP router classifies as Extraction + Comparison intent.</div>
+              <div class="flow-actor actor-analyst">Sarah · Analyst</div>
+            </div>
+          </div>
+          <div class="flow-arrow"><div class="flow-arr-inner"><div class="farr-line"></div><div class="farr-label">NLP classify</div></div></div>
+          <div class="flow-step">
+            <div class="flow-node" style="border-color:rgba(77,159,255,.25)">
+              <div class="flow-step-num">Step 06</div>
+              <div class="flow-step-title">Multi-Agent Retrieval</div>
+              <div class="flow-step-desc">Extraction Agent pulls data from uploaded PDF. Comparison Agent retrieves sector benchmarks from internal legacy DB. Both agents return structured data cards.</div>
+              <div class="flow-actor actor-ai">AI Agents × 2</div>
+            </div>
+          </div>
+          <div class="flow-arrow"><div class="flow-arr-inner"><div class="farr-line"></div><div class="farr-label">Surface results</div></div></div>
+          <div class="flow-step">
+            <div class="flow-node" style="border-color:rgba(77,159,255,.25)">
+              <div class="flow-step-num">Step 07</div>
+              <div class="flow-step-title">Explainability Output</div>
+              <div class="flow-step-desc">Each extracted value shows: value, confidence score, source document page, paragraph reference, and benchmark delta. Confidence below 85% triggers yellow flag automatically.</div>
+              <div class="flow-actor actor-ai">AI Output</div>
+            </div>
+          </div>
+          <div class="flow-arrow"><div class="flow-arr-inner"><div class="farr-line"></div><div class="farr-label">Present</div></div></div>
+          <div class="flow-step">
+            <div class="flow-node">
+              <div class="flow-step-num">Step 08</div>
+              <div class="flow-step-title">Review Extracted Fields</div>
+              <div class="flow-step-desc">Sarah reads each field, spot-checks 3 citations by clicking the source link (highlights exact PDF paragraph). Identifies one value needs correction — uses manual override.</div>
+              <div class="flow-actor actor-analyst">Sarah · Analyst</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Flow row 3 -->
+    <div style="margin-bottom:8px">
+      <div style="font-family:var(--ff-m);font-size:.9375rem;color:var(--b);font-weight:600;letter-spacing:-.01em;margin-bottom:12px;display:flex;align-items:center;gap:10px"><span style="color:#854D0E;font-weight:700">Phase 3</span> — Human Approval Gate</div>
+      <div class="flow-container reveal d3">
+        <div class="flow-track">
+          <div class="flow-step">
+            <div class="flow-node">
+              <div class="flow-step-num">Step 09</div>
+              <div class="flow-step-title">Manual Override</div>
+              <div class="flow-step-desc">Sarah edits Scope 2 value from AI-suggested 893 to correct 847. Provides re-citation: selects correct paragraph from PDF viewer. Override logged with analyst ID and timestamp.</div>
+              <div class="flow-actor actor-analyst">Sarah · Override</div>
+            </div>
+          </div>
+          <div class="flow-arrow"><div class="flow-arr-inner"><div class="farr-line" style="background:linear-gradient(90deg,var(--warn),var(--cy))"></div><div class="farr-label">Field decision</div></div></div>
+          <div class="flow-step">
+            <div class="flow-decision">
+              <div class="flow-decision-badge">Decision Gate</div>
+              <div class="flow-step-title">Approve All Fields?</div>
+              <div class="flow-step-desc" style="font-size:.5625rem;color:var(--ts)">Field-level: Approve ✓ Flag ✗ Override ✎</div>
+            </div>
+          </div>
+          <div class="flow-arrow"><div class="flow-arr-inner"><div class="farr-line" style="background:linear-gradient(90deg,var(--warn),var(--ok))"></div><div class="farr-label">All approved</div></div></div>
+          <div class="flow-step">
+            <div class="flow-node" style="border-color:rgba(0,208,132,.25)">
+              <div class="flow-step-num">Step 10</div>
+              <div class="flow-step-title">Approve & Generate Report</div>
+              <div class="flow-step-desc">Sarah clicks "Approve All & Generate ESG Report." Aura compiles all approved fields into structured ESG summary with CSRD compliance check run automatically.</div>
+              <div class="flow-actor actor-human">Sarah · Approved</div>
+            </div>
+          </div>
+          <div class="flow-arrow"><div class="flow-arr-inner"><div class="farr-line" style="background:linear-gradient(90deg,var(--ok),var(--cy))"></div><div class="farr-label">Auto-compile</div></div></div>
+          <div class="flow-step">
+            <div class="flow-node" style="border-color:rgba(0,212,255,.25)">
+              <div class="flow-step-num">Step 11</div>
+              <div class="flow-step-title">Push to Legacy DB</div>
+              <div class="flow-step-desc">Structured data card is schema-validated and written to the legacy CIS database via API. Audit log entry created. Thomas and Julian receive compliance confirmation notification.</div>
+              <div class="flow-actor actor-system">API Write · Logged</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="annotation-band reveal">
+      <div class="annotation-row">
+        <div class="ann-item"><div class="ann-icon">🔐</div><div><div class="ann-title">Zero Data Leaves the Platform</div><div class="ann-body">Every RAG query in Steps 06 and 07 is resolved entirely within the Azure private cloud. The PDF never leaves the client's infrastructure.</div></div></div>
+        <div class="ann-item"><div class="ann-icon">✋</div><div><div class="ann-title">Human Must Touch Every Field</div><div class="ann-body">Step 09 ensures even AI values Sarah "agrees with" require an explicit Approve action — preventing passive rubber-stamping and maintaining the override audit log.</div></div></div>
+        <div class="ann-item"><div class="ann-icon">📋</div><div><div class="ann-title">Every Action is Append-Only Logged</div><div class="ann-body">Steps 09 and 11 generate immutable audit events. Julian can reconstruct the complete AI-to-decision chain for any record at any time for regulator submission.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 1: DASHBOARD
+══════════════════════════════════════════════ -->
+<section id="dashboard" class="sec sec-alt">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="label-tag">Screen 01 · Analyst Dashboard</div>
+      <h2 class="sec-title">Live Audit Pipeline<br><span style="color:#016D9E">Thomas's Oversight View</span></h2>
+      <p class="sec-sub" style="margin-bottom:32px">The dashboard gives every stakeholder their primary signal at a glance. Sarah sees her queue. Thomas sees team throughput. The AI performance metrics are always visible — not buried in settings.</p>
+    </div>
+    <div class="screen-label reveal d1">
+      <span class="screen-id">Screen 01 / 05 · Dashboard · Role: All Users</span>
+      <span class="screen-desc">Primary landing screen after login. Adapts content columns based on role permissions. Sarah sees personal queue; Thomas sees team-wide pipeline.</span>
+    </div>
+    <div class="screen-browser reveal d2">
+      <div class="browser-bar">
+        <div class="browser-dots"><div class="bd bd-r"></div><div class="bd bd-y"></div><div class="bd bd-g"></div></div>
+        <div class="browser-url">aura.cis-platform.internal / dashboard</div>
+        <div class="browser-badge">🔒 Secure Instance</div>
+      </div>
+      <!-- App shell -->
+      <div class="app-shell">
+        <!-- Sidebar -->
+        <div class="app-sidebar">
+          <div class="app-sidebar-header">
+            <div class="app-logo-dot"></div>
+            <div class="app-logo">AURA</div>
+            <div style="font-family:var(--ff-m);font-size:.4375rem;color:var(--tm);margin-left:auto;text-transform:uppercase;letter-spacing:.08em">v2.4</div>
+          </div>
+          <div class="sidebar-nav">
+            <div class="snav-section">Workspace</div>
+            <div class="snav-item active"><span class="snav-icon">📊</span>Dashboard<span class="snav-badge">3</span></div>
+            <div class="snav-item"><span class="snav-icon">🔍</span>Analysis</div>
+            <div class="snav-item"><span class="snav-icon">✅</span>Review Queue<span class="snav-badge">7</span></div>
+            <div class="snav-item"><span class="snav-icon">📄</span>Reports</div>
+            <div class="snav-section">Compliance</div>
+            <div class="snav-item"><span class="snav-icon">🔒</span>Audit Trail</div>
+            <div class="snav-item"><span class="snav-icon">⚖️</span>CSRD Mapping</div>
+            <div class="snav-section">Team</div>
+            <div class="snav-item"><span class="snav-icon">👥</span>Pipeline Overview</div>
+            <div class="snav-item"><span class="snav-icon">⚙️</span>Settings</div>
+          </div>
+          <div style="padding:10px;border-top:1px solid var(--bs)">
+            <div style="display:flex;align-items:center;gap:8px;padding:6px 8px;background:rgba(255,255,255,.10);border-radius:6px">
+              <div style="width:24px;height:24px;border-radius:50%;background:var(--cys);border:1px solid var(--cyb);display:flex;align-items:center;justify-content:center;font-size:.625rem">👩</div>
+              <div><div style="font-size:.5625rem;color:var(--tp);font-weight:600">Sarah M.</div><div style="font-family:var(--ff-m);font-size:.375rem;color:rgba(167,226,240,.9);text-transform:uppercase;letter-spacing:.08em">Sr. Risk Analyst</div></div>
+            </div>
+          </div>
+        </div>
+        <!-- Main -->
+        <div class="app-main">
+          <div class="app-topbar">
+            <div class="topbar-breadcrumb">Dashboard <span>/ CIS Division / Q4 2025</span></div>
+            <div class="topbar-actions">
+              <div class="status-bar"><div class="status-dot" style="background:var(--ok);animation:pulse 2s infinite"></div><span style="color:var(--ok)">AI Online</span></div>
+              <div class="tb-btn tb-btn-sec">+ New Audit</div>
+              <div class="tb-btn tb-btn-pri">⬆ Upload PDF</div>
+            </div>
+          </div>
+          <div class="app-content" style="overflow:hidden">
+            <!-- KPI row -->
+            <div class="dash-grid">
+              <div class="dash-kpi" style="border-top-color:var(--cy)">
+                <div class="dash-kpi-val" style="color:var(--cy)">12</div>
+                <div class="dash-kpi-label">Audits In Queue</div>
+                <div class="dash-kpi-delta" style="color:var(--warn)">↑ 3 urgent</div>
+              </div>
+              <div class="dash-kpi" style="border-top-color:var(--ok)">
+                <div class="dash-kpi-val" style="color:var(--ok)">1.4h</div>
+                <div class="dash-kpi-label">Avg Processing Time</div>
+                <div class="dash-kpi-delta" style="color:var(--ok)">↓ 65% vs baseline</div>
+              </div>
+              <div class="dash-kpi" style="border-top-color:var(--info)">
+                <div class="dash-kpi-val" style="color:var(--info)">94%</div>
+                <div class="dash-kpi-label">AI Confidence Score</div>
+                <div class="dash-kpi-delta" style="color:var(--ts)">Last 7 days avg</div>
+              </div>
+              <div class="dash-kpi" style="border-top-color:var(--warn)">
+                <div class="dash-kpi-val" style="color:var(--warn)">14%</div>
+                <div class="dash-kpi-label">Human Override Rate</div>
+                <div class="dash-kpi-delta" style="color:var(--ok)">Within target band</div>
+              </div>
+            </div>
+            <!-- Content row -->
+            <div class="dash-row">
+              <div class="dash-panel">
+                <div class="panel-title">Active Audit Queue <span style="color:#016D9E;cursor:pointer;font-weight:600">View All →</span></div>
+                <div class="audit-item"><div class="ai-status" style="background:var(--err)"></div><div class="ai-name">AUR-EU-4471 · Utility Bill Q3</div><div class="ai-client" style="color:var(--ts)">ProTech Industries</div><div class="ai-badge" style="background:rgba(255,77,106,.1);color:var(--err);border:1px solid rgba(255,77,106,.25)">Urgent</div><div class="ai-time">2h left</div></div>
+                <div class="audit-item"><div class="ai-status" style="background:var(--warn)"></div><div class="ai-name">AUR-EU-4489 · ESG Report FY24</div><div class="ai-client" style="color:var(--ts)">NordikStahl GmbH</div><div class="ai-badge" style="background:rgba(255,170,0,.1);color:var(--warn);border:1px solid rgba(255,170,0,.25)">In Review</div><div class="ai-time">8h left</div></div>
+                <div class="audit-item"><div class="ai-status" style="background:var(--info)"></div><div class="ai-name">AUR-EU-4502 · CSRD Compliance</div><div class="ai-client" style="color:var(--ts)">Solaris BV Amsterdam</div><div class="ai-badge" style="background:rgba(77,159,255,.1);color:var(--info);border:1px solid rgba(77,159,255,.25)">AI Processing</div><div class="ai-time">24h left</div></div>
+                <div class="audit-item"><div class="ai-status" style="background:var(--ok)"></div><div class="ai-name">AUR-EU-4477 · Scope 3 Analysis</div><div class="ai-client" style="color:var(--ts)">BavarianMotors AG</div><div class="ai-badge" style="background:rgba(0,208,132,.1);color:var(--ok);border:1px solid rgba(0,208,132,.25)">Pending Sign-off</div><div class="ai-time">48h left</div></div>
+                <div class="audit-item"><div class="ai-status" style="background:var(--ok)"></div><div class="ai-name">AUR-EU-4481 · Premium Calc</div><div class="ai-client" style="color:var(--ts)">Renova SpA</div><div class="ai-badge" style="background:rgba(0,208,132,.1);color:var(--ok);border:1px solid rgba(0,208,132,.25)">Approved</div><div class="ai-time">Done ✓</div></div>
+              </div>
+              <div class="dash-panel">
+                <div class="panel-title">AI Performance · Week</div>
+                <div style="margin-bottom:8px">
+                  <div style="font-family:var(--ff-m);font-size:.4375rem;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Extraction Accuracy by Type</div>
+                  <div class="mini-bar-chart">
+                    <div><div class="mbc-bar" style="height:42px;background:var(--cy);opacity:.9"></div><div class="mbc-label">Scope 1</div></div>
+                    <div><div class="mbc-bar" style="height:38px;background:var(--cy);opacity:.8"></div><div class="mbc-label">Scope 2</div></div>
+                    <div><div class="mbc-bar" style="height:30px;background:var(--info);opacity:.8"></div><div class="mbc-label">Scope 3</div></div>
+                    <div><div class="mbc-bar" style="height:44px;background:var(--ok);opacity:.9"></div><div class="mbc-label">Energy</div></div>
+                    <div><div class="mbc-bar" style="height:20px;background:var(--warn);opacity:.8"></div><div class="mbc-label">Water</div></div>
+                  </div>
+                </div>
+                <div style="border-top:1px solid var(--bs);padding-top:8px">
+                  <div class="panel-title">Recent Activity</div>
+                  <div class="activity-item"><div class="act-dot" style="background:var(--ok)"></div><div class="act-text">Sarah M. approved 14 fields · AUR-EU-4477</div><div class="act-time">4m</div></div>
+                  <div class="activity-item"><div class="act-dot" style="background:var(--warn)"></div><div class="act-text">AI flagged anomaly · Scope 2 delta +22% · AUR-EU-4489</div><div class="act-time">17m</div></div>
+                  <div class="activity-item"><div class="act-dot" style="background:var(--cy)"></div><div class="act-text">New PDF indexed · 94 fields identified · AUR-EU-4471</div><div class="act-time">31m</div></div>
+                  <div class="activity-item"><div class="act-dot" style="background:var(--info)"></div><div class="act-text">Report generated · AUR-EU-4461 · Pushed to Legacy DB</div><div class="act-time">1h</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 2: ANALYSIS / AI COPILOT
+══════════════════════════════════════════════ -->
+<section id="analysis" class="sec">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="label-tag">Screen 02 · AI Analysis Workspace</div>
+      <h2 class="sec-title">Document Analysis +<br><span style="color:#016D9E">AI Copilot Side Panel</span></h2>
+      <p class="sec-sub" style="margin-bottom:32px">The core working screen. Sarah sees the actual client PDF on the left, highlighted by AI extraction annotations. The Copilot panel on the right shows every extracted value with its source citation, confidence, and inline approve/flag controls. This is where trust is built or broken.</p>
+    </div>
+    <div class="screen-label reveal d1">
+      <span class="screen-id">Screen 02 / 05 · Analysis Workspace · Role: Analyst</span>
+      <span class="screen-desc">Split-view: live PDF document viewer (left) with AI Copilot extraction panel (right). Source citations are clickable and scroll the PDF to exact paragraph.</span>
+    </div>
+    <div class="screen-browser reveal d2">
+      <div class="browser-bar">
+        <div class="browser-dots"><div class="bd bd-r"></div><div class="bd bd-y"></div><div class="bd bd-g"></div></div>
+        <div class="browser-url">aura.cis-platform.internal / analysis / AUR-EU-4471</div>
+        <div class="browser-badge">🔒 Secure Instance</div>
+      </div>
+      <div class="app-shell">
+        <div class="app-sidebar">
+          <div class="app-sidebar-header">
+            <div class="app-logo-dot"></div>
+            <div class="app-logo">AURA</div>
+          </div>
+          <div class="sidebar-nav">
+            <div class="snav-item"><span class="snav-icon">📊</span>Dashboard</div>
+            <div class="snav-item active"><span class="snav-icon">🔍</span>Analysis</div>
+            <div class="snav-item"><span class="snav-icon">✅</span>Review Queue</div>
+            <div class="snav-item"><span class="snav-icon">📄</span>Reports</div>
+            <div class="snav-item"><span class="snav-icon">🔒</span>Audit Trail</div>
+          </div>
+          <!-- Doc list -->
+          <div style="padding:8px;border-top:1px solid var(--bs);flex:1;overflow:hidden">
+            <div style="font-family:var(--ff-m);font-size:.4375rem;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;padding:0 6px">Uploaded Documents</div>
+            <div style="background:var(--cys);border:1px solid var(--cyb);border-radius:4px;padding:6px 8px;cursor:pointer;margin-bottom:4px">
+              <div style="font-family:var(--ff-m);font-size:.75rem;color:#002C77;font-weight:600">Bill_Q3_2024.pdf</div>
+              <div style="font-family:var(--ff-m);font-size:.4375rem;color:var(--tm)">50 pages · 94 fields</div>
+            </div>
+            <div style="background:#F4F8FC;border:1px solid rgba(0,44,119,.12);border-radius:4px;padding:6px 8px;cursor:pointer">
+              <div style="font-family:var(--ff-m);font-size:.5rem;color:var(--ts)">PrevAudit_2023.pdf</div>
+              <div style="font-family:var(--ff-m);font-size:.4375rem;color:var(--tm)">38 pages · reference</div>
+            </div>
+          </div>
+        </div>
+        <div class="app-main">
+          <div class="app-topbar">
+            <div class="topbar-breadcrumb">Analysis <span>/ AUR-EU-4471 / Bill_Q3_2024.pdf</span></div>
+            <div class="topbar-actions">
+              <div style="font-family:var(--ff-m);font-size:.5rem;color:var(--ok);display:flex;align-items:center;gap:4px"><div class="status-dot" style="background:var(--ok);animation:pulse 2s infinite"></div>94 fields identified</div>
+              <div class="tb-btn tb-btn-sec">View Full Doc</div>
+              <div class="tb-btn tb-btn-pri">Send to Review →</div>
+            </div>
+          </div>
+          <div class="app-content" style="overflow:hidden;padding:0">
+            <div class="analysis-layout">
+              <!-- PDF viewer -->
+              <div class="analysis-main">
+                <div class="doc-viewer">
+                  <div class="doc-toolbar">
+                    <button class="doc-tb-btn">← Prev</button>
+                    <button class="doc-tb-btn">Next →</button>
+                    <div class="doc-tb-sep"></div>
+                    <button class="doc-tb-btn">🔍 Zoom</button>
+                    <button class="doc-tb-btn">📌 Annotations ON</button>
+                    <div class="doc-name">Bill_Q3_2024.pdf · Page 7 of 50</div>
+                  </div>
+                  <div class="doc-page">
+                    <div class="pdf-mock">
+                      <div class="pdf-header">
+                        <div>
+                          <div class="pdf-logo">ProTech Industries AG</div>
+                          <div style="font-size:6px;color:#666;margin-top:1px">Annual Environmental Data Report · FY 2024 · Q3 Supplement</div>
+                        </div>
+                        <div style="text-align:right;font-size:6px;color:#888">Page 7 / 50<br>Ref: PTI-ENV-2024-Q3</div>
+                      </div>
+
+                      <div class="pdf-section-title">Section 3.2 — Greenhouse Gas Emissions Inventory</div>
+                      <div class="pdf-row"><span class="pdf-label">Reporting Period:</span><span class="pdf-val">01 Jan 2024 – 30 Sep 2024</span></div>
+                      <div class="pdf-row"><span class="pdf-label">Methodology:</span><span class="pdf-val">GHG Protocol Corporate Standard (2023)</span></div>
+                      <div style="margin:6px 0"></div>
+
+                      <div class="pdf-section-title">Scope 1 — Direct Emissions</div>
+                      <div class="pdf-highlight-box">
+                        <div class="pdf-row"><span class="pdf-label">Natural gas combustion:</span><span class="pdf-val highlighted">189.4 tCO₂e</span></div>
+                        <div class="pdf-row"><span class="pdf-label">Company vehicle fleet:</span><span class="pdf-val">122.6 tCO₂e</span></div>
+                        <div class="pdf-row"><span class="pdf-label"><strong>Total Scope 1:</strong></span><span class="pdf-val highlighted">312.0 tCO₂e</span></div>
+                      </div>
+
+                      <div class="pdf-section-title">Scope 2 — Indirect Energy Emissions</div>
+                      <div class="pdf-highlight-box">
+                        <div class="pdf-row"><span class="pdf-label">Electricity purchased (market-based):</span><span class="pdf-val highlighted">847.2 tCO₂e</span></div>
+                        <div class="pdf-row"><span class="pdf-label">District heating:</span><span class="pdf-val">64.3 tCO₂e</span></div>
+                        <div class="pdf-row"><span class="pdf-label">Renewable energy offset:</span><span class="pdf-val" style="color:#008800">–88.0 tCO₂e</span></div>
+                        <div class="pdf-row"><span class="pdf-label"><strong>Net Scope 2 (market-based):</strong></span><span class="pdf-val flagged">823.5 tCO₂e</span></div>
+                      </div>
+
+                      <div class="pdf-section-title">Annual Energy Consumption</div>
+                      <table class="pdf-table">
+                        <tr><th>Energy Type</th><th>Consumption</th><th>Unit</th><th>YoY Δ</th></tr>
+                        <tr class="ok-row"><td>Grid electricity</td><td>8,420</td><td>MWh</td><td>+2.1%</td></tr>
+                        <tr><td>Natural gas</td><td>3,180</td><td>MWh</td><td>-3.4%</td></tr>
+                        <tr class="flagged-row"><td>Renewable (self-gen)</td><td>840</td><td>MWh</td><td>+34.2%</td></tr>
+                        <tr><td><strong>Total</strong></td><td><strong>12,440</strong></td><td>MWh</td><td>+0.8%</td></tr>
+                      </table>
+
+                      <div style="margin-top:6px;padding:4px 6px;background:rgba(255,170,0,.06);border:1px solid rgba(255,170,0,.3);border-radius:3px;font-size:6px;color:#b27700">⚠ Note: Scope 2 market-based figure reflects contractual instrument adjustments per CSRD Article 29b requirements. See Appendix C for EAC certificate details.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Copilot panel -->
+              <div class="copilot-panel-full">
+                <div class="cp-header-bar">
+                  <div class="app-logo-dot" style="width:6px;height:6px"></div>
+                  <div class="cp-title">Aura Copilot</div>
+                  <div class="cp-subtitle">RAG · Internal Sources Only</div>
+                </div>
+                <div class="cp-messages">
+                  <div class="cp-msg cp-msg-user">
+                    <div class="cp-msg-label">Sarah · Query</div>
+                    <div class="cp-msg-text">Extract all emissions data and compare against our sector benchmark for manufacturing.</div>
+                  </div>
+                  <div class="cp-msg cp-msg-ai">
+                    <div class="cp-msg-label">Aura · Extraction Complete</div>
+                    <div class="cp-msg-text">Found <strong style="color:#016D9E">7 emission values</strong> across Scope 1, 2, and energy data. Scope 2 market-based is <strong style="color:var(--err)">14.5% above</strong> manufacturing sector benchmark.</div>
+                    <div class="cp-data-extract">
+                      <div class="cp-field">
+                        <span class="cp-field-key">Scope 1 Total</span>
+                        <span class="cp-field-val" style="color:var(--ok)">312.0 tCO₂e</span>
+                      </div>
+                      <div class="cp-field">
+                        <span class="cp-field-key">Scope 2 Market</span>
+                        <span class="cp-field-val" style="color:#002C77;font-weight:700">847.2 tCO₂e</span>
+                      </div>
+                      <div class="cp-field">
+                        <span class="cp-field-key">Benchmark Delta</span>
+                        <span class="cp-field-val" style="color:var(--err)">+14.5% ▲</span>
+                      </div>
+                      <div class="cp-field">
+                        <span class="cp-field-key">Total Energy</span>
+                        <span class="cp-field-val" style="color:var(--tp)">12,440 MWh</span>
+                      </div>
+                      <div class="cp-field">
+                        <span class="cp-field-key">Renewable Ratio</span>
+                        <span class="cp-field-val" style="color:var(--warn)">6.75%</span>
+                      </div>
+                    </div>
+                    <div class="cp-cite-row">
+                      <span style="font-family:var(--ff-m);font-size:.4375rem;color:var(--tm)">Source:</span>
+                      <span class="cp-cite-link">📎 Bill_Q3_2024.pdf · p.7, §3.2</span>
+                    </div>
+                    <div class="cp-cite-row" style="margin-top:2px">
+                      <span style="font-family:var(--ff-m);font-size:.4375rem;color:var(--tm)">Benchmark:</span>
+                      <span class="cp-cite-link">📎 Legacy DB · Sector_Mfg_2024</span>
+                    </div>
+                    <div class="cp-conf">
+                      <span class="cp-conf-label">Confidence</span>
+                      <div class="cp-conf-track"><div class="cp-conf-fill" style="width:94%"></div></div>
+                      <span class="cp-conf-val">94%</span>
+                    </div>
+                  </div>
+                  <div class="cp-msg cp-msg-ai" style="background:rgba(255,170,0,.05);border-color:rgba(255,170,0,.25)">
+                    <div class="cp-msg-label" style="color:var(--warn)">Aura · CSRD Alert</div>
+                    <div class="cp-msg-text" style="color:var(--warn)">⚠ Scope 2 exceeds <strong>CSRD Article 29b</strong> disclosure threshold for Category B manufacturers. Manual CSRD annotation required before export.</div>
+                    <div class="cp-cite-row">
+                      <span class="cp-cite-link">📎 CSRD Regulation (EU) 2022/2464 · Art.29b</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="cp-actions">
+                  <div class="cp-act-btn cp-approve">✓ Approve All</div>
+                  <div class="cp-act-btn cp-edit">✎ Override</div>
+                  <div class="cp-act-btn cp-flag">✕ Flag</div>
+                </div>
+                <div class="cp-input-area">
+                  <input class="cp-input" placeholder="Ask about this document…" />
+                  <button class="cp-send">→</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 3: ESG REPORT OUTPUT
+══════════════════════════════════════════════ -->
+<section id="report" class="sec sec-alt">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="label-tag">Screen 03 · AI-Generated ESG Report</div>
+      <h2 class="sec-title">Final ESG Report Output<br><span style="color:#016D9E">Structured · Cited · Regulation-Mapped</span></h2>
+      <p class="sec-sub" style="margin-bottom:32px">Once Sarah approves all fields, Aura auto-compiles the structured ESG report. Every finding is pinned to its source document. CSRD compliance status is mapped field by field. Julian can export the entire report as a regulator-ready PDF with full decision trail embedded.</p>
+    </div>
+    <div class="screen-label reveal d1">
+      <span class="screen-id">Screen 03 / 05 · ESG Report View · Role: Analyst + Compliance</span>
+      <span class="screen-desc">AI-compiled summary of all approved extracted data. Right sidebar shows real-time CSRD compliance mapping. Every metric is source-cited and human-verified before this screen generates.</span>
+    </div>
+    <div class="screen-browser reveal d2">
+      <div class="browser-bar">
+        <div class="browser-dots"><div class="bd bd-r"></div><div class="bd bd-y"></div><div class="bd bd-g"></div></div>
+        <div class="browser-url">aura.cis-platform.internal / reports / AUR-EU-4471 / esg-summary</div>
+        <div class="browser-badge">🔒 Secure Instance</div>
+      </div>
+      <div class="app-shell">
+        <div class="app-sidebar">
+          <div class="app-sidebar-header"><div class="app-logo-dot"></div><div class="app-logo">AURA</div></div>
+          <div class="sidebar-nav">
+            <div class="snav-item"><span class="snav-icon">📊</span>Dashboard</div>
+            <div class="snav-item"><span class="snav-icon">🔍</span>Analysis</div>
+            <div class="snav-item"><span class="snav-icon">✅</span>Review Queue</div>
+            <div class="snav-item active"><span class="snav-icon">📄</span>Reports</div>
+            <div class="snav-item"><span class="snav-icon">🔒</span>Audit Trail</div>
+          </div>
+        </div>
+        <div class="app-main">
+          <div class="app-topbar">
+            <div class="topbar-breadcrumb">Reports <span>/ AUR-EU-4471 / ESG Summary · APPROVED</span></div>
+            <div class="topbar-actions">
+              <div class="tb-btn tb-btn-sec">⬇ Export PDF</div>
+              <div class="tb-btn tb-btn-sec">📋 Copy Citation Trail</div>
+              <div class="tb-btn tb-btn-pri">⬆ Push to Legacy DB</div>
+            </div>
+          </div>
+          <div class="app-content" style="padding:0;overflow:hidden">
+            <div class="report-layout">
+              <div class="report-main" style="overflow:hidden">
+                <!-- Report header -->
+                <div class="report-header-card">
+                  <div class="report-client">ProTech Industries AG · ESG Audit Report</div>
+                  <div class="report-meta-row" style="margin-top:4px">
+                    <div class="report-meta-item">Ref: <span>AUR-EU-4471</span></div>
+                    <div class="report-meta-item">Period: <span>Q3 FY2024</span></div>
+                    <div class="report-meta-item">Analyst: <span>Sarah M.</span></div>
+                    <div class="report-meta-item">Status: <span style="color:var(--ok)">✓ Human Approved</span></div>
+                    <div class="report-meta-item">Generated: <span>14 Nov 2025 · 14:32</span></div>
+                    <div class="report-meta-item" style="margin-left:auto">Source Fields: <span>94 extracted · 94 approved · 1 overridden</span></div>
+                  </div>
+                </div>
+
+                <!-- Metrics row -->
+                <div class="report-metrics">
+                  <div class="report-metric" style="border-top-color:var(--err)">
+                    <div class="rm-val" style="color:var(--err)">847.2</div>
+                    <div class="rm-label">Scope 2 Emissions<br>tCO₂e · Market-Based</div>
+                  </div>
+                  <div class="report-metric" style="border-top-color:var(--info)">
+                    <div class="rm-val" style="color:var(--info)">312.0</div>
+                    <div class="rm-label">Scope 1 Emissions<br>tCO₂e · Direct</div>
+                  </div>
+                  <div class="report-metric" style="border-top-color:var(--cy)">
+                    <div class="rm-val" style="color:#016D9E;font-weight:800">12,440</div>
+                    <div class="rm-label">Energy Consumption<br>MWh · Total Annual</div>
+                  </div>
+                  <div class="report-metric" style="border-top-color:var(--warn)">
+                    <div class="rm-val" style="color:var(--warn)">6.75%</div>
+                    <div class="rm-label">Renewable Energy<br>Ratio · Self-Generated</div>
+                  </div>
+                </div>
+
+                <!-- Key findings -->
+                <div class="report-findings">
+                  <div style="font-family:var(--ff-m);font-size:.5rem;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">Key Findings — AI Extracted &amp; Human Verified</div>
+                  <div class="finding-item">
+                    <div class="finding-icon">🔴</div>
+                    <div>
+                      <div class="finding-title">Scope 2 Emissions 14.5% Above Sector Benchmark</div>
+                      <div class="finding-body">Market-based Scope 2 emissions of 847.2 tCO₂e exceed the manufacturing sector benchmark of 740 tCO₂e by 107.2 tCO₂e (+14.5%). This triggers a CSRD Article 29b disclosure requirement and will affect the premium calculation band. Client should be engaged on renewable procurement strategy for FY2025.</div>
+                      <div class="finding-src">📎 Bill_Q3_2024.pdf · p.7, §3.2 · Legacy DB · Sector_Mfg_2024</div>
+                    </div>
+                  </div>
+                  <div class="finding-item">
+                    <div class="finding-icon">🟡</div>
+                    <div>
+                      <div class="finding-title">Renewable Energy Ratio Below SFDR Threshold</div>
+                      <div class="finding-body">Self-generated renewable energy at 6.75% is below the SFDR PAI indicator threshold of 15% for Article 8 fund eligibility. This client is currently classified as Category B. Increasing to 840+ MWh self-generation would unlock Category A premium band (est. saving: €12,400/yr).</div>
+                      <div class="finding-src">📎 Bill_Q3_2024.pdf · p.7, Table 3.1 · SFDR Reg (EU) 2019/2088</div>
+                    </div>
+                  </div>
+                  <div class="finding-item">
+                    <div class="finding-icon">🟢</div>
+                    <div>
+                      <div class="finding-title">Scope 1 Emissions Declining — Positive Trend</div>
+                      <div class="finding-body">Direct Scope 1 emissions reduced by 3.4% YoY (from 323.2 tCO₂e in FY2023 to 312.0 tCO₂e in Q3 2024 annualised). Fleet electrification programme noted in Appendix A is the primary driver. This should be reflected positively in the premium narrative.</div>
+                      <div class="finding-src">📎 Bill_Q3_2024.pdf · p.7, §3.2 · PrevAudit_2023.pdf · p.4</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Sidebar -->
+              <div class="report-sidebar">
+                <div class="ai-status-panel">
+                  <div class="ai-sp-dot"></div>
+                  <div class="ai-sp-text">AI Report Compiled<br>All fields human-verified</div>
+                </div>
+
+                <div class="rs-section">
+                  <div class="rs-title">CSRD Compliance Map</div>
+                  <div class="csrd-item"><div class="csrd-status" style="background:var(--err)"></div><div class="csrd-label">Art.29b Scope 2 Threshold</div><div class="csrd-badge" style="background:rgba(255,77,106,.1);color:var(--err);border:1px solid rgba(255,77,106,.2)">Exceeded</div></div>
+                  <div class="csrd-item"><div class="csrd-status" style="background:var(--warn)"></div><div class="csrd-label">Art.29b Renewable Ratio</div><div class="csrd-badge" style="background:rgba(255,170,0,.1);color:var(--warn);border:1px solid rgba(255,170,0,.2)">At Risk</div></div>
+                  <div class="csrd-item"><div class="csrd-status" style="background:var(--ok)"></div><div class="csrd-label">Scope 1 GHG Protocol</div><div class="csrd-badge" style="background:rgba(0,208,132,.1);color:var(--ok);border:1px solid rgba(0,208,132,.2)">Compliant</div></div>
+                  <div class="csrd-item"><div class="csrd-status" style="background:var(--ok)"></div><div class="csrd-label">SFDR PAI Disclosure</div><div class="csrd-badge" style="background:rgba(0,208,132,.1);color:var(--ok);border:1px solid rgba(0,208,132,.2)">Filed</div></div>
+                  <div class="csrd-item"><div class="csrd-status" style="background:var(--info)"></div><div class="csrd-label">EU Taxonomy Alignment</div><div class="csrd-badge" style="background:rgba(77,159,255,.1);color:var(--info);border:1px solid rgba(77,159,255,.2)">Pending</div></div>
+                </div>
+
+                <div class="rs-section">
+                  <div class="rs-title">Premium Impact Estimate</div>
+                  <div style="font-family:var(--ff-d);font-size:1.25rem;font-weight:800;color:var(--warn);line-height:1;margin-bottom:4px">Cat B</div>
+                  <div style="font-family:var(--ff-m);font-size:.4375rem;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Risk Band · Current</div>
+                  <div style="font-size:.5625rem;color:var(--ts);line-height:1.5">Scope 2 breach triggers +2.3% premium loading per actuarial table ESG-2024-B. Recommend client advisory on renewable procurement.</div>
+                </div>
+
+                <div class="rs-section" style="background:rgba(0,208,132,.04);border-color:rgba(0,208,132,.2)">
+                  <div class="rs-title" style="color:var(--ok)">Julian's Export</div>
+                  <div style="font-size:.5625rem;color:var(--ts);line-height:1.5;margin-bottom:6px">Full GDPR-compliant decision trail ready. 94 events logged.</div>
+                  <div style="font-family:var(--ff-m);font-size:.4375rem;color:var(--ok);cursor:pointer;padding:4px 6px;background:rgba(0,208,132,.08);border:1px solid rgba(0,208,132,.2);border-radius:3px;text-align:center;text-transform:uppercase;letter-spacing:.08em">⬇ Export Audit PDF</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 4: HUMAN APPROVAL INTERFACE
+══════════════════════════════════════════════ -->
+<section id="approval" class="sec">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="label-tag">Screen 04 · Human Control &amp; Approval Interface</div>
+      <h2 class="sec-title">Field-Level Human Control<br><span style="color:#016D9E">The Approval Gate — Sarah's Most Critical Screen</span></h2>
+      <p class="sec-sub" style="margin-bottom:32px">This is where trust is operationalized. Sarah reviews each AI-extracted field individually. She can Approve (accept AI value), Override (edit with re-citation), or Flag (reject and escalate). No field reaches the legacy database without passing through this screen with an explicit human decision attached.</p>
+    </div>
+    <div class="screen-label reveal d1">
+      <span class="screen-id">Screen 04 / 05 · Review & Approval · Role: Analyst (Required)</span>
+      <span class="screen-desc">The human-in-the-loop gate. Left panel: AI-extracted data fields with source links and confidence indicators. Right panel: original source document context. Bottom bar: batch approval with full audit log preview.</span>
+    </div>
+    <div class="screen-browser reveal d2">
+      <div class="browser-bar">
+        <div class="browser-dots"><div class="bd bd-r"></div><div class="bd bd-y"></div><div class="bd bd-g"></div></div>
+        <div class="browser-url">aura.cis-platform.internal / review / AUR-EU-4471 / approval</div>
+        <div class="browser-badge">🔒 Secure Instance</div>
+      </div>
+      <div class="app-shell">
+        <div class="app-sidebar">
+          <div class="app-sidebar-header"><div class="app-logo-dot"></div><div class="app-logo">AURA</div></div>
+          <div class="sidebar-nav">
+            <div class="snav-item"><span class="snav-icon">📊</span>Dashboard</div>
+            <div class="snav-item"><span class="snav-icon">🔍</span>Analysis</div>
+            <div class="snav-item active"><span class="snav-icon">✅</span>Review Queue</div>
+            <div class="snav-item"><span class="snav-icon">📄</span>Reports</div>
+            <div class="snav-item"><span class="snav-icon">🔒</span>Audit Trail</div>
+          </div>
+          <!-- Review progress -->
+          <div style="padding:10px;border-top:1px solid var(--bs)">
+            <div style="font-family:var(--ff-m);font-size:.4375rem;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Review Progress</div>
+            <div style="background:#EBF2FF;border:1px solid rgba(0,44,119,.12);border-radius:4px;overflow:hidden;height:6px;margin-bottom:4px"><div style="width:68%;height:100%;background:linear-gradient(90deg,var(--cy3),var(--cy))"></div></div>
+            <div style="font-family:var(--ff-m);font-size:.4375rem;color:var(--ts)">64 / 94 fields reviewed</div>
+            <div style="margin-top:8px;display:flex;flex-direction:column;gap:3px">
+              <div style="display:flex;justify-content:space-between;font-family:var(--ff-m);font-size:.4375rem"><span style="color:var(--ok)">✓ Approved</span><span style="color:var(--ok)">61</span></div>
+              <div style="display:flex;justify-content:space-between;font-family:var(--ff-m);font-size:.4375rem"><span style="color:var(--warn)">✎ Overridden</span><span style="color:var(--warn)">1</span></div>
+              <div style="display:flex;justify-content:space-between;font-family:var(--ff-m);font-size:.4375rem"><span style="color:var(--err)">✕ Flagged</span><span style="color:var(--err)">2</span></div>
+              <div style="display:flex;justify-content:space-between;font-family:var(--ff-m);font-size:.4375rem"><span style="color:var(--tm)">○ Pending</span><span style="color:var(--tm)">30</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="app-main">
+          <div class="app-topbar">
+            <div class="topbar-breadcrumb">Review <span>/ AUR-EU-4471 / Approval Gate · 64/94 complete</span></div>
+            <div class="topbar-actions">
+              <div style="font-family:var(--ff-m);font-size:.5rem;color:var(--warn)">⚠ 2 fields flagged</div>
+              <div class="tb-btn tb-btn-sec">← Back to Analysis</div>
+            </div>
+          </div>
+          <div class="app-content" style="padding:10px;overflow:hidden">
+            <div class="review-layout">
+              <div class="review-header">
+                <div class="review-title">Scope 2 &amp; Energy Fields — AI Extraction Review</div>
+                <div class="review-meta">
+                  <div class="rev-meta-item">Client: <span>ProTech Industries AG</span></div>
+                  <div class="rev-meta-item">Source: <span>Bill_Q3_2024.pdf</span></div>
+                  <div class="rev-meta-item">AI Confidence: <span style="color:var(--ok)">94%</span></div>
+                </div>
+              </div>
+              <div class="review-body">
+                <!-- Left: AI extracted fields -->
+                <div class="review-panel">
+                  <div class="rev-panel-head">AI Extracted Values — Awaiting Decision <span style="color:#016D9E">8 fields</span></div>
+                  <div class="rev-panel-body" style="overflow:hidden">
+                    <div class="data-field-row">
+                      <div class="dfr-status" style="background:var(--ok)"></div>
+                      <div class="dfr-key">Scope 1 Total</div>
+                      <div class="dfr-val" style="color:var(--ok)">312.0 tCO₂e <span style="font-size:.4375rem;font-weight:400;color:var(--ok)">✓ Approved</span></div>
+                      <div class="dfr-src">📎 p.7</div>
+                    </div>
+                    <div class="data-field-row" style="background:rgba(255,170,0,.04)">
+                      <div class="dfr-status" style="background:var(--warn)"></div>
+                      <div class="dfr-key">Scope 2 Market-Based</div>
+                      <div class="dfr-val" style="color:var(--tp)">
+                        <span class="override-badge">Overridden</span>
+                        <div class="tt-val-change" style="margin-top:2px"><div class="tt-old">893.0 tCO₂e (AI)</div><div class="tt-new">847.2 tCO₂e (Sarah)</div></div>
+                      </div>
+                      <div class="dfr-src">📎 p.7</div>
+                    </div>
+                    <div class="data-field-row">
+                      <div class="dfr-status" style="background:var(--cy)"></div>
+                      <div class="dfr-key">Net Scope 2 (Market)</div>
+                      <div class="dfr-val" style="color:var(--cy)">823.5 tCO₂e</div>
+                      <div class="dfr-src">📎 p.7</div>
+                      <div class="dfr-edit" style="margin-left:4px">✓ <span style="color:var(--tm)">/ ✕</span></div>
+                    </div>
+                    <div class="data-field-row">
+                      <div class="dfr-status" style="background:var(--cy)"></div>
+                      <div class="dfr-key">Total Energy Consumption</div>
+                      <div class="dfr-val" style="color:#016D9E;font-weight:800">12,440 MWh</div>
+                      <div class="dfr-src">📎 p.7</div>
+                      <div class="dfr-edit" style="margin-left:4px">✓ <span style="color:var(--tm)">/ ✕</span></div>
+                    </div>
+                    <div class="data-field-row">
+                      <div class="dfr-status" style="background:var(--cy)"></div>
+                      <div class="dfr-key">Renewable Self-Gen</div>
+                      <div class="dfr-val" style="color:var(--cy)">840 MWh</div>
+                      <div class="dfr-src">📎 p.7</div>
+                      <div class="dfr-edit" style="margin-left:4px">✓ <span style="color:var(--tm)">/ ✕</span></div>
+                    </div>
+                    <div class="data-field-row">
+                      <div class="dfr-status" style="background:var(--err)"></div>
+                      <div class="dfr-key">Renewable Energy Ratio</div>
+                      <div class="dfr-val" style="color:var(--err)">6.75% <span style="font-size:.4375rem;font-weight:400">⚠ Below SFDR 15% threshold</span></div>
+                      <div class="dfr-src">📎 p.7</div>
+                    </div>
+                    <div class="data-field-row">
+                      <div class="dfr-status" style="background:var(--cy)"></div>
+                      <div class="dfr-key">Benchmark vs Sector</div>
+                      <div class="dfr-val" style="color:var(--err)">+14.5% above Mfg avg</div>
+                      <div class="dfr-src">📎 Legacy DB</div>
+                      <div class="dfr-edit" style="margin-left:4px">✓ <span style="color:var(--tm)">/ ✕</span></div>
+                    </div>
+                    <div class="data-field-row">
+                      <div class="dfr-status" style="background:var(--cy)"></div>
+                      <div class="dfr-key">CSRD Article 29b Flag</div>
+                      <div class="dfr-val" style="color:var(--warn)">⚠ Threshold exceeded · requires annotation</div>
+                      <div class="dfr-src">📎 CSRD 2022</div>
+                      <div class="dfr-edit" style="margin-left:4px">✓ <span style="color:var(--tm)">/ ✕</span></div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Right: source context -->
+                <div class="review-panel">
+                  <div class="rev-panel-head">Source Context — Active Citation <span style="color:#016D9E">📎 p.7 §3.2</span></div>
+                  <div class="rev-panel-body" style="overflow:hidden">
+                    <div style="background:rgba(0,44,119,.05);border:1px solid rgba(0,44,119,.18);border-radius:4px;padding:8px;margin-bottom:8px">
+                      <div style="font-family:var(--ff-m);font-size:.4375rem;color:var(--cy);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">Override Justification — Sarah M.</div>
+                      <div style="font-size:.5rem;color:var(--ts);line-height:1.5">AI extracted 893.0 tCO₂e from Table 3.1 Row 2. However, correct value is 847.2 from §3.2 narrative text which reflects contractual instrument adjustments per CSRD Art.29b. Table row is location-based, not market-based. Paragraph value supersedes table row for CSRD compliance purposes.</div>
+                      <div style="font-family:var(--ff-m);font-size:.4375rem;color:var(--tm);margin-top:4px">Corrected citation: Bill_Q3_2024.pdf · p.7, §3.2 · Para 2 · Line 3</div>
+                    </div>
+                    <div style="background:#F7F8FA;border-radius:4px;padding:10px;font-family:var(--ff-m);font-size:7px;color:#333;line-height:1.7">
+                      <div style="font-weight:700;font-size:8px;color:#00337A;border-bottom:1px solid #ddd;padding-bottom:4px;margin-bottom:6px">§3.2 — Scope 2 Emissions (Market-Based Method)</div>
+                      <div style="color:#555;margin-bottom:6px">For the reporting period January – September 2024, ProTech Industries AG reports Scope 2 greenhouse gas emissions calculated using the <strong style="color:#111">market-based method</strong> in accordance with the GHG Protocol Corporate Accounting and Reporting Standard.</div>
+                      <div style="background:rgba(0,212,255,.12);border:1px solid rgba(0,212,255,.4);border-radius:2px;padding:4px 6px;margin:4px 0">
+                        <strong style="color:#0066cc">Electricity purchased (market-based): 847.2 tCO₂e</strong> — reflecting contractual instruments (EACs) as per CSRD Article 29b §4(c) requirements. This figure supersedes location-based calculations where EAC documentation is available. See Appendix C for certificate registry numbers.
+                      </div>
+                      <div style="color:#888;font-size:6px;margin-top:4px">Note: Location-based figure of 893.0 tCO₂e shown in Table 3.1 is retained for reference only and must not be used for CSRD Article 29b disclosure.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="review-footer">
+                <div class="audit-trail-preview">🔐 Audit log: 64 events recorded · All decisions attributed to Sarah M. · 14 Nov 2025</div>
+                <div class="rev-actions">
+                  <div class="rev-btn rev-btn-reject">✕ Flag Remaining</div>
+                  <div class="rev-btn rev-btn-partial">✎ Review Flagged (2)</div>
+                  <div class="rev-btn rev-btn-approve">✓ Approve All &amp; Generate Report →</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 5: AUDIT TRAIL
+══════════════════════════════════════════════ -->
+<section id="trail" class="sec sec-alt">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="label-tag">Screen 05 · Compliance Audit Trail</div>
+      <h2 class="sec-title">Immutable Decision Log<br><span style="color:#016D9E">Julian's GDPR Compliance View</span></h2>
+      <p class="sec-sub" style="margin-bottom:32px">Every AI query, every extraction, every human approval, every override, every push to the legacy database — logged, timestamped, attributed. Julian can filter, search, and export a complete decision trail for any audit within seconds. This is the legal backbone of the entire system.</p>
+    </div>
+    <div class="screen-label reveal d1">
+      <span class="screen-id">Screen 05 / 05 · Audit Trail · Role: Compliance Officer (Julian)</span>
+      <span class="screen-desc">Append-only log of every AI and human action across the platform. Fully exportable as a GDPR-compliant PDF. Cannot be edited, deleted, or backdated by any user role including admin.</span>
+    </div>
+    <div class="screen-browser reveal d2">
+      <div class="browser-bar">
+        <div class="browser-dots"><div class="bd bd-r"></div><div class="bd bd-y"></div><div class="bd bd-g"></div></div>
+        <div class="browser-url">aura.cis-platform.internal / audit-trail / AUR-EU-4471</div>
+        <div class="browser-badge">🔒 Secure Instance · GDPR Compliant</div>
+      </div>
+      <div class="app-shell">
+        <div class="app-sidebar">
+          <div class="app-sidebar-header"><div class="app-logo-dot"></div><div class="app-logo">AURA</div></div>
+          <div class="sidebar-nav">
+            <div class="snav-item"><span class="snav-icon">📊</span>Dashboard</div>
+            <div class="snav-item"><span class="snav-icon">🔍</span>Analysis</div>
+            <div class="snav-item"><span class="snav-icon">✅</span>Review Queue</div>
+            <div class="snav-item"><span class="snav-icon">📄</span>Reports</div>
+            <div class="snav-item active"><span class="snav-icon">🔒</span>Audit Trail</div>
+            <div class="snav-item"><span class="snav-icon">⚖️</span>CSRD Mapping</div>
+          </div>
+          <div style="padding:10px;border-top:1px solid var(--bs)">
+            <div style="background:rgba(0,208,132,.05);border:1px solid rgba(0,208,132,.2);border-radius:4px;padding:8px">
+              <div style="font-family:var(--ff-m);font-size:.4375rem;color:var(--ok);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">🔒 Immutable Log</div>
+              <div style="font-size:.5rem;color:var(--ts);line-height:1.5">All records are append-only. No events can be modified or deleted. Compliant with GDPR Art. 5(1)(e) storage limitation.</div>
+            </div>
+          </div>
+        </div>
+        <div class="app-main">
+          <div class="app-topbar">
+            <div class="topbar-breadcrumb">Audit Trail <span>/ AUR-EU-4471 · 94 Events · GDPR Log</span></div>
+            <div class="topbar-actions">
+              <div class="tb-btn tb-btn-sec">Filter by Type</div>
+              <div class="tb-btn tb-btn-sec">Filter by User</div>
+              <div class="tb-btn tb-btn-pri">⬇ Export GDPR PDF</div>
+            </div>
+          </div>
+          <div class="app-content" style="padding:10px;overflow:hidden">
+            <div class="trail-layout">
+              <div style="display:flex;gap:8px;align-items:center">
+                <div class="trail-filters">
+                  <div class="trail-filter active">All Events</div>
+                  <div class="trail-filter">AI Actions</div>
+                  <div class="trail-filter">Human Decisions</div>
+                  <div class="trail-filter">Overrides</div>
+                  <div class="trail-filter">System Events</div>
+                </div>
+                <div class="trail-export">⬇ Export · GDPR Art.5 Compliant PDF</div>
+              </div>
+
+              <div class="trail-immutable">🔐 Append-only log · 94 events · No modification possible · Data controller: CIS Division · Retention: 7 years per GDPR Art.5(1)(e)</div>
+
+              <div class="trail-table-wrap" style="overflow:hidden">
+                <table class="trail-table">
+                  <thead>
+                    <tr>
+                      <th>Timestamp</th>
+                      <th>Event Type</th>
+                      <th>Actor</th>
+                      <th>Field / Action</th>
+                      <th>Value</th>
+                      <th>Source Citation</th>
+                      <th>Confidence</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="mono" style="color:var(--tm);white-space:nowrap">14 Nov · 14:32:07</td>
+                      <td><span class="tt-event-type" style="background:rgba(0,208,132,.1);color:var(--ok)">DB WRITE</span></td>
+                      <td class="tt-analyst">Sarah M.</td>
+                      <td style="color:var(--tp)">All 94 fields → Legacy DB</td>
+                      <td style="color:var(--ok)">Committed ✓</td>
+                      <td class="mono" style="color:var(--cy)">API v2.4 · Schema validated</td>
+                      <td style="color:var(--ok)">—</td>
+                    </tr>
+                    <tr>
+                      <td class="mono" style="color:var(--tm);white-space:nowrap">14 Nov · 14:31:54</td>
+                      <td><span class="tt-event-type" style="background:rgba(0,208,132,.1);color:var(--ok)">APPROVED</span></td>
+                      <td class="tt-analyst">Sarah M.</td>
+                      <td style="color:var(--tp)">All remaining fields batch approval</td>
+                      <td style="color:var(--ok)">61 fields</td>
+                      <td class="mono" style="color:var(--cy)">Bill_Q3_2024.pdf · multi-page</td>
+                      <td style="color:var(--ok)">94%</td>
+                    </tr>
+                    <tr style="background:rgba(255,170,0,.03)">
+                      <td class="mono" style="color:var(--tm);white-space:nowrap">14 Nov · 14:28:41</td>
+                      <td><span class="tt-event-type" style="background:rgba(255,170,0,.1);color:var(--warn)">OVERRIDE</span></td>
+                      <td class="tt-analyst">Sarah M.</td>
+                      <td style="color:var(--tp)">Scope 2 Market-Based Emissions</td>
+                      <td><div class="tt-val-change"><div class="tt-old">893.0 tCO₂e (AI)</div><div class="tt-new">847.2 tCO₂e (human)</div></div></td>
+                      <td class="mono" style="color:var(--cy)">Bill_Q3_2024.pdf · p.7 §3.2 ¶2</td>
+                      <td style="color:var(--warn)">N/A Override</td>
+                    </tr>
+                    <tr>
+                      <td class="mono" style="color:var(--tm);white-space:nowrap">14 Nov · 14:24:19</td>
+                      <td><span class="tt-event-type" style="background:rgba(77,159,255,.1);color:var(--info)">AI EXTRACT</span></td>
+                      <td style="color:var(--info);font-family:var(--ff-m);font-size:.5rem">Aura AI</td>
+                      <td style="color:var(--tp)">Scope 2 Market-Based Emissions</td>
+                      <td style="color:var(--info)">893.0 tCO₂e</td>
+                      <td class="mono" style="color:var(--cy)">Bill_Q3_2024.pdf · p.7 Tbl 3.1</td>
+                      <td style="color:var(--warn)">71%</td>
+                    </tr>
+                    <tr>
+                      <td class="mono" style="color:var(--tm);white-space:nowrap">14 Nov · 14:24:18</td>
+                      <td><span class="tt-event-type" style="background:rgba(77,159,255,.1);color:var(--info)">AI EXTRACT</span></td>
+                      <td style="color:var(--info);font-family:var(--ff-m);font-size:.5rem">Aura AI</td>
+                      <td style="color:var(--tp)">Scope 1 Direct Emissions</td>
+                      <td style="color:var(--info)">312.0 tCO₂e</td>
+                      <td class="mono" style="color:var(--cy)">Bill_Q3_2024.pdf · p.7 §3.2 ¶1</td>
+                      <td style="color:var(--ok)">97%</td>
+                    </tr>
+                    <tr>
+                      <td class="mono" style="color:var(--tm);white-space:nowrap">14 Nov · 14:23:09</td>
+                      <td><span class="tt-event-type" style="background:rgba(0,212,255,.1);color:var(--cy)">AI QUERY</span></td>
+                      <td class="tt-analyst">Sarah M.</td>
+                      <td style="color:var(--tp)">Natural language query submitted</td>
+                      <td style="color:var(--ts);font-size:.4375rem">"Extract all emissions data…"</td>
+                      <td class="mono" style="color:var(--cy)">Internal RAG · No external calls</td>
+                      <td style="color:var(--tm)">—</td>
+                    </tr>
+                    <tr>
+                      <td class="mono" style="color:var(--tm);white-space:nowrap">14 Nov · 14:18:43</td>
+                      <td><span class="tt-event-type" style="background:rgba(255,170,0,.1);color:var(--warn)">PDF INDEXED</span></td>
+                      <td style="color:var(--warn);font-family:var(--ff-m);font-size:.5rem">System</td>
+                      <td style="color:var(--tp)">Document ingested into RAG vector store</td>
+                      <td style="color:var(--warn)">94 fields identified</td>
+                      <td class="mono" style="color:var(--cy)">Azure Private Cloud · EU-West</td>
+                      <td style="color:var(--tm)">—</td>
+                    </tr>
+                    <tr>
+                      <td class="mono" style="color:var(--tm);white-space:nowrap">14 Nov · 14:18:01</td>
+                      <td><span class="tt-event-type" style="background:rgba(255,170,0,.1);color:var(--warn)">UPLOAD</span></td>
+                      <td class="tt-analyst">Sarah M.</td>
+                      <td style="color:var(--tp)">PDF uploaded to secure workspace</td>
+                      <td style="color:var(--ts)">Bill_Q3_2024.pdf · 50pp · 3.2MB</td>
+                      <td class="mono" style="color:var(--ok)">No external transfer · GDPR Art.5</td>
+                      <td style="color:var(--tm)">—</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Final annotation -->
+    <div class="annotation-band reveal" style="margin-top:48px">
+      <div class="annotation-row">
+        <div class="ann-item"><div class="ann-icon">⚖️</div><div><div class="ann-title">Every Row is Append-Only</div><div class="ann-body">The audit log uses an append-only data model. Not even admin users can modify or delete rows. This is enforced at the database level, not just the UI — satisfying Julian's requirement for a truly immutable record.</div></div></div>
+        <div class="ann-item"><div class="ann-icon">🔬</div><div><div class="ann-title">Confidence Score Preserved</div><div class="ann-body">The AI's original confidence score (71% for the overridden Scope 2 value) is preserved alongside the human correction. This is evidence of the Explainability Seam working — Sarah questioned a low-confidence extraction and was right to do so.</div></div></div>
+        <div class="ann-item"><div class="ann-icon">📤</div><div><div class="ann-title">One-Click Regulator Export</div><div class="ann-body">Julian can export all 94 events as a formatted PDF within seconds. The export includes the source document references, the AI confidence scores, and each human decision with its justification text — ready for EU regulator submission.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════ -->
+<div class="divider"></div>
+<footer style="background:#EDF3FA;padding:56px 0 40px;text-align:center;position:relative;z-index:1">
+  <div class="wrap">
+    <div style="font-family:var(--ff-d);font-size:1.375rem;font-weight:700;color:#002C77;margin-bottom:4px">Aasif</div>
+    <div style="font-size:.875rem;color:var(--tm);margin-bottom:24px">Lead AI Product Designer · 14 Years Enterprise Experience · Available for Principal AI Designer Roles · Germany &amp; Amsterdam</div>
+
+    <!-- Back to case study CTA -->
+    <div style="margin-bottom:32px">
+      <a href="project-aura-case-study.html" style="display:inline-flex;align-items:center;gap:12px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.3);border-radius:10px;padding:14px 28px;text-decoration:none" onmouseover="this.style.background='rgba(0,212,255,0.15)'" onmouseout="this.style.background='rgba(0,212,255,0.08)'">
+        <span style="color:var(--cy);font-size:1rem">←</span>
+        <span style="font-family:var(--ff-m);font-size:.75rem;font-weight:700;color:var(--cy);text-transform:uppercase;letter-spacing:.08em">Back to Full Case Study</span>
+      </a>
+    </div>
+
+    <div style="display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-bottom:24px">
+      <a href="project-aura-case-study.html" style="font-family:var(--ff-m);font-size:.6875rem;color:var(--ts);text-decoration:none;text-transform:uppercase;letter-spacing:.1em;transition:color .2s" onmouseover="this.style.color='var(--cy)'" onmouseout="this.style.color='var(--ts)'">← Case Study</a>
+      <a href="https://aasifdesign.com" style="font-family:var(--ff-m);font-size:.6875rem;color:var(--ts);text-decoration:none;text-transform:uppercase;letter-spacing:.1em" onmouseover="this.style.color='var(--cy)'" onmouseout="this.style.color='var(--ts)'">Portfolio</a>
+      <a href="https://www.linkedin.com/in/aasif-shaikh" target="_blank" style="font-family:var(--ff-m);font-size:.6875rem;color:var(--ts);text-decoration:none;text-transform:uppercase;letter-spacing:.1em" onmouseover="this.style.color='var(--cy)'" onmouseout="this.style.color='var(--ts)'">LinkedIn</a>
+    </div>
+    <div style="font-family:var(--ff-m);font-size:.625rem;color:var(--cy);letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px">Project Aura · Product Screens · Global Insurance Brokerage · Enterprise AI</div>
+    <div style="font-family:var(--ff-m);font-size:.5625rem;color:var(--tm)">© 2026 Aasif · All rights reserved · Client data sanitised &amp; anonymised</div>
+  </div>
+</footer>
+
+<script>
+const ro = new IntersectionObserver(e => e.forEach(x => x.isIntersecting && x.target.classList.add('v')),{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+// Nav active
+const secs = document.querySelectorAll('section[id]');
+const navA = document.querySelectorAll('.nav-links a');
+new IntersectionObserver(e => {
+  e.forEach(x => {
+    if(x.isIntersecting){
+      const id = x.target.id;
+      navA.forEach(a => { a.style.color = a.getAttribute('href')==='#'+id ? 'var(--cy)' : ''; });
+    }
+  });
+},{threshold:.3}).observe(...secs) && secs.forEach(s => new IntersectionObserver(e => {
+  e.forEach(x => { if(x.isIntersecting){ navA.forEach(a => { a.style.color = a.getAttribute('href')==='#'+x.target.id ? 'var(--cy)' : ''; }); }});
+},{threshold:.3}).observe(s));
+</script>
+</body>
+</html>

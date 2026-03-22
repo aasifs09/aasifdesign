@@ -1,0 +1,2859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Project Aura — AI ESG Intelligence Copilot | Aasif · Lead AI Product Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500&family=Noto+Sans+Mono:wdth,wght@75,400;75,500;75,600;75,700;100,400;100,500;100,600;100,700&display=swap" rel="stylesheet" />
+<style>
+  /* ============================================
+     DESIGN TOKENS — PROJECT AURA
+     ============================================ */
+  :root {
+    /* Backgrounds */
+    --bg-void:        #040D1A;
+    --bg-base:        #070F1E;
+    --bg-surface:     #0D1B2E;
+    --bg-elevated:    #112240;
+    --bg-card:        rgba(17, 34, 64, 0.85);
+
+    /* Typography */
+    --text-primary:   #E8F0FE;
+    --text-secondary: #A8B4C2;
+    --text-muted:     #7A8899;
+    --text-white:     #FFFFFF;
+
+    /* AI Accent — Cyan spectrum */
+    --cyan-glow:      #00D4FF;
+    --cyan-mid:       #0EA5D4;
+    --cyan-dark:      #0277A0;
+    --cyan-subtle:    rgba(0, 212, 255, 0.08);
+    --cyan-border:    rgba(0, 212, 255, 0.25);
+
+    /* Semantic */
+    --success:        #00D084;
+    --warning:        #FFAA00;
+    --error:          #FF4D6A;
+    --info:           #4D9FFF;
+
+    /* Borders */
+    --border-subtle:  rgba(255,255,255,0.06);
+    --border-mid:     rgba(255,255,255,0.12);
+    --border-cyan:    rgba(0, 212, 255, 0.3);
+
+    /* Spacing — 8pt grid */
+    --sp-1: 8px;
+    --sp-2: 16px;
+    --sp-3: 24px;
+    --sp-4: 32px;
+    --sp-5: 40px;
+    --sp-6: 48px;
+    --sp-8: 64px;
+    --sp-10: 80px;
+    --sp-12: 96px;
+    --sp-16: 128px;
+
+    /* Type Scale */
+    --t-hero:   clamp(3rem, 7vw, 6rem);
+    --t-h1:     clamp(2.2rem, 4.5vw, 3.75rem);
+    --t-h2:     clamp(1.6rem, 3vw, 2.5rem);
+    --t-h3:     clamp(1.2rem, 2vw, 1.5rem);
+    --t-body:   1rem;
+    --t-small:  0.9375rem;
+    --t-xs:     0.8125rem;
+    --t-mono:   0.875rem;
+
+    /* Font families */
+    --ff-display: 'Noto Sans', sans-serif;
+    --ff-body:    'Noto Sans', sans-serif;
+    --ff-mono:    'Noto Sans Mono', monospace;
+
+    /* Effects */
+    --shadow-card:  0 4px 32px rgba(0,0,0,0.5), 0 1px 0 var(--border-subtle);
+    --shadow-glow:  0 0 40px rgba(0, 212, 255, 0.15), 0 0 80px rgba(0, 212, 255, 0.05);
+    --blur-glass:   blur(16px) saturate(1.5);
+    --radius:       12px;
+    --radius-lg:    20px;
+  }
+
+  /* ============================================
+     RESET & BASE
+     ============================================ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    background: var(--bg-void);
+    color: var(--text-primary);
+    font-family: var(--ff-body);
+    font-size: var(--t-body);
+    line-height: 1.7;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999; opacity: 0.35;
+  }
+
+  /* Grid background */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 64px 64px;
+    pointer-events: none; z-index: 0;
+  }
+
+  /* ============================================
+     NAV
+     ============================================ */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: var(--sp-2) var(--sp-6);
+    background: rgba(4, 13, 26, 0.85);
+    backdrop-filter: var(--blur-glass);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .nav-brand {
+    font-family: var(--ff-display);
+    font-weight: 700; font-size: 1rem;
+    color: var(--text-white);
+    letter-spacing: 0.02em;
+  }
+  .nav-brand span { color: var(--cyan-glow); }
+
+  .nav-links {
+    display: flex; gap: var(--sp-4); list-style: none;
+  }
+  .nav-links a {
+    font-size: var(--t-small); font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none; letter-spacing: 0.05em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--cyan-glow); }
+
+  .nav-cta {
+    padding: 8px 20px;
+    border: 1px solid var(--border-cyan);
+    color: var(--cyan-glow) !important;
+    border-radius: 6px;
+    font-family: var(--ff-mono) !important;
+    font-size: var(--t-xs) !important;
+    text-transform: uppercase !important;
+    transition: background 0.2s, box-shadow 0.2s !important;
+  }
+  .nav-cta:hover {
+    background: var(--cyan-subtle) !important;
+    box-shadow: var(--shadow-glow) !important;
+  }
+
+  /* ============================================
+     UTILITY
+     ============================================ */
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 var(--sp-4); position: relative; z-index: 1; }
+  .container-wide { max-width: 1400px; margin: 0 auto; padding: 0 var(--sp-4); position: relative; z-index: 1; }
+
+  .section { padding: var(--sp-16) 0; position: relative; }
+  .section-sm { padding: var(--sp-10) 0; position: relative; }
+
+  .label-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--ff-mono); font-size: var(--t-xs); font-weight: 500;
+    color: var(--cyan-glow); letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: var(--sp-2);
+  }
+  .label-tag::before {
+    content: ''; width: 24px; height: 1px;
+    background: var(--cyan-glow);
+    display: inline-block;
+  }
+
+  .section-title {
+    font-family: var(--ff-display);
+    font-size: var(--t-h1);
+    font-weight: 700;
+    color: var(--text-white);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--sp-2);
+  }
+
+  .section-subtitle {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 640px;
+    line-height: 1.8;
+    margin-bottom: var(--sp-6);
+  }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-cyan), transparent);
+    margin: 0;
+  }
+
+  /* Cards */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius);
+    padding: var(--sp-4);
+    backdrop-filter: var(--blur-glass);
+    box-shadow: var(--shadow-card);
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  }
+  .card:hover {
+    border-color: var(--border-cyan);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card), var(--shadow-glow);
+  }
+
+  /* Grid systems */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4); }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-3); }
+
+  /* Mono data */
+  .mono { font-family: var(--ff-mono); }
+  .cyan { color: var(--cyan-glow); }
+  .success { color: var(--success); }
+  .warning { color: var(--warning); }
+  .error-col { color: var(--error); }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ============================================
+     SECTION 1: HERO
+     ============================================ */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding-top: 80px;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0, 60, 120, 0.35) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 85% 30%, rgba(0,212,255,0.08) 0%, transparent 60%),
+                var(--bg-void);
+    overflow: hidden;
+  }
+
+  .hero-eyebrow {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: var(--sp-3);
+    animation: fadeDown 0.8s ease both;
+  }
+  .hero-badge {
+    font-family: var(--ff-mono); font-size: var(--t-xs);
+    color: var(--cyan-glow); letter-spacing: 0.12em; text-transform: uppercase;
+    background: var(--cyan-subtle); border: 1px solid var(--cyan-border);
+    padding: 5px 12px; border-radius: 4px;
+  }
+  .hero-company {
+    font-family: var(--ff-mono); font-size: var(--t-xs);
+    color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase;
+  }
+
+  .hero-title {
+    font-family: var(--ff-display);
+    font-size: var(--t-hero);
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    color: var(--text-white);
+    margin-bottom: var(--sp-3);
+    animation: fadeDown 0.8s 0.15s ease both;
+  }
+  .hero-title .accent {
+    color: var(--cyan-glow);
+    position: relative;
+  }
+  .hero-title .accent::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--cyan-glow), transparent);
+  }
+
+  .hero-description {
+    font-size: 1.2rem; color: var(--text-secondary);
+    max-width: 600px; line-height: 1.8;
+    margin-bottom: var(--sp-6);
+    animation: fadeDown 0.8s 0.3s ease both;
+  }
+
+  .hero-meta-row {
+    display: flex; flex-wrap: wrap; gap: var(--sp-4);
+    margin-bottom: var(--sp-6);
+    animation: fadeDown 0.8s 0.4s ease both;
+  }
+  .meta-chip {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .meta-chip-label {
+    font-family: var(--ff-mono); font-size: var(--t-xs);
+    color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;
+  }
+  .meta-chip-value {
+    font-family: var(--ff-mono); font-size: var(--t-small);
+    color: var(--text-primary); font-weight: 500;
+  }
+  .meta-sep { color: var(--text-muted); }
+
+  /* KPI strip */
+  .hero-kpi-strip {
+    display: flex; gap: var(--sp-1);
+    animation: fadeDown 0.8s 0.5s ease both;
+    margin-bottom: var(--sp-8);
+  }
+  .kpi-card {
+    flex: 1; min-width: 0;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-top: 2px solid var(--cyan-glow);
+    border-radius: var(--radius);
+    padding: var(--sp-3) var(--sp-3);
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi-card::after {
+    content: '';
+    position: absolute; bottom: -20px; right: -20px;
+    width: 80px; height: 80px;
+    background: radial-gradient(circle, rgba(0,212,255,0.12), transparent 70%);
+  }
+  .kpi-value {
+    font-family: var(--ff-display); font-size: 2.5rem; font-weight: 800;
+    color: var(--cyan-glow); line-height: 1; margin-bottom: 4px;
+    letter-spacing: -0.03em;
+  }
+  .kpi-label {
+    font-size: var(--t-small); color: var(--text-secondary); line-height: 1.3;
+  }
+  .kpi-delta {
+    font-family: var(--ff-mono); font-size: var(--t-xs);
+    color: var(--success); margin-top: 6px;
+  }
+
+  /* Mockup area */
+  .hero-mockup {
+    position: absolute; right: -40px; top: 50%; transform: translateY(-50%);
+    width: 520px;
+    animation: floatIn 1s 0.6s ease both;
+  }
+  .hero-content-wrap { position: relative; }
+
+  @media (max-width: 1024px) {
+    .hero-mockup { display: none; }
+  }
+
+  /* Mockup UI */
+  .mockup-shell {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-mid);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.7), 0 0 60px rgba(0,212,255,0.1);
+  }
+  .mockup-titlebar {
+    background: var(--bg-elevated);
+    padding: 10px 16px;
+    display: flex; align-items: center; gap: 8px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #FF5F57; }
+  .dot-y { background: #FEBC2E; }
+  .dot-g { background: #28C840; }
+  .mockup-titlebar-text {
+    font-family: var(--ff-mono); font-size: 11px;
+    color: var(--text-muted); margin-left: auto;
+  }
+
+  .mockup-body {
+    display: grid; grid-template-columns: 1fr 240px;
+    min-height: 340px;
+  }
+  .mockup-main {
+    padding: var(--sp-3);
+    border-right: 1px solid var(--border-subtle);
+  }
+  .legacy-row {
+    height: 10px; border-radius: 3px; margin-bottom: 8px;
+    background: var(--bg-elevated); opacity: 0.6;
+  }
+  .legacy-row.w-full { width: 100%; }
+  .legacy-row.w-75 { width: 75%; }
+  .legacy-row.w-50 { width: 50%; }
+  .legacy-row.w-90 { width: 90%; }
+
+  .legacy-table {
+    margin-top: var(--sp-2);
+    border: 1px solid var(--border-subtle);
+    border-radius: 6px; overflow: hidden;
+  }
+  .legacy-th {
+    background: var(--bg-elevated);
+    padding: 6px 10px;
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 8px;
+  }
+  .legacy-th span, .legacy-td span {
+    height: 8px; border-radius: 2px;
+    background: var(--text-muted); display: block; opacity: 0.4;
+  }
+  .legacy-td {
+    padding: 6px 10px;
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 8px;
+    border-top: 1px solid var(--border-subtle);
+  }
+  .legacy-td.highlight { background: rgba(0,212,255,0.04); }
+  .legacy-td.highlight span { background: var(--cyan-mid); opacity: 0.6; }
+
+  /* AI copilot panel */
+  .copilot-panel {
+    padding: var(--sp-2); display: flex; flex-direction: column; gap: 10px;
+  }
+  .cp-header {
+    font-family: var(--ff-mono); font-size: 9px; color: var(--cyan-glow);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .cp-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan-glow);
+    animation: pulse 2s infinite; }
+  .cp-bubble {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-cyan);
+    border-radius: 8px; padding: 8px 10px;
+    font-size: 10px; color: var(--text-secondary); line-height: 1.5;
+  }
+  .cp-bubble.ai {
+    background: rgba(0,212,255,0.07);
+    border-color: rgba(0,212,255,0.3);
+    color: var(--text-primary);
+  }
+  .cp-cite {
+    font-family: var(--ff-mono); font-size: 9px;
+    color: var(--cyan-glow); margin-top: 4px;
+    cursor: pointer; text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .cp-confidence {
+    display: flex; align-items: center; gap: 6px;
+    font-family: var(--ff-mono); font-size: 9px; color: var(--text-muted);
+  }
+  .conf-bar { flex: 1; height: 3px; background: var(--bg-elevated); border-radius: 2px; }
+  .conf-fill {
+    height: 100%; width: 94%;
+    background: linear-gradient(90deg, var(--cyan-dark), var(--cyan-glow));
+    border-radius: 2px;
+  }
+  .cp-actions {
+    display: flex; gap: 6px;
+  }
+  .cp-btn {
+    flex: 1; padding: 5px 8px; border-radius: 5px;
+    font-family: var(--ff-mono); font-size: 9px; text-align: center;
+    cursor: pointer; border: 1px solid;
+  }
+  .cp-btn-approve {
+    background: rgba(0,208,132,0.1); border-color: var(--success); color: var(--success);
+  }
+  .cp-btn-reject {
+    background: rgba(255,77,106,0.1); border-color: var(--error); color: var(--error);
+  }
+
+  /* ============================================
+     SECTION 2: THE PROBLEM
+     ============================================ */
+  #problem {
+    background: var(--bg-base);
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .problem-layout {
+    display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-8);
+    align-items: start;
+  }
+
+  .problem-stat-block {
+    display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-2);
+    margin-top: var(--sp-5);
+  }
+  .pstat {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius);
+    padding: var(--sp-3);
+  }
+  .pstat-num {
+    font-family: var(--ff-display); font-size: 2rem; font-weight: 700;
+    line-height: 1; margin-bottom: 6px;
+  }
+  .pstat-desc { font-size: var(--t-small); color: var(--text-secondary); line-height: 1.5; }
+
+  /* Kanban board */
+  .kanban-board {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: var(--sp-3);
+    overflow: hidden;
+  }
+  .kanban-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: var(--sp-2);
+    font-family: var(--ff-mono); font-size: var(--t-xs);
+    color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;
+  }
+  .kanban-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .kanban-col { }
+  .kanban-col-title {
+    font-family: var(--ff-mono); font-size: var(--t-xs);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 5px 8px; border-radius: 4px; margin-bottom: 8px;
+    display: inline-block;
+  }
+  .col-discover { background: rgba(255,170,0,0.1); color: var(--warning); }
+  .col-define   { background: rgba(0,212,255,0.1); color: var(--cyan-glow); }
+  .col-validate { background: rgba(0,208,132,0.1); color: var(--success); }
+
+  .kanban-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: 6px; padding: 8px 10px;
+    margin-bottom: 8px;
+    font-size: var(--t-xs); color: var(--text-secondary); line-height: 1.5;
+  }
+  .kanban-card-tag {
+    font-family: var(--ff-mono); font-size: 9px;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-bottom: 4px; display: block;
+  }
+
+  /* Stakeholder alignment */
+  .stakeholder-grid {
+    display: flex; flex-direction: column; gap: var(--sp-2);
+    margin-top: var(--sp-4);
+  }
+  .sh-card {
+    display: flex; align-items: flex-start; gap: var(--sp-2);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-left: 3px solid;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: var(--sp-2) var(--sp-3);
+  }
+  .sh-icon {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.25rem; flex-shrink: 0;
+    border: 1px solid var(--border-subtle);
+  }
+  .sh-content { flex: 1; }
+  .sh-role {
+    font-family: var(--ff-mono); font-size: var(--t-xs);
+    text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px;
+  }
+  .sh-need { font-size: var(--t-small); color: var(--text-secondary); line-height: 1.5; }
+  .sh-resolution {
+    font-size: var(--t-xs); margin-top: 4px;
+    font-style: italic; opacity: 0.8;
+  }
+
+  /* ============================================
+     SECTION 3: PERSONAS
+     ============================================ */
+  #personas {
+    background: var(--bg-void);
+    position: relative;
+  }
+  #personas::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(0,60,120,0.2), transparent);
+    pointer-events: none;
+  }
+
+  .persona-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    backdrop-filter: var(--blur-glass);
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+  }
+  .persona-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-cyan);
+    box-shadow: var(--shadow-glow), var(--shadow-card);
+  }
+
+  .persona-header {
+    padding: var(--sp-3) var(--sp-3) var(--sp-2);
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex; align-items: center; gap: var(--sp-2);
+  }
+  .persona-avatar {
+    width: 52px; height: 52px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    border: 2px solid;
+    flex-shrink: 0;
+  }
+  .persona-name {
+    font-family: var(--ff-display); font-size: 1.25rem; font-weight: 700;
+    color: var(--text-white); margin-bottom: 2px;
+  }
+  .persona-role {
+    font-family: var(--ff-mono); font-size: var(--t-xs);
+    color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase;
+  }
+
+  .persona-body { padding: var(--sp-3); }
+
+  .persona-quote {
+    font-size: 0.9375rem; color: var(--text-secondary);
+    font-style: italic; line-height: 1.6;
+    border-left: 2px solid;
+    padding-left: var(--sp-2);
+    margin-bottom: var(--sp-2);
+  }
+
+  .persona-data-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    margin-bottom: var(--sp-2);
+  }
+  .pdata-item { }
+  .pdata-label {
+    font-family: var(--ff-mono); font-size: 9px;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--text-muted); margin-bottom: 3px;
+  }
+  .pdata-value { font-size: var(--t-small); color: var(--text-primary); font-weight: 500; }
+
+  .persona-needs {
+    margin-top: var(--sp-2);
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .pneed {
+    display: flex; align-items: flex-start; gap: 8px;
+    font-size: var(--t-small); color: var(--text-secondary);
+  }
+  .pneed-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    flex-shrink: 0; margin-top: 6px;
+  }
+
+  .persona-stress-bar {
+    margin-top: var(--sp-2);
+  }
+  .stress-label {
+    display: flex; justify-content: space-between;
+    font-family: var(--ff-mono); font-size: 9px; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .stress-track { height: 4px; background: var(--bg-elevated); border-radius: 2px; }
+  .stress-fill { height: 100%; border-radius: 2px; }
+
+  /* ============================================
+     SECTION 4: PROCESS — DOUBLE DIAMOND
+     ============================================ */
+  #process {
+    background: var(--bg-base);
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .diamond-diagram {
+    position: relative;
+    margin: var(--sp-8) 0 var(--sp-5);
+    overflow-x: auto;
+  }
+
+  .diamond-track {
+    display: flex; align-items: center; gap: 0;
+    min-width: 800px;
+  }
+
+  .diamond-phase {
+    flex: 1; text-align: center; position: relative;
+    padding: 0 var(--sp-2);
+  }
+
+  .diamond-shape {
+    width: 120px; height: 80px; margin: 0 auto var(--sp-2);
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    font-family: var(--ff-display); font-size: 1.75rem; font-weight: 800;
+  }
+
+  .diamond-connector {
+    width: 40px; height: 2px;
+    background: linear-gradient(90deg, var(--border-cyan), transparent);
+    align-self: center;
+    margin-top: -60px;
+    flex-shrink: 0;
+  }
+
+  .dp-label {
+    font-family: var(--ff-mono); font-size: var(--t-xs);
+    text-transform: uppercase; letter-spacing: 0.12em;
+    margin-bottom: 8px;
+  }
+  .dp-title {
+    font-family: var(--ff-display); font-size: 1.1rem; font-weight: 700;
+    color: var(--text-white); margin-bottom: 6px;
+  }
+  .dp-desc { font-size: var(--t-small); color: var(--text-secondary); line-height: 1.5; }
+
+  .dp-tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 8px; }
+  .dp-tag {
+    font-family: var(--ff-mono); font-size: 9px; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 3px;
+    background: var(--bg-elevated); border: 1px solid var(--border-subtle);
+    color: var(--text-muted); letter-spacing: 0.08em;
+  }
+
+  .ai-adaptation-note {
+    background: rgba(0,212,255,0.05);
+    border: 1px solid var(--border-cyan);
+    border-radius: var(--radius);
+    padding: var(--sp-3) var(--sp-4);
+    display: flex; gap: var(--sp-3); align-items: flex-start;
+    margin-top: var(--sp-5);
+  }
+  .ai-note-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+  .ai-note-title {
+    font-family: var(--ff-display); font-size: 1rem; font-weight: 700;
+    color: var(--cyan-glow); margin-bottom: 4px;
+  }
+  .ai-note-text { font-size: var(--t-small); color: var(--text-secondary); line-height: 1.6; }
+
+  /* ============================================
+     SECTION 5: IA & RAG ARCHITECTURE
+     ============================================ */
+  #architecture {
+    background: var(--bg-void);
+    position: relative; overflow: hidden;
+  }
+  #architecture::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(0,60,120,0.15), transparent 70%);
+    pointer-events: none;
+  }
+
+  .arch-diagram {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-mid);
+    border-radius: var(--radius-lg);
+    padding: var(--sp-6);
+    margin: var(--sp-6) 0;
+    position: relative;
+  }
+  .arch-diagram-title {
+    position: absolute; top: var(--sp-2); left: var(--sp-3);
+    font-family: var(--ff-mono); font-size: var(--t-xs);
+    color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;
+  }
+
+  .arch-layers {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+    align-items: center;
+    gap: var(--sp-2);
+    margin-top: var(--sp-3);
+  }
+
+  .arch-node {
+    background: var(--bg-elevated);
+    border: 1px solid;
+    border-radius: var(--radius);
+    padding: var(--sp-3);
+    text-align: center;
+    position: relative;
+  }
+
+  .arch-node-icon {
+    font-size: 1.75rem; display: block; margin-bottom: 8px;
+  }
+  .arch-node-label {
+    font-family: var(--ff-display); font-size: 0.875rem; font-weight: 700;
+    color: var(--text-white); margin-bottom: 4px;
+  }
+  .arch-node-sublabel {
+    font-family: var(--ff-mono); font-size: 9px;
+    color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em;
+    line-height: 1.4;
+  }
+  .arch-badge {
+    position: absolute; top: -8px; right: -8px;
+    font-family: var(--ff-mono); font-size: 8px;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 2px 6px; border-radius: 3px;
+  }
+
+  .arch-arrow {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+  .arch-arrow-line {
+    width: 100%; height: 2px;
+    position: relative;
+  }
+  .arch-arrow-line::after {
+    content: '▶';
+    position: absolute; right: -8px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 10px;
+  }
+  .arch-arrow-label {
+    font-family: var(--ff-mono); font-size: 8px;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    text-align: center; white-space: nowrap;
+  }
+
+  /* RAG bottom panel */
+  .rag-bottom {
+    margin-top: var(--sp-4);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-cyan);
+    border-radius: var(--radius);
+    padding: var(--sp-3) var(--sp-4);
+    display: grid; grid-template-columns: auto 1fr auto 1fr auto;
+    align-items: center; gap: var(--sp-3);
+  }
+  .rag-source {
+    text-align: center;
+  }
+  .rag-source-icon { font-size: 1.5rem; display: block; margin-bottom: 4px; }
+  .rag-source-label {
+    font-family: var(--ff-mono); font-size: 9px;
+    color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .rag-divider { width: 1px; height: 40px; background: var(--border-subtle); }
+  .rag-lock {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 4px;
+  }
+  .lock-badge {
+    background: rgba(0,208,132,0.1);
+    border: 1px solid var(--success);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-family: var(--ff-mono); font-size: 9px;
+    color: var(--success); text-transform: uppercase; letter-spacing: 0.08em;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  /* Arch explanation cards */
+  .arch-explain-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-3);
+    margin-top: var(--sp-5);
+  }
+  .arch-ex-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius);
+    padding: var(--sp-3);
+  }
+  .arch-ex-num {
+    font-family: var(--ff-display); font-size: 2.5rem; font-weight: 800;
+    color: var(--bg-elevated); line-height: 1;
+    margin-bottom: -8px;
+    -webkit-text-stroke: 1px var(--border-mid);
+  }
+  .arch-ex-title {
+    font-family: var(--ff-display); font-size: 1rem; font-weight: 700;
+    color: var(--cyan-glow); margin-bottom: 6px;
+  }
+  .arch-ex-body { font-size: var(--t-small); color: var(--text-secondary); line-height: 1.6; }
+
+  /* ============================================
+     SECTION 6: LEGACY TECH CHALLENGE
+     ============================================ */
+  #legacy {
+    background: var(--bg-base);
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .split-screen {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--border-mid);
+    box-shadow: var(--shadow-card);
+    margin: var(--sp-6) 0;
+  }
+
+  .split-before {
+    background: #1a1a1a;
+    padding: var(--sp-3);
+    border-right: 1px solid var(--border-mid);
+    position: relative;
+  }
+  .split-after {
+    background: var(--bg-surface);
+    padding: var(--sp-3);
+    position: relative;
+  }
+
+  .split-label {
+    font-family: var(--ff-mono); font-size: var(--t-xs);
+    text-transform: uppercase; letter-spacing: 0.12em;
+    padding: 4px 10px; border-radius: 3px; margin-bottom: var(--sp-2);
+    display: inline-block;
+  }
+  .label-before { background: rgba(255,77,106,0.1); color: var(--error); border: 1px solid rgba(255,77,106,0.3); }
+  .label-after  { background: rgba(0,212,255,0.1); color: var(--cyan-glow); border: 1px solid var(--border-cyan); }
+
+  /* Legacy "bad" UI */
+  .legacy-ui { }
+  .legacy-menu-bar {
+    background: #2d2d2d; padding: 6px 10px;
+    display: flex; gap: 12px; margin-bottom: 10px;
+    border: 1px solid #3d3d3d;
+  }
+  .legacy-menu-item {
+    font-family: var(--ff-mono); font-size: 9px;
+    color: #999; text-transform: uppercase;
+  }
+  .legacy-toolbar {
+    background: #252525; padding: 6px 10px;
+    display: flex; gap: 6px; margin-bottom: 10px;
+    border: 1px solid #3d3d3d;
+    flex-wrap: wrap;
+  }
+  .legacy-btn {
+    background: #3d3d3d; border: 1px solid #555;
+    padding: 3px 8px; border-radius: 2px;
+    font-family: var(--ff-mono); font-size: 9px; color: #ccc;
+  }
+  .legacy-data-row {
+    display: grid; grid-template-columns: 120px repeat(5, 1fr);
+    gap: 4px; margin-bottom: 3px;
+  }
+  .legacy-cell {
+    background: #252525; border: 1px solid #333;
+    padding: 4px 6px; font-family: var(--ff-mono); font-size: 9px; color: #888;
+    overflow: hidden; white-space: nowrap;
+  }
+  .legacy-cell.header { background: #2a2a2a; color: #aaa; }
+  .legacy-cell.data-val { color: #c0c0c0; }
+  .legacy-cell.error { color: #ff4444; background: rgba(255,68,68,0.05); }
+  .legacy-status {
+    margin-top: 8px;
+    font-family: var(--ff-mono); font-size: 9px; color: #ff4444;
+    background: rgba(255,68,68,0.05); border: 1px solid rgba(255,68,68,0.2);
+    padding: 4px 8px; border-radius: 3px;
+  }
+
+  /* Modern Aura UI */
+  .aura-ui { }
+  .aura-topbar {
+    background: var(--bg-elevated); padding: 8px 12px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-radius: 6px; margin-bottom: 10px;
+    border: 1px solid var(--border-subtle);
+  }
+  .aura-logo-text {
+    font-family: var(--ff-display); font-size: 11px; font-weight: 700;
+    color: var(--cyan-glow); letter-spacing: 0.05em;
+  }
+  .aura-status-pill {
+    font-family: var(--ff-mono); font-size: 8px;
+    background: rgba(0,208,132,0.1); border: 1px solid var(--success);
+    color: var(--success); padding: 2px 8px; border-radius: 10px;
+    display: flex; align-items: center; gap: 4px;
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .s-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--success); animation: pulse 2s infinite; }
+  .aura-data-card {
+    background: var(--bg-elevated); border: 1px solid var(--border-subtle);
+    border-radius: 6px; padding: 8px 10px; margin-bottom: 8px;
+  }
+  .adc-header {
+    font-family: var(--ff-mono); font-size: 8px;
+    color: var(--text-muted); text-transform: uppercase;
+    letter-spacing: 0.1em; margin-bottom: 6px;
+    display: flex; justify-content: space-between;
+  }
+  .adc-field {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 3px 0; border-bottom: 1px solid var(--border-subtle);
+  }
+  .adc-field:last-child { border-bottom: none; }
+  .adc-field-name { font-size: 9px; color: var(--text-secondary); }
+  .adc-field-value { font-family: var(--ff-mono); font-size: 9px; color: var(--text-primary); font-weight: 500; }
+  .adc-field-value.cyan { color: var(--cyan-glow); }
+  .adc-field-value.verified { color: var(--success); }
+  .aura-push-btn {
+    width: 100%; padding: 7px; border-radius: 5px; text-align: center;
+    font-family: var(--ff-mono); font-size: 9px; text-transform: uppercase;
+    letter-spacing: 0.1em; background: rgba(0,212,255,0.1);
+    border: 1px solid var(--border-cyan); color: var(--cyan-glow);
+    cursor: pointer; margin-top: 6px;
+  }
+
+  /* Solution steps */
+  .solution-steps {
+    display: flex; flex-direction: column; gap: var(--sp-2); margin-top: var(--sp-4);
+  }
+  .solution-step {
+    display: flex; align-items: flex-start; gap: var(--sp-2);
+    background: var(--bg-elevated); border: 1px solid var(--border-subtle);
+    border-radius: var(--radius); padding: var(--sp-2) var(--sp-3);
+  }
+  .step-num {
+    font-family: var(--ff-display); font-size: 1.75rem; font-weight: 800;
+    color: var(--cyan-glow); line-height: 1;
+    opacity: 0.3; flex-shrink: 0; min-width: 40px;
+  }
+  .step-content {}
+  .step-title {
+    font-family: var(--ff-display); font-size: 1rem; font-weight: 700;
+    color: var(--text-white); margin-bottom: 4px;
+  }
+  .step-body { font-size: var(--t-small); color: var(--text-secondary); line-height: 1.6; }
+
+  /* ============================================
+     SECTION 7: USABILITY TESTING
+     ============================================ */
+  #testing {
+    background: var(--bg-void);
+    position: relative;
+  }
+
+  .testing-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-5);
+    margin-top: var(--sp-6);
+  }
+
+  /* Heatmap */
+  .heatmap-container {
+    background: var(--bg-surface); border: 1px solid var(--border-mid);
+    border-radius: var(--radius-lg); overflow: hidden;
+  }
+  .heatmap-bar {
+    background: var(--bg-elevated); padding: 10px 14px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .heatmap-title {
+    font-family: var(--ff-mono); font-size: var(--t-xs);
+    color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.1em;
+  }
+  .heatmap-legend {
+    display: flex; gap: 10px; align-items: center;
+    font-family: var(--ff-mono); font-size: 9px; color: var(--text-muted);
+  }
+  .hm-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+
+  .heatmap-body { padding: var(--sp-3); }
+  .hm-report-mock {
+    background: #fff; border-radius: 6px; padding: 12px;
+    font-size: 9px; font-family: var(--ff-mono); color: #333;
+    position: relative; line-height: 1.6;
+  }
+  .hm-row { margin-bottom: 6px; position: relative; }
+  .hm-label { color: #666; margin-bottom: 2px; display: block; }
+  .hm-value { color: #111; font-weight: 600; }
+  .hm-hotspot {
+    display: inline-block;
+    background: rgba(255, 50, 50, 0.18);
+    border: 1px solid rgba(255, 50, 50, 0.4);
+    border-radius: 3px; padding: 1px 4px;
+    cursor: pointer; position: relative;
+  }
+  .hm-hotspot.cyan-hot {
+    background: rgba(0,212,255,0.25);
+    border-color: var(--cyan-glow);
+    box-shadow: 0 0 12px rgba(0,212,255,0.4);
+    animation: hotpulse 2s infinite;
+  }
+  .hm-error-val { color: var(--error); font-weight: 700; }
+
+  .heatmap-insight {
+    margin-top: var(--sp-2);
+    background: rgba(0,212,255,0.05); border: 1px solid var(--border-cyan);
+    border-radius: 6px; padding: 10px 12px;
+    font-size: var(--t-small); color: var(--text-secondary); line-height: 1.6;
+  }
+
+  /* Line graph */
+  .graph-container {
+    background: var(--bg-surface); border: 1px solid var(--border-mid);
+    border-radius: var(--radius-lg); overflow: hidden;
+  }
+  .graph-bar {
+    background: var(--bg-elevated); padding: 10px 14px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .graph-title {
+    font-family: var(--ff-mono); font-size: var(--t-xs);
+    color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.1em;
+  }
+  .graph-body { padding: var(--sp-3); }
+
+  .svg-graph { width: 100%; height: 200px; }
+
+  /* Trust scores */
+  .trust-scores-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-2);
+    margin-top: var(--sp-5);
+  }
+  .ts-card {
+    background: var(--bg-surface); border: 1px solid var(--border-subtle);
+    border-radius: var(--radius); padding: var(--sp-3); text-align: center;
+  }
+  .ts-score {
+    font-family: var(--ff-display); font-size: 2rem; font-weight: 800;
+    line-height: 1; margin-bottom: 4px;
+  }
+  .ts-label {
+    font-family: var(--ff-mono); font-size: 9px;
+    color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em;
+    line-height: 1.4;
+  }
+
+  .woz-note {
+    grid-column: 1 / -1;
+    background: var(--bg-elevated); border: 1px dashed var(--warning);
+    border-radius: var(--radius); padding: var(--sp-3);
+    display: flex; gap: var(--sp-2); align-items: flex-start;
+  }
+  .woz-icon { font-size: 1.25rem; flex-shrink: 0; }
+  .woz-title {
+    font-family: var(--ff-display); font-size: 0.9375rem; font-weight: 700;
+    color: var(--warning); margin-bottom: 4px;
+  }
+  .woz-body { font-size: var(--t-small); color: var(--text-secondary); line-height: 1.6; }
+
+  /* ============================================
+     SECTION 8: RESULTS & TOOL STACK
+     ============================================ */
+  #results {
+    background: var(--bg-base);
+    border-top: 1px solid var(--border-subtle);
+    position: relative; overflow: hidden;
+  }
+  #results::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cyan-glow), transparent);
+  }
+
+  .results-hero {
+    text-align: center; margin-bottom: var(--sp-8);
+  }
+
+  .big-metrics {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-3);
+    margin: var(--sp-6) 0;
+  }
+  .bm-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: var(--sp-4) var(--sp-3);
+    text-align: center;
+    position: relative; overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .bm-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-glow);
+  }
+  .bm-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  }
+  .bm-metric {
+    font-family: var(--ff-display); font-size: 3rem; font-weight: 800;
+    line-height: 1; margin-bottom: 8px; letter-spacing: -0.03em;
+  }
+  .bm-label { font-size: var(--t-small); color: var(--text-secondary); line-height: 1.4; margin-bottom: 8px; }
+  .bm-source { font-family: var(--ff-mono); font-size: 9px; color: var(--text-muted); }
+
+  /* Tool stack */
+  .tool-stack-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-3);
+    margin-top: var(--sp-5);
+  }
+  .tool-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius);
+    padding: var(--sp-3);
+    display: flex; flex-direction: column; gap: 10px;
+    transition: border-color 0.3s;
+  }
+  .tool-card:hover { border-color: var(--border-cyan); }
+  .tool-card-header { display: flex; align-items: center; gap: 12px; }
+  .tool-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: var(--bg-elevated); border: 1px solid var(--border-subtle);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.25rem; flex-shrink: 0;
+  }
+  .tool-name {
+    font-family: var(--ff-display); font-size: 0.9375rem; font-weight: 700;
+    color: var(--text-white); margin-bottom: 2px;
+  }
+  .tool-category {
+    font-family: var(--ff-mono); font-size: 9px; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .tool-rationale { font-size: var(--t-small); color: var(--text-secondary); line-height: 1.6; }
+  .compliance-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--ff-mono); font-size: 9px; text-transform: uppercase;
+    letter-spacing: 0.08em; padding: 3px 8px; border-radius: 3px;
+  }
+
+  /* ============================================
+     SECTION 9: DESIGN SYSTEM
+     ============================================ */
+  #design-system {
+    background: var(--bg-void);
+    border-top: 1px solid var(--border-subtle);
+    position: relative;
+  }
+
+  .ds-board {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-mid);
+    border-radius: var(--radius-lg);
+    padding: var(--sp-5);
+    margin-top: var(--sp-5);
+  }
+
+  .ds-section-title {
+    font-family: var(--ff-mono); font-size: var(--t-xs);
+    color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em;
+    padding-bottom: var(--sp-1);
+    border-bottom: 1px solid var(--border-subtle);
+    margin-bottom: var(--sp-3);
+  }
+
+  /* Color palette */
+  .color-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: var(--sp-4); }
+  .color-swatch {
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .swatch-block {
+    width: 72px; height: 48px; border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .swatch-hex {
+    font-family: var(--ff-mono); font-size: 9px; color: var(--text-muted);
+    text-align: center;
+  }
+  .swatch-name {
+    font-family: var(--ff-mono); font-size: 9px; color: var(--text-secondary);
+    text-align: center; letter-spacing: 0.05em;
+  }
+
+  /* Type scale */
+  .type-row {
+    display: grid; grid-template-columns: 180px 1fr 100px 100px;
+    align-items: center; gap: var(--sp-2);
+    padding: 12px 0; border-bottom: 1px solid var(--border-subtle);
+  }
+  .type-row:last-child { border-bottom: none; }
+  .type-label { font-family: var(--ff-mono); font-size: var(--t-xs); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  .type-weight { font-family: var(--ff-mono); font-size: var(--t-xs); color: var(--text-muted); text-align: right; }
+  .type-size { font-family: var(--ff-mono); font-size: var(--t-xs); color: var(--cyan-glow); text-align: right; }
+
+  /* Spacing tokens */
+  .spacing-grid { display: flex; gap: var(--sp-3); flex-wrap: wrap; align-items: flex-end; margin-bottom: var(--sp-4); }
+  .sp-token { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .sp-block { background: var(--cyan-subtle); border: 1px solid var(--cyan-border); border-radius: 2px; }
+  .sp-label { font-family: var(--ff-mono); font-size: 9px; color: var(--text-muted); text-align: center; }
+
+  /* Component preview */
+  .comp-preview {
+    display: flex; flex-wrap: wrap; gap: var(--sp-3);
+    margin-top: var(--sp-3);
+  }
+  .comp-item { display: flex; flex-direction: column; gap: 8px; }
+  .comp-item-label {
+    font-family: var(--ff-mono); font-size: 9px;
+    color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em;
+  }
+
+  /* Buttons preview */
+  .btn-primary {
+    background: var(--cyan-glow); color: var(--bg-void);
+    padding: 10px 20px; border-radius: 6px; border: none;
+    font-family: var(--ff-mono); font-size: var(--t-small); font-weight: 700;
+    cursor: pointer; letter-spacing: 0.05em;
+    transition: opacity 0.2s;
+  }
+  .btn-secondary {
+    background: transparent; color: var(--cyan-glow);
+    padding: 10px 20px; border-radius: 6px;
+    border: 1px solid var(--border-cyan);
+    font-family: var(--ff-mono); font-size: var(--t-small); font-weight: 500;
+    cursor: pointer; letter-spacing: 0.05em;
+    transition: background 0.2s;
+  }
+  .btn-danger {
+    background: rgba(255,77,106,0.1); color: var(--error);
+    padding: 10px 20px; border-radius: 6px;
+    border: 1px solid rgba(255,77,106,0.3);
+    font-family: var(--ff-mono); font-size: var(--t-small);
+    cursor: pointer; letter-spacing: 0.05em;
+  }
+  .btn-ghost {
+    background: transparent; color: var(--text-secondary);
+    padding: 10px 20px; border-radius: 6px;
+    border: 1px solid var(--border-subtle);
+    font-family: var(--ff-mono); font-size: var(--t-small);
+    cursor: pointer; letter-spacing: 0.05em;
+  }
+
+  /* Input preview */
+  .input-preview {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-mid);
+    border-radius: 6px; padding: 10px 14px;
+    font-family: var(--ff-mono); font-size: var(--t-small);
+    color: var(--text-primary);
+    width: 220px; outline: none;
+    transition: border-color 0.2s;
+  }
+  .input-preview:focus { border-color: var(--cyan-glow); box-shadow: 0 0 0 3px var(--cyan-subtle); }
+
+  /* Badge previews */
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .badge {
+    font-family: var(--ff-mono); font-size: 9px; text-transform: uppercase;
+    letter-spacing: 0.08em; padding: 3px 10px; border-radius: 10px;
+    border: 1px solid; font-weight: 500;
+  }
+
+  /* Figma annotations */
+  .figma-note {
+    background: rgba(255, 170, 0, 0.05); border: 1px dashed rgba(255,170,0,0.3);
+    border-radius: 6px; padding: 8px 12px;
+    font-family: var(--ff-mono); font-size: var(--t-xs);
+    color: var(--warning); margin-top: var(--sp-2);
+    display: flex; gap: 8px; align-items: flex-start;
+  }
+
+  /* ============================================
+     FOOTER
+     ============================================ */
+  footer {
+    background: var(--bg-void);
+    border-top: 1px solid var(--border-subtle);
+    padding: var(--sp-8) 0 var(--sp-5);
+    text-align: center;
+    position: relative; z-index: 1;
+  }
+  .footer-name {
+    font-family: var(--ff-display); font-size: 1.5rem; font-weight: 700;
+    color: var(--text-white); margin-bottom: 4px;
+  }
+  .footer-role { font-size: var(--t-small); color: var(--text-muted); margin-bottom: var(--sp-3); }
+  .footer-links { display: flex; gap: var(--sp-3); justify-content: center; margin-bottom: var(--sp-3); }
+  .footer-links a {
+    font-family: var(--ff-mono); font-size: var(--t-xs);
+    color: var(--text-secondary); text-decoration: none;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--cyan-glow); }
+  .footer-copy {
+    font-family: var(--ff-mono); font-size: var(--t-xs);
+    color: var(--text-muted); margin-top: var(--sp-3);
+  }
+
+  /* ============================================
+     KEYFRAMES
+     ============================================ */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes floatIn {
+    from { opacity: 0; transform: translateY(-50%) translateX(40px); }
+    to   { opacity: 1; transform: translateY(-50%) translateX(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  @keyframes hotpulse {
+    0%, 100% { box-shadow: 0 0 6px rgba(0,212,255,0.4); }
+    50% { box-shadow: 0 0 20px rgba(0,212,255,0.8), 0 0 40px rgba(0,212,255,0.3); }
+  }
+  @keyframes lineGrow {
+    from { stroke-dashoffset: 1000; }
+    to   { stroke-dashoffset: 0; }
+  }
+  @keyframes barGrow {
+    from { height: 0; }
+    to   { height: var(--target-h); }
+  }
+
+  /* ============================================
+     RESPONSIVE
+     ============================================ */
+  @media (max-width: 768px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .problem-layout { grid-template-columns: 1fr; }
+    .testing-grid { grid-template-columns: 1fr; }
+    .big-metrics { grid-template-columns: 1fr 1fr; }
+    .arch-layers { grid-template-columns: 1fr; }
+    .split-screen { grid-template-columns: 1fr; }
+    .arch-explain-grid { grid-template-columns: 1fr; }
+    .type-row { grid-template-columns: 1fr 1fr; }
+    .hero-kpi-strip { flex-direction: column; }
+    .trust-scores-grid { grid-template-columns: 1fr 1fr; }
+    .tool-stack-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ============================================================
+     WCAG AA ACCESSIBILITY OVERRIDES
+     Target: 4.5:1 minimum contrast · 12px minimum font size
+     #7A8899 on #040D1A = 5.9:1 ✓
+     #A8B4C2 on #040D1A = 7.8:1 ✓
+     #A8B4C2 on #112240 = 5.2:1 ✓
+     ============================================================ */
+
+  /* Labels & tags */
+  .label-tag { font-size: 0.75rem !important; letter-spacing: 0.1em !important; }
+  .hero-badge { font-size: 0.75rem !important; }
+  .hero-company { font-size: 0.75rem !important; color: #7A8899 !important; }
+  .meta-chip-label { font-size: 0.75rem !important; color: #7A8899 !important; }
+  .meta-chip-value { font-size: 0.9375rem !important; }
+
+  /* KPI strip */
+  .kpi-label { font-size: 0.9375rem !important; color: #A8B4C2 !important; line-height: 1.5 !important; }
+  .kpi-delta { font-size: 0.75rem !important; }
+
+  /* Problem section */
+  .pstat-desc { font-size: 0.875rem !important; color: #A8B4C2 !important; line-height: 1.6 !important; }
+  .sh-need { font-size: 0.875rem !important; color: #A8B4C2 !important; }
+  .sh-resolution { font-size: 0.8125rem !important; }
+  .sh-role { font-size: 0.75rem !important; }
+
+  /* Kanban */
+  .kanban-col-title { font-size: 0.75rem !important; }
+  .kanban-card { font-size: 0.8125rem !important; color: #A8B4C2 !important; line-height: 1.6 !important; }
+  .kanban-card-tag { font-size: 0.6875rem !important; }
+  .kanban-header { font-size: 0.6875rem !important; color: #7A8899 !important; }
+
+  /* Personas */
+  .persona-role { font-size: 0.75rem !important; color: #7A8899 !important; }
+  .persona-quote { font-size: 0.9375rem !important; color: #A8B4C2 !important; }
+  .pdata-label { font-size: 0.6875rem !important; color: #7A8899 !important; }
+  .pdata-value { font-size: 0.875rem !important; }
+  .pneed { font-size: 0.875rem !important; color: #A8B4C2 !important; }
+  .stress-label { font-size: 0.6875rem !important; color: #7A8899 !important; }
+
+  /* Process / Double Diamond */
+  .dp-label { font-size: 0.75rem !important; }
+  .dp-title { font-size: 1.125rem !important; }
+  .dp-desc { font-size: 0.875rem !important; color: #A8B4C2 !important; line-height: 1.7 !important; }
+  .dp-tag { font-size: 0.6875rem !important; }
+  .ai-note-text { font-size: 0.9375rem !important; color: #A8B4C2 !important; line-height: 1.7 !important; }
+
+  /* Architecture */
+  .arch-node-label { font-size: 0.9375rem !important; }
+  .arch-node-sublabel { font-size: 0.75rem !important; color: #A8B4C2 !important; line-height: 1.5 !important; }
+  .arch-arrow-label { font-size: 0.6875rem !important; color: #7A8899 !important; }
+  .arch-ex-title { font-size: 1.0625rem !important; }
+  .arch-ex-body { font-size: 0.9375rem !important; color: #A8B4C2 !important; line-height: 1.7 !important; }
+  .rag-source-label { font-size: 0.6875rem !important; color: #A8B4C2 !important; }
+
+  /* Legacy / Split screen - these are UI mockups, intentionally smaller */
+  .step-title { font-size: 1rem !important; }
+  .step-body { font-size: 0.875rem !important; color: #A8B4C2 !important; line-height: 1.7 !important; }
+
+  /* Testing */
+  .heatmap-title { font-size: 0.75rem !important; color: #A8B4C2 !important; }
+  .heatmap-insight { font-size: 0.875rem !important; color: #A8B4C2 !important; line-height: 1.7 !important; }
+  .graph-title { font-size: 0.75rem !important; color: #A8B4C2 !important; }
+  .ts-score { font-size: 2rem !important; }
+  .ts-label { font-size: 0.75rem !important; color: #A8B4C2 !important; line-height: 1.5 !important; }
+  .woz-body { font-size: 0.875rem !important; color: #A8B4C2 !important; line-height: 1.7 !important; }
+
+  /* Results */
+  .bm-label { font-size: 0.9375rem !important; color: #A8B4C2 !important; line-height: 1.5 !important; }
+  .bm-source { font-size: 0.75rem !important; color: #7A8899 !important; }
+  .tool-rationale { font-size: 0.875rem !important; color: #A8B4C2 !important; line-height: 1.7 !important; }
+  .tool-category { font-size: 0.75rem !important; color: #7A8899 !important; }
+  .tool-name { font-size: 1rem !important; }
+
+  /* Design system */
+  .ds-section-title { font-size: 0.75rem !important; color: #7A8899 !important; }
+  .type-label { font-size: 0.8125rem !important; color: #A8B4C2 !important; }
+  .type-weight { font-size: 0.8125rem !important; color: #7A8899 !important; }
+  .type-size { font-size: 0.8125rem !important; }
+  .swatch-hex { font-size: 0.75rem !important; color: #A8B4C2 !important; }
+  .swatch-name { font-size: 0.75rem !important; color: #A8B4C2 !important; }
+  .sp-label { font-size: 0.6875rem !important; color: #7A8899 !important; }
+  .comp-item-label { font-size: 0.75rem !important; color: #7A8899 !important; }
+
+  /* Nav */
+  .nav-links a { font-size: 0.8125rem !important; }
+  .nav-brand { font-size: 1rem !important; }
+
+  /* Figma notes */
+  .figma-note { font-size: 0.8125rem !important; }
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     NAVIGATION
+     ============================================ -->
+<nav>
+  <div class="nav-brand">AASIF <span>·</span> AI DESIGN</div>
+  <ul class="nav-links">
+    <li><a href="#problem">Problem</a></li>
+    <li><a href="#personas">Personas</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="#testing">Testing</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#design-system" class="nav-cta">Design System</a></li>
+  </ul>
+</nav>
+
+
+<!-- ============================================
+     SECTION 1: HERO
+     ============================================ -->
+<section id="hero">
+  <div class="container-wide">
+    <div class="hero-content-wrap">
+      <div class="hero-eyebrow">
+        <span class="hero-badge">Case Study · 2025</span>
+        <span class="hero-company">Global Insurance Brokerage · Enterprise AI</span>
+      </div>
+
+      <h1 class="hero-title">
+        Project<br>
+        <span class="accent">Aura</span>
+      </h1>
+
+      <p class="hero-description">
+        When corporate clients apply for commercial insurance, they submit stacks of environmental documentation — utility bills, energy audits, emissions certificates. The CIS analysts were spending hours manually pulling figures from those PDFs to calculate ESG-adjusted premiums. Aura changed that.
+      </p>
+
+      <div class="hero-meta-row">
+        <div class="meta-chip">
+          <span class="meta-chip-label">Role</span>
+          <span class="meta-chip-value">Lead AI Product Designer</span>
+        </div>
+        <span class="meta-sep">·</span>
+        <div class="meta-chip">
+          <span class="meta-chip-label">Duration</span>
+          <span class="meta-chip-value">8 Months · 2025</span>
+        </div>
+        <span class="meta-sep">·</span>
+        <div class="meta-chip">
+          <span class="meta-chip-label">Domain</span>
+          <span class="meta-chip-value">Insurance Brokerage · EU ESG</span>
+        </div>
+        <span class="meta-sep">·</span>
+        <div class="meta-chip">
+          <span class="meta-chip-label">Target Market</span>
+          <span class="meta-chip-value">Germany / Amsterdam</span>
+        </div>
+      </div>
+
+      <!-- KPI Strip -->
+      <div class="hero-kpi-strip">
+        <div class="kpi-card">
+          <div class="kpi-value">65%</div>
+          <div class="kpi-label">Audit Processing Time Reduction</div>
+          <div class="kpi-delta">↑ From 4.2hr → 1.4hr avg per audit</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value">40%</div>
+          <div class="kpi-label">Increase in Anomaly Detection Rate</div>
+          <div class="kpi-delta">↑ Errors surfaced that were previously missed</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value">4.8</div>
+          <div class="kpi-label">AI-SUS Trust Score (out of 5.0)</div>
+          <div class="kpi-delta">↑ "I felt in control of the outcome"</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value">0</div>
+          <div class="kpi-label">Backend Infrastructure Rewrites Required</div>
+          <div class="kpi-delta">↑ 15-year legacy system preserved</div>
+        </div>
+      </div>
+
+      <!-- Floating mockup -->
+      <div class="hero-mockup">
+        <div class="mockup-shell">
+          <div class="mockup-titlebar">
+            <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+            <span class="mockup-titlebar-text">AURA COPILOT v2.4 · SECURE INSTANCE</span>
+          </div>
+          <div class="mockup-body">
+            <div class="mockup-main">
+              <div class="legacy-row w-75" style="height:8px;width:60%;"></div>
+              <div class="legacy-row w-full" style="margin-bottom:12px;"></div>
+              <div class="legacy-table">
+                <div class="legacy-th">
+                  <span style="height:7px;width:70%;"></span>
+                  <span style="height:7px;width:60%;"></span>
+                  <span style="height:7px;width:80%;"></span>
+                  <span style="height:7px;width:50%;"></span>
+                </div>
+                <div class="legacy-td">
+                  <span style="width:80%;"></span><span style="width:60%;"></span>
+                  <span style="width:70%;"></span><span style="width:55%;"></span>
+                </div>
+                <div class="legacy-td highlight">
+                  <span style="width:85%;"></span><span style="width:65%;"></span>
+                  <span style="width:75%;"></span><span style="width:60%;"></span>
+                </div>
+                <div class="legacy-td">
+                  <span style="width:70%;"></span><span style="width:55%;"></span>
+                  <span style="width:80%;"></span><span style="width:50%;"></span>
+                </div>
+                <div class="legacy-td">
+                  <span style="width:90%;"></span><span style="width:70%;"></span>
+                  <span style="width:60%;"></span><span style="width:65%;"></span>
+                </div>
+              </div>
+            </div>
+            <div class="copilot-panel">
+              <div class="cp-header">
+                <div class="cp-dot"></div>AURA COPILOT
+              </div>
+              <div class="cp-bubble">
+                Analysing utility bill — Client Ref: MMC-EU-4471…
+              </div>
+              <div class="cp-bubble ai">
+                <strong style="color:var(--cyan-glow)">Scope 2 Emissions</strong> identified: 847 tCO₂e/yr. 14.3% above sector benchmark.
+                <div class="cp-cite">📎 Source: Bill_Q3_2024.pdf, p.7</div>
+              </div>
+              <div class="cp-confidence">
+                <span>Confidence</span>
+                <div class="conf-bar"><div class="conf-fill"></div></div>
+                <span style="color:var(--success)">94%</span>
+              </div>
+              <div class="cp-actions">
+                <div class="cp-btn cp-btn-approve">✓ Approve</div>
+                <div class="cp-btn cp-btn-reject">✕ Flag</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================
+     SECTION 2: THE REAL PROBLEM
+     ============================================ -->
+<section id="problem" class="section">
+  <div class="container">
+    <div class="problem-layout">
+      <!-- Left: Problem narrative -->
+      <div class="reveal">
+        <div class="label-tag">Section 02 · The Real Problem</div>
+        <h2 class="section-title">Data Paralysis<br>at Enterprise Scale</h2>
+        <p class="section-subtitle">
+          When a corporate client wants commercial insurance, they submit their environmental documentation — utility bills, energy audits, compliance certificates — so the team can build their ESG risk profile and price the policy accurately. The CIS analysts were extracting that data by hand: opening PDFs, reading tables, typing figures into the legacy system. Four hours per case, constant transcription errors, and a growing backlog as EU regulations started demanding more granular ESG data in every premium calculation.
+        </p>
+
+        <div class="problem-stat-block">
+          <div class="pstat reveal reveal-delay-1">
+            <div class="pstat-num" style="color:var(--error)">4.2h</div>
+            <div class="pstat-desc">Time a risk analyst spent on a single client premium assessment. Most of that wasn't analysis — it was hunting for numbers across PDFs and copying them into the legacy system.</div>
+          </div>
+          <div class="pstat reveal reveal-delay-2">
+            <div class="pstat-num" style="color:var(--warning)">23%</div>
+            <div class="pstat-desc">Error rate in ESG data entry before Aura. When those errors feed into the premium calculation model, clients end up with the wrong price — and we carry the liability.</div>
+          </div>
+          <div class="pstat reveal reveal-delay-3">
+            <div class="pstat-num" style="color:var(--error)">EU CSRD</div>
+            <div class="pstat-desc">Incoming regulatory mandate requiring verifiable ESG audit trails — a compliance clock ticking against every manual workflow.</div>
+          </div>
+          <div class="pstat reveal reveal-delay-4">
+            <div class="pstat-num" style="color:var(--cyan-glow)">0</div>
+            <div class="pstat-desc">Existing AI tooling within the CIS division. Every extract was manual, every citation was verbal, every audit was forensically unverifiable.</div>
+          </div>
+        </div>
+
+        <!-- Stakeholder cards -->
+        <div style="margin-top:var(--sp-5)">
+          <h3 style="font-family:var(--ff-display);font-size:1.25rem;font-weight:700;color:var(--text-white);margin-bottom:var(--sp-2)">Stakeholder Alignment Framework</h3>
+          <div class="stakeholder-grid">
+            <div class="sh-card" style="border-left-color:var(--cyan-glow)">
+              <div class="sh-icon" style="background:rgba(0,212,255,0.08);border-color:var(--border-cyan)">🏢</div>
+              <div class="sh-content">
+                <div class="sh-role" style="color:var(--cyan-glow)">CIS Leadership · Speed &amp; Scalability</div>
+                <div class="sh-need">"We need to onboard EU clients 3× faster without proportionally scaling analyst headcount."</div>
+                <div class="sh-resolution" style="color:var(--cyan-glow)">→ Delivered: Aura reduces per-audit time from 4.2h to 1.4h. 3× throughput achieved without headcount increase.</div>
+              </div>
+            </div>
+            <div class="sh-card" style="border-left-color:var(--warning)">
+              <div class="sh-icon" style="background:rgba(255,170,0,0.08);border-color:rgba(255,170,0,0.3)">⚖️</div>
+              <div class="sh-content">
+                <div class="sh-role" style="color:var(--warning)">Legal &amp; Compliance · Zero-Hallucination Mandate</div>
+                <div class="sh-need">"Any AI output that cannot be traced to a cited, internal source document is a regulatory liability. Full stop."</div>
+                <div class="sh-resolution" style="color:var(--warning)">→ Delivered: Closed-loop RAG architecture cites only vetted internal PDFs. Every AI output is source-pinned and human-approved before commit.</div>
+              </div>
+            </div>
+            <div class="sh-card" style="border-left-color:var(--success)">
+              <div class="sh-icon" style="background:rgba(0,208,132,0.08);border-color:rgba(0,208,132,0.3)">⚙️</div>
+              <div class="sh-content">
+                <div class="sh-role" style="color:var(--success)">Engineering · No Backend Rewrite</div>
+                <div class="sh-need">"The legacy system is 15 years old. We cannot risk a full rewrite. Any solution must integrate via API overlay only."</div>
+                <div class="sh-resolution" style="color:var(--success)">→ Delivered: Aura is a read/write API layer. The legacy database is never directly modified. Engineers approved the pattern in Sprint 2.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Kanban research board -->
+      <div class="reveal reveal-delay-2">
+        <div class="kanban-board">
+          <div class="kanban-header">
+            <span>User Research Synthesis · CIS Division</span>
+            <span class="mono" style="font-size:9px">Sprint 1–2 · Contextual Inquiry</span>
+          </div>
+          <div class="kanban-cols">
+            <div class="kanban-col">
+              <span class="kanban-col-title col-discover">Discover</span>
+              <div class="kanban-card">
+                <span class="kanban-card-tag" style="color:var(--warning)">Pain Point</span>
+                Analysts spend 40 min locating correct emission factor tables across 6 different PDF versions.
+              </div>
+              <div class="kanban-card">
+                <span class="kanban-card-tag" style="color:var(--warning)">Observation</span>
+                3 of 5 analysts maintain personal Excel sheets to track data discrepancies — a shadow system.
+              </div>
+              <div class="kanban-card">
+                <span class="kanban-card-tag" style="color:var(--warning)">Quote</span>
+                "I'm an insurance analyst, not a data parser. I should be doing risk assessment."
+              </div>
+              <div class="kanban-card">
+                <span class="kanban-card-tag" style="color:var(--warning)">Data Point</span>
+                Average 2.3 re-opens per PDF document per audit session — no persistent extract state.
+              </div>
+            </div>
+            <div class="kanban-col">
+              <span class="kanban-col-title col-define">Define</span>
+              <div class="kanban-card">
+                <span class="kanban-card-tag" style="color:var(--cyan-glow)">HMW</span>
+                How might we surface the most critical ESG data points without requiring manual document navigation?
+              </div>
+              <div class="kanban-card">
+                <span class="kanban-card-tag" style="color:var(--cyan-glow)">Constraint</span>
+                Legal requires every AI output to be traceable to a specific page &amp; paragraph of the source document.
+              </div>
+              <div class="kanban-card">
+                <span class="kanban-card-tag" style="color:var(--cyan-glow)">Insight</span>
+                Trust in AI is conditional on legibility. Analysts will accept AI suggestions only if they understand the reasoning chain.
+              </div>
+            </div>
+            <div class="kanban-col">
+              <span class="kanban-col-title col-validate">Validated</span>
+              <div class="kanban-card">
+                <span class="kanban-card-tag" style="color:var(--success)">Validated</span>
+                Human-approval gate before any AI data is written to the legacy system. Non-negotiable UX requirement.
+              </div>
+              <div class="kanban-card">
+                <span class="kanban-card-tag" style="color:var(--success)">Validated</span>
+                Inline source citation (doc name + page number) immediately adjacent to every AI-extracted value.
+              </div>
+              <div class="kanban-card">
+                <span class="kanban-card-tag" style="color:var(--success)">Validated</span>
+                Confidence score display increases analyst click-through to source verification by 62%.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================
+     SECTION 3: PERSONAS
+     ============================================ -->
+<section id="personas" class="section">
+  <div class="container">
+    <div class="reveal">
+      <div class="label-tag">Section 03 · The Triad of Adoption</div>
+      <h2 class="section-title">Three Users.<br>One System. Zero Compromise.</h2>
+      <p class="section-subtitle">Aura had to simultaneously serve three radically different users with conflicting definitions of "success." Design failure for any one of them would mean full system rejection.</p>
+    </div>
+
+    <div class="grid-3" style="margin-top:var(--sp-5)">
+      <!-- Persona 1: Sarah -->
+      <div class="persona-card reveal reveal-delay-1">
+        <div class="persona-header">
+          <div class="persona-avatar" style="background:rgba(0,212,255,0.08);border-color:var(--cyan-glow)">👩‍💼</div>
+          <div>
+            <div class="persona-name">Sarah M.</div>
+            <div class="persona-role">Senior Risk Analyst · CIS</div>
+          </div>
+        </div>
+        <div class="persona-body">
+          <div class="persona-quote" style="border-color:var(--cyan-glow)">
+            "If I can't verify where that number came from, I cannot sign the audit. Period. I don't care how fast the AI is."
+          </div>
+          <div class="persona-data-grid">
+            <div class="pdata-item">
+              <div class="pdata-label">Experience</div>
+              <div class="pdata-value">11 Years · Insurance</div>
+            </div>
+            <div class="pdata-item">
+              <div class="pdata-label">Audits / Week</div>
+              <div class="pdata-value">12–18 Cases</div>
+            </div>
+            <div class="pdata-item">
+              <div class="pdata-label">Tech Fluency</div>
+              <div class="pdata-value">Medium–High</div>
+            </div>
+            <div class="pdata-item">
+              <div class="pdata-label">AI Sentiment</div>
+              <div class="pdata-value" style="color:var(--warning)">Cautiously Skeptical</div>
+            </div>
+          </div>
+          <div class="persona-needs">
+            <div class="pneed"><div class="pneed-dot" style="background:var(--cyan-glow)"></div>Precise data extraction with inline source citations (PDF name + page)</div>
+            <div class="pneed"><div class="pneed-dot" style="background:var(--cyan-glow)"></div>Confidence scores displayed adjacently to every AI-generated value</div>
+            <div class="pneed"><div class="pneed-dot" style="background:var(--cyan-glow)"></div>One-click source verification — must open the exact PDF page highlighted</div>
+          </div>
+          <div class="persona-stress-bar">
+            <div class="stress-label"><span>Current Cognitive Load</span><span style="color:var(--error)">Critical</span></div>
+            <div class="stress-track"><div class="stress-fill" style="width:88%;background:linear-gradient(90deg,var(--warning),var(--error))"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Persona 2: Thomas -->
+      <div class="persona-card reveal reveal-delay-2">
+        <div class="persona-header">
+          <div class="persona-avatar" style="background:rgba(77,159,255,0.08);border-color:var(--info)">👨‍💼</div>
+          <div>
+            <div class="persona-name">Thomas K.</div>
+            <div class="persona-role">CIS Lead · Workflow Oversight</div>
+          </div>
+        </div>
+        <div class="persona-body">
+          <div class="persona-quote" style="border-color:var(--info)">
+            "I need to see team throughput, where bottlenecks are forming, and whether the AI is actually accelerating output — not just shifting the work."
+          </div>
+          <div class="persona-data-grid">
+            <div class="pdata-item">
+              <div class="pdata-label">Experience</div>
+              <div class="pdata-value">17 Years · Risk Mgmt</div>
+            </div>
+            <div class="pdata-item">
+              <div class="pdata-label">Reports To</div>
+              <div class="pdata-value">VP, Global Risk</div>
+            </div>
+            <div class="pdata-item">
+              <div class="pdata-label">KPI Focus</div>
+              <div class="pdata-value">Throughput + SLA</div>
+            </div>
+            <div class="pdata-item">
+              <div class="pdata-label">AI Sentiment</div>
+              <div class="pdata-value" style="color:var(--info)">Pragmatically Optimistic</div>
+            </div>
+          </div>
+          <div class="persona-needs">
+            <div class="pneed"><div class="pneed-dot" style="background:var(--info)"></div>Real-time audit pipeline dashboard showing team-level processing velocity</div>
+            <div class="pneed"><div class="pneed-dot" style="background:var(--info)"></div>AI override rate tracking — flags when analysts are systematically rejecting AI outputs</div>
+            <div class="pneed"><div class="pneed-dot" style="background:var(--info)"></div>Weekly comparative report: AI-assisted vs. manual audit quality delta</div>
+          </div>
+          <div class="persona-stress-bar">
+            <div class="stress-label"><span>Current Cognitive Load</span><span style="color:var(--warning)">High</span></div>
+            <div class="stress-track"><div class="stress-fill" style="width:62%;background:linear-gradient(90deg,var(--info),var(--warning))"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Persona 3: Julian -->
+      <div class="persona-card reveal reveal-delay-3">
+        <div class="persona-header">
+          <div class="persona-avatar" style="background:rgba(0,208,132,0.08);border-color:var(--success)">🧑‍⚖️</div>
+          <div>
+            <div class="persona-name">Julian V.</div>
+            <div class="persona-role">Compliance Officer · EU Regulatory</div>
+          </div>
+        </div>
+        <div class="persona-body">
+          <div class="persona-quote" style="border-color:var(--success)">
+            "Under GDPR and CSRD, I need a complete, immutable log of every AI decision, every human override, and every data source referenced. This must be exportable for regulator review."
+          </div>
+          <div class="persona-data-grid">
+            <div class="pdata-item">
+              <div class="pdata-label">Experience</div>
+              <div class="pdata-value">9 Years · EU Compliance</div>
+            </div>
+            <div class="pdata-item">
+              <div class="pdata-label">Jurisdiction</div>
+              <div class="pdata-value">GDPR · CSRD · SFDR</div>
+            </div>
+            <div class="pdata-item">
+              <div class="pdata-label">Review Cadence</div>
+              <div class="pdata-value">Quarterly Audits</div>
+            </div>
+            <div class="pdata-item">
+              <div class="pdata-label">AI Sentiment</div>
+              <div class="pdata-value" style="color:var(--error)">Deeply Suspicious</div>
+            </div>
+          </div>
+          <div class="persona-needs">
+            <div class="pneed"><div class="pneed-dot" style="background:var(--success)"></div>Immutable GDPR-compliant audit log: AI query → source cited → human decision → timestamp</div>
+            <div class="pneed"><div class="pneed-dot" style="background:var(--success)"></div>Zero external data egress — all RAG queries resolved against internal document stores only</div>
+            <div class="pneed"><div class="pneed-dot" style="background:var(--success)"></div>One-click PDF export of full decision trail, formatted for EU regulator submission</div>
+          </div>
+          <div class="persona-stress-bar">
+            <div class="stress-label"><span>Current Compliance Risk</span><span style="color:var(--error)">Severe</span></div>
+            <div class="stress-track"><div class="stress-fill" style="width:95%;background:linear-gradient(90deg,var(--warning),var(--error))"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================
+     SECTION 4: AI-ADAPTED DOUBLE DIAMOND
+     ============================================ -->
+<section id="process" class="section">
+  <div class="container">
+    <div class="reveal">
+      <div class="label-tag">Section 04 · Design Process</div>
+      <h2 class="section-title">The AI-Adapted<br>Double Diamond</h2>
+      <p class="section-subtitle">The classical Double Diamond breaks when applied to non-deterministic AI systems. Aura required a modified process that treats AI behaviour as a design material — unpredictable, probabilistic, and requiring calibrated human oversight at every output.</p>
+    </div>
+
+    <div class="diamond-diagram reveal">
+      <div class="diamond-track">
+        <!-- Phase 1 -->
+        <div class="diamond-phase">
+          <div class="dp-label" style="color:var(--warning)">01 · Discover</div>
+          <div class="diamond-shape" style="background:rgba(255,170,0,0.12);color:var(--warning)">◆</div>
+          <div class="dp-title">Data Readiness &amp; Contextual Inquiry</div>
+          <div class="dp-desc">Embedded with analysts for 3 weeks. Shadow sessions mapping the exact document navigation patterns, error points, and trust signals in existing workflows.</div>
+          <div class="dp-tags">
+            <span class="dp-tag">Shadow Sessions</span>
+            <span class="dp-tag">Data Audit</span>
+            <span class="dp-tag">Stakeholder Interviews</span>
+            <span class="dp-tag" style="color:var(--warning);border-color:rgba(255,170,0,0.3)">AI Readiness Score</span>
+          </div>
+        </div>
+        <div class="diamond-connector" style="background:linear-gradient(90deg,rgba(255,170,0,0.4),rgba(0,212,255,0.4))"></div>
+        <!-- Phase 2 -->
+        <div class="diamond-phase">
+          <div class="dp-label" style="color:var(--cyan-glow)">02 · Define</div>
+          <div class="diamond-shape" style="background:rgba(0,212,255,0.08);color:var(--cyan-glow)">◆</div>
+          <div class="dp-title">Intent Mapping &amp; Human-in-the-Loop Strategy</div>
+          <div class="dp-desc">Mapped analyst intent patterns across 240 audit sessions. Defined the exact intervention points where AI autonomy must yield to human judgment.</div>
+          <div class="dp-tags">
+            <span class="dp-tag">Intent Maps</span>
+            <span class="dp-tag">HITL Framework</span>
+            <span class="dp-tag">Failure Mode Analysis</span>
+            <span class="dp-tag" style="color:var(--cyan-glow);border-color:var(--border-cyan)">Trust Model</span>
+          </div>
+        </div>
+        <div class="diamond-connector" style="background:linear-gradient(90deg,rgba(0,212,255,0.4),rgba(77,159,255,0.4))"></div>
+        <!-- Phase 3 -->
+        <div class="diamond-phase">
+          <div class="dp-label" style="color:var(--info)">03 · Design</div>
+          <div class="diamond-shape" style="background:rgba(77,159,255,0.1);color:var(--info)">◆</div>
+          <div class="dp-title">Generative UI &amp; XAI Architecture</div>
+          <div class="dp-desc">Built the Explainability Seam system — a UI pattern ensuring every AI output exposes its reasoning chain, confidence, and source attribution as first-class interface elements.</div>
+          <div class="dp-tags">
+            <span class="dp-tag">Explainability Seams</span>
+            <span class="dp-tag">Generative UI</span>
+            <span class="dp-tag">ProtoPie AI Flows</span>
+            <span class="dp-tag" style="color:var(--info);border-color:rgba(77,159,255,0.3)">XAI Patterns</span>
+          </div>
+        </div>
+        <div class="diamond-connector" style="background:linear-gradient(90deg,rgba(77,159,255,0.4),rgba(0,208,132,0.4))"></div>
+        <!-- Phase 4 -->
+        <div class="diamond-phase">
+          <div class="dp-label" style="color:var(--success)">04 · Test</div>
+          <div class="diamond-shape" style="background:rgba(0,208,132,0.1);color:var(--success)">◆</div>
+          <div class="dp-title">Wizard of Oz Prototyping &amp; Trust Calibration</div>
+          <div class="dp-desc">Used WoZ methodology to simulate AI behaviour before model integration. Intentionally injected a 5% calculation error to test for Automation Bias. 100% detection rate.</div>
+          <div class="dp-tags">
+            <span class="dp-tag">WoZ Prototype</span>
+            <span class="dp-tag">Automation Bias Test</span>
+            <span class="dp-tag">AI-SUS Scoring</span>
+            <span class="dp-tag" style="color:var(--success);border-color:rgba(0,208,132,0.3)">Trust Calibration</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-adaptation-note reveal">
+      <div class="ai-note-icon">⚡</div>
+      <div>
+        <div class="ai-note-title">The AI Adaptation: Why the Standard Diamond Fails</div>
+        <div class="ai-note-text">
+          Classical Double Diamond assumes deterministic outputs at each stage. AI systems are fundamentally probabilistic — the "correct" design for a 94% confidence AI output is categorically different from a 67% confidence output. Aura's process introduces an <strong style="color:var(--cyan-glow)">AI Behaviour Calibration Loop</strong> between Define and Design: a phase where we audit model outputs against real document sets, map failure modes before UI design begins, and define the exact confidence thresholds that trigger different UI states. This prevents the critical mistake of designing for idealised AI performance.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================
+     SECTION 5: IA & RAG ARCHITECTURE
+     ============================================ -->
+<section id="architecture" class="section">
+  <div class="container">
+    <div class="reveal">
+      <div class="label-tag">Section 05 · System Architecture</div>
+      <h2 class="section-title">The Multi-Agent RAG<br>Architecture</h2>
+      <p class="section-subtitle">The architecture is the compliance strategy. By designing the data flow as a closed, internal-only loop, we made hallucination structurally impossible — not just improbable.</p>
+    </div>
+
+    <!-- Main architecture diagram -->
+    <div class="arch-diagram reveal">
+      <div class="arch-diagram-title">AURA · SYSTEM ARCHITECTURE DIAGRAM · CONFIDENTIAL</div>
+      <div class="arch-layers">
+        <!-- Layer 1: User Input -->
+        <div class="arch-node" style="border-color:var(--cyan-glow);background:rgba(0,212,255,0.06)">
+          <span class="arch-badge" style="background:rgba(0,212,255,0.1);color:var(--cyan-glow);border:1px solid var(--border-cyan)">LAYER 1</span>
+          <span class="arch-node-icon">💬</span>
+          <div class="arch-node-label">Analyst Intent</div>
+          <div class="arch-node-sublabel">Natural Language<br>Query Input<br>&amp; Document Upload</div>
+        </div>
+        <!-- Arrow -->
+        <div class="arch-arrow">
+          <div class="arch-arrow-line" style="background:var(--cyan-glow);position:relative">
+            <span style="position:absolute;right:-6px;top:-6px;color:var(--cyan-glow);font-size:12px">▶</span>
+          </div>
+          <div class="arch-arrow-label" style="color:var(--text-muted)">NLP Intent</div>
+        </div>
+        <!-- Layer 2: AI Gateway -->
+        <div class="arch-node" style="border-color:var(--info);background:rgba(77,159,255,0.06)">
+          <span class="arch-badge" style="background:rgba(77,159,255,0.1);color:var(--info);border:1px solid rgba(77,159,255,0.3)">LAYER 2</span>
+          <span class="arch-node-icon">🧠</span>
+          <div class="arch-node-label">AI Gateway</div>
+          <div class="arch-node-sublabel">NLP Router<br>Intent Classification<br>Agent Orchestration</div>
+        </div>
+        <!-- Arrow -->
+        <div class="arch-arrow">
+          <div class="arch-arrow-line" style="background:var(--info);position:relative">
+            <span style="position:absolute;right:-6px;top:-6px;color:var(--info);font-size:12px">▶</span>
+          </div>
+          <div class="arch-arrow-label" style="color:var(--text-muted)">Retrieval Query</div>
+        </div>
+        <!-- Layer 3: RAG Engine -->
+        <div class="arch-node" style="border-color:var(--success);background:rgba(0,208,132,0.06)">
+          <span class="arch-badge" style="background:rgba(0,208,132,0.1);color:var(--success);border:1px solid rgba(0,208,132,0.3)">LAYER 3</span>
+          <span class="arch-node-icon">🔒</span>
+          <div class="arch-node-label">RAG Engine</div>
+          <div class="arch-node-sublabel">Semantic Search<br>GDPR-Compliant<br>Internal Sources Only</div>
+        </div>
+        <!-- Arrow -->
+        <div class="arch-arrow">
+          <div class="arch-arrow-line" style="background:var(--success);position:relative">
+            <span style="position:absolute;right:-6px;top:-6px;color:var(--success);font-size:12px">▶</span>
+          </div>
+          <div class="arch-arrow-label" style="color:var(--text-muted)">Structured Output</div>
+        </div>
+        <!-- Layer 4: Data Card UI -->
+        <div class="arch-node" style="border-color:var(--warning);background:rgba(255,170,0,0.06)">
+          <span class="arch-badge" style="background:rgba(255,170,0,0.1);color:var(--warning);border:1px solid rgba(255,170,0,0.3)">LAYER 4</span>
+          <span class="arch-node-icon">📋</span>
+          <div class="arch-node-label">Data Card UI</div>
+          <div class="arch-node-sublabel">Structured Output<br>Human Approval Gate<br>Legacy System Push</div>
+        </div>
+      </div>
+
+      <!-- RAG data sources panel -->
+      <div class="rag-bottom">
+        <div class="rag-source">
+          <span class="rag-source-icon">📁</span>
+          <div class="rag-source-label">Internal Legacy<br>Insurance Database</div>
+        </div>
+        <div class="rag-divider"></div>
+        <div class="rag-lock">
+          <div class="lock-badge">🔒 GDPR Compliant · No External Egress</div>
+          <div style="font-family:var(--ff-mono);font-size:9px;color:var(--text-muted);margin-top:4px;text-align:center">All RAG queries resolved against internal data stores exclusively. Zero web access. Zero third-party API calls.</div>
+        </div>
+        <div class="rag-divider"></div>
+        <div class="rag-source">
+          <span class="rag-source-icon">📄</span>
+          <div class="rag-source-label">Uploaded Client<br>PDF Documents</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Architecture explanation -->
+    <div class="arch-explain-grid reveal">
+      <div class="arch-ex-card">
+        <div class="arch-ex-num">01</div>
+        <div class="arch-ex-title">Why RAG Prevents Hallucination</div>
+        <div class="arch-ex-body">Standard LLMs generate answers from parametric memory — they confabulate plausibly when uncertain. Our RAG architecture forces the model to retrieve before generating: it can only output values that exist verbatim in the indexed source documents. If a data point isn't in the internal knowledge base, Aura returns a structured "No verified source found" card — never a fabricated figure.</div>
+      </div>
+      <div class="arch-ex-card">
+        <div class="arch-ex-num">02</div>
+        <div class="arch-ex-title">The Intent Router: Multi-Agent Orchestration</div>
+        <div class="arch-ex-body">The AI Gateway classifies analyst queries into three agent tracks: <span style="color:var(--cyan-glow)">Extraction</span> (pull structured values from PDFs), <span style="color:var(--info)">Comparison</span> (benchmark against sector norms in the legacy DB), and <span style="color:var(--success)">Compliance Check</span> (verify against CSRD/SFDR thresholds). Each track has independent confidence thresholds and UI states, preventing a single model failure from cascading across the interface.</div>
+      </div>
+      <div class="arch-ex-card">
+        <div class="arch-ex-num">03</div>
+        <div class="arch-ex-title">The GDPR Compliance Guarantee</div>
+        <div class="arch-ex-body">Julian's core requirement was zero data egress. We achieved this architecturally: the RAG retrieval engine operates entirely within the client's Azure private cloud, with no outbound API calls permitted at the network level. Compliance is enforced by infrastructure, not just policy — making it auditable and demonstrably verifiable to EU regulators.</div>
+      </div>
+      <div class="arch-ex-card">
+        <div class="arch-ex-num">04</div>
+        <div class="arch-ex-title">The Human Approval Gate</div>
+        <div class="arch-ex-body">No AI-generated value is written to the legacy database without explicit human approval. The Data Card UI presents each extraction as a discrete, reviewable unit with its source citation, confidence score, and a binary Approve/Flag control. This gate generates the immutable audit trail Julian requires — every decision is timestamped, attributed to a named analyst, and stored as an append-only compliance record.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================
+     SECTION 6: LEGACY TECH CHALLENGE
+     ============================================ -->
+<section id="legacy" class="section">
+  <div class="container">
+    <div class="reveal">
+      <div class="label-tag">Section 06 · The Core Design Challenge</div>
+      <h2 class="section-title">15 Years of Tech Debt.<br>Zero Rewrites.</h2>
+      <p class="section-subtitle">The engineering constraint was absolute: A legacy CIS database — built in 2009, extended seventeen times, and now underpinning global insurance calculations — could not be touched. This became the most consequential design constraint of the entire project.</p>
+    </div>
+
+    <!-- Split screen comparison -->
+    <div class="split-screen reveal">
+      <div class="split-before">
+        <span class="split-label label-before">BEFORE · Legacy CIS System</span>
+        <div class="legacy-ui">
+          <div class="legacy-menu-bar">
+            <span class="legacy-menu-item">File</span>
+            <span class="legacy-menu-item">Edit</span>
+            <span class="legacy-menu-item">View</span>
+            <span class="legacy-menu-item">Reports</span>
+            <span class="legacy-menu-item">Database</span>
+            <span class="legacy-menu-item">Help</span>
+          </div>
+          <div class="legacy-toolbar">
+            <span class="legacy-btn">New Record</span>
+            <span class="legacy-btn">Search</span>
+            <span class="legacy-btn">Import</span>
+            <span class="legacy-btn">Export CSV</span>
+            <span class="legacy-btn">Print</span>
+          </div>
+          <div class="legacy-data-row">
+            <div class="legacy-cell header">CLIENT REF</div>
+            <div class="legacy-cell header">EMISS.</div>
+            <div class="legacy-cell header">SCOPE</div>
+            <div class="legacy-cell header">FY</div>
+            <div class="legacy-cell header">STATUS</div>
+            <div class="legacy-cell header">SRC</div>
+          </div>
+          <div class="legacy-data-row">
+            <div class="legacy-cell data-val">MMC-EU-4471</div>
+            <div class="legacy-cell data-val">847</div>
+            <div class="legacy-cell data-val">SC2</div>
+            <div class="legacy-cell data-val">2024</div>
+            <div class="legacy-cell data-val">PEND</div>
+            <div class="legacy-cell data-val">—</div>
+          </div>
+          <div class="legacy-data-row">
+            <div class="legacy-cell data-val">MMC-EU-4472</div>
+            <div class="legacy-cell error">???</div>
+            <div class="legacy-cell data-val">SC1</div>
+            <div class="legacy-cell data-val">2024</div>
+            <div class="legacy-cell error">ERR</div>
+            <div class="legacy-cell error">PDF?</div>
+          </div>
+          <div class="legacy-data-row">
+            <div class="legacy-cell data-val">MMC-EU-4473</div>
+            <div class="legacy-cell data-val">1,204</div>
+            <div class="legacy-cell data-val">SC3</div>
+            <div class="legacy-cell data-val">2023</div>
+            <div class="legacy-cell data-val">DONE</div>
+            <div class="legacy-cell data-val">xls</div>
+          </div>
+          <div class="legacy-status">⚠ RECORD LOCK TIMEOUT — manual re-entry required. Source document reference lost.</div>
+        </div>
+      </div>
+
+      <div class="split-after">
+        <span class="split-label label-after">AFTER · Aura Copilot Overlay</span>
+        <div class="aura-ui">
+          <div class="aura-topbar">
+            <span class="aura-logo-text">◈ AURA COPILOT</span>
+            <div style="font-family:var(--ff-mono);font-size:9px;color:var(--text-muted)">Overlay Mode · Read/Write API v2.4</div>
+            <div class="aura-status-pill"><div class="s-dot"></div>Connected</div>
+          </div>
+          <div class="aura-data-card">
+            <div class="adc-header">
+              <span>Extracted Data · MMC-EU-4471</span>
+              <span style="color:var(--cyan-glow)">Awaiting Approval</span>
+            </div>
+            <div class="adc-field">
+              <span class="adc-field-name">Scope 2 Emissions</span>
+              <span class="adc-field-value cyan">847 tCO₂e / yr</span>
+            </div>
+            <div class="adc-field">
+              <span class="adc-field-name">Source Document</span>
+              <span class="adc-field-value" style="font-size:8px">Bill_Q3_2024.pdf · Page 7, Para 2</span>
+            </div>
+            <div class="adc-field">
+              <span class="adc-field-name">Sector Benchmark</span>
+              <span class="adc-field-value" style="color:var(--error)">740 tCO₂e · +14.3%</span>
+            </div>
+            <div class="adc-field">
+              <span class="adc-field-name">Confidence Score</span>
+              <span class="adc-field-value verified">94.2% ✓</span>
+            </div>
+            <div class="adc-field">
+              <span class="adc-field-name">CSRD Flag</span>
+              <span class="adc-field-value" style="color:var(--warning)">⚠ Article 29b Threshold Exceeded</span>
+            </div>
+            <div class="aura-push-btn">▶ Approve &amp; Push to Legacy DB</div>
+          </div>
+          <div style="font-family:var(--ff-mono);font-size:9px;color:var(--success);margin-top:6px;background:rgba(0,208,132,0.05);border:1px solid rgba(0,208,132,0.2);border-radius:4px;padding:6px 10px">
+            ✓ AUDIT LOG: 14:32:07 · Sarah M. · Approved · Source: Bill_Q3_2024.pdf
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Solution steps -->
+    <div class="solution-steps reveal">
+      <div class="solution-step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <div class="step-title">API Overlay Architecture — Zero Backend Risk</div>
+          <div class="step-body">Aura sits entirely above the legacy database as a read/write API overlay. Reads extract data for AI processing. Writes only occur when a named analyst explicitly approves a structured data card. The legacy schema is never modified — we insert, never restructure. This was the single design decision that unlocked engineering buy-in within two sprint cycles.</div>
+        </div>
+      </div>
+      <div class="solution-step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <div class="step-title">Structured Data Cards — The Bridge Between AI and Legacy Schema</div>
+          <div class="step-body">Rather than requiring analysts to manually translate AI outputs into legacy field formats, Data Cards are pre-mapped to the legacy database schema at design time. Each card field has a corresponding legacy DB column, validated on push. Analysts work in Aura's clean interface; the legacy system receives clean, schema-validated records. The translation layer is invisible to the user.</div>
+        </div>
+      </div>
+      <div class="solution-step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <div class="step-title">Progressive Adoption — The Desk-Level Change Management Strategy</div>
+          <div class="step-body">We launched Aura in read-only mode for the first four weeks. Analysts could see AI extractions without any obligation to use them — removing adoption anxiety entirely. The write function was introduced only after trust was established through demonstrated accuracy. This phased approach drove 87% voluntary adoption in the first quarter without a single mandate from leadership.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================
+     SECTION 7: USABILITY TESTING
+     ============================================ -->
+<section id="testing" class="section">
+  <div class="container">
+    <div class="reveal">
+      <div class="label-tag">Section 07 · Usability &amp; Trust Testing</div>
+      <h2 class="section-title">Designing Against<br>Automation Bias</h2>
+      <p class="section-subtitle">The most dangerous failure mode for an enterprise AI tool is not inaccuracy — it is the analyst trusting an inaccurate AI output without scrutiny. We designed, then tested, for that exact failure.</p>
+    </div>
+
+    <div class="testing-grid">
+      <!-- Hallucination Heatmap -->
+      <div class="heatmap-container reveal reveal-delay-1">
+        <div class="heatmap-bar">
+          <span class="heatmap-title">Hallucination Detection Heatmap · Task T-03</span>
+          <div class="heatmap-legend">
+            <span class="hm-dot" style="background:var(--error)"></span><span>High Dwell</span>
+            <span class="hm-dot" style="background:var(--cyan-glow)"></span><span>Source Click</span>
+          </div>
+        </div>
+        <div class="heatmap-body">
+          <div class="hm-report-mock">
+            <div style="font-weight:700;font-size:10px;color:#222;border-bottom:1px solid #eee;padding-bottom:4px;margin-bottom:8px">ESG AUDIT REPORT · Client MMC-EU-4471 · FY2024</div>
+            <div class="hm-row">
+              <span class="hm-label">Annual Energy Consumption:</span>
+              <span class="hm-value">12,440 MWh</span>
+            </div>
+            <div class="hm-row">
+              <span class="hm-label">Scope 1 Direct Emissions:</span>
+              <span class="hm-value">312 tCO₂e</span>
+            </div>
+            <div class="hm-row" style="background:rgba(255,50,50,0.05);border-radius:3px;padding:3px 4px">
+              <span class="hm-label">Scope 2 Market-Based Emissions:</span>
+              <span class="hm-value hm-error-val">
+                <span class="hm-hotspot" title="INJECTED ERROR: Correct value = 847 tCO₂e">893 tCO₂e</span>
+                <span class="hm-hotspot cyan-hot" style="margin-left:4px" title="100% of analysts clicked this citation link">📎 p.7</span>
+              </span>
+            </div>
+            <div class="hm-row">
+              <span class="hm-label">Renewable Energy Ratio:</span>
+              <span class="hm-value">34.2%</span>
+            </div>
+            <div class="hm-row">
+              <span class="hm-label">CSRD Compliance Threshold:</span>
+              <span class="hm-value" style="color:#d97706">At Limit (Article 29b)</span>
+            </div>
+          </div>
+          <div class="heatmap-insight">
+            <strong style="color:var(--cyan-glow)">Task Result:</strong> An intentional 5.5% error was injected into the Scope 2 Emissions value (893 vs. correct 847 tCO₂e). <strong>100% of analysts (n=12)</strong> detected the discrepancy using the inline source citation link — confirming that Explainability Seams successfully prevent automation bias. Zero analysts approved the erroneous value.
+          </div>
+        </div>
+      </div>
+
+      <!-- Human Intervention Rate Graph -->
+      <div class="graph-container reveal reveal-delay-2">
+        <div class="graph-bar">
+          <span class="graph-title">Human Override Rate Over 4 Weeks · Post-Launch</span>
+          <span class="mono" style="font-size:9px;color:var(--success)">Declining = Calibrated Trust Growth</span>
+        </div>
+        <div class="graph-body">
+          <svg class="svg-graph" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#FF4D6A;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#00D084;stop-opacity:1" />
+              </linearGradient>
+              <linearGradient id="fillGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#00D4FF;stop-opacity:0.15" />
+                <stop offset="100%" style="stop-color:#00D4FF;stop-opacity:0" />
+              </linearGradient>
+            </defs>
+            <!-- Grid lines -->
+            <line x1="40" y1="20" x2="40" y2="165" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+            <line x1="40" y1="165" x2="380" y2="165" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+            <line x1="40" y1="130" x2="380" y2="130" stroke="rgba(255,255,255,0.04)" stroke-width="1" stroke-dasharray="4,4"/>
+            <line x1="40" y1="95" x2="380" y2="95" stroke="rgba(255,255,255,0.04)" stroke-width="1" stroke-dasharray="4,4"/>
+            <line x1="40" y1="60" x2="380" y2="60" stroke="rgba(255,255,255,0.04)" stroke-width="1" stroke-dasharray="4,4"/>
+            <!-- Y labels -->
+            <text x="32" y="168" fill="rgba(255,255,255,0.3)" font-size="9" font-family="JetBrains Mono" text-anchor="end">0%</text>
+            <text x="32" y="133" fill="rgba(255,255,255,0.3)" font-size="9" font-family="JetBrains Mono" text-anchor="end">25%</text>
+            <text x="32" y="98" fill="rgba(255,255,255,0.3)" font-size="9" font-family="JetBrains Mono" text-anchor="end">50%</text>
+            <text x="32" y="63" fill="rgba(255,255,255,0.3)" font-size="9" font-family="JetBrains Mono" text-anchor="end">75%</text>
+            <!-- X labels -->
+            <text x="100" y="180" fill="rgba(255,255,255,0.3)" font-size="9" font-family="JetBrains Mono" text-anchor="middle">Week 1</text>
+            <text x="180" y="180" fill="rgba(255,255,255,0.3)" font-size="9" font-family="JetBrains Mono" text-anchor="middle">Week 2</text>
+            <text x="260" y="180" fill="rgba(255,255,255,0.3)" font-size="9" font-family="JetBrains Mono" text-anchor="middle">Week 3</text>
+            <text x="340" y="180" fill="rgba(255,255,255,0.3)" font-size="9" font-family="JetBrains Mono" text-anchor="middle">Week 4</text>
+            <!-- Fill area -->
+            <path d="M 100,55 L 180,90 L 260,120 L 340,148 L 340,165 L 100,165 Z" fill="url(#fillGrad)"/>
+            <!-- Main line -->
+            <polyline points="100,55 180,90 260,120 340,148" fill="none" stroke="url(#lineGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="stroke-dasharray:1000;stroke-dashoffset:1000;animation:lineGrow 2s 0.5s ease forwards"/>
+            <!-- Data points -->
+            <circle cx="100" cy="55" r="5" fill="#FF4D6A" stroke="var(--bg-surface)" stroke-width="2"/>
+            <circle cx="180" cy="90" r="5" fill="#FFAA00" stroke="var(--bg-surface)" stroke-width="2"/>
+            <circle cx="260" cy="120" r="5" fill="#4D9FFF" stroke="var(--bg-surface)" stroke-width="2"/>
+            <circle cx="340" cy="148" r="5" fill="#00D084" stroke="var(--bg-surface)" stroke-width="2"/>
+            <!-- Value labels -->
+            <text x="100" y="45" fill="#FF4D6A" font-size="10" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">68%</text>
+            <text x="180" y="80" fill="#FFAA00" font-size="10" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">48%</text>
+            <text x="260" y="110" fill="#4D9FFF" font-size="10" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">29%</text>
+            <text x="340" y="138" fill="#00D084" font-size="10" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">14%</text>
+          </svg>
+          <div style="font-size:var(--t-xs);color:var(--text-secondary);line-height:1.6;margin-top:8px">
+            Human override rate declined from <strong style="color:var(--error)">68%</strong> in Week 1 to <strong style="color:var(--success)">14%</strong> in Week 4 — a signal of calibrated trust growth, not complacency. The target band is 10–20%, maintaining meaningful human oversight while indicating AI reliability.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trust scores + WoZ note -->
+    <div class="trust-scores-grid reveal" style="margin-top:var(--sp-5)">
+      <div class="ts-card">
+        <div class="ts-score" style="color:var(--cyan-glow)">4.8<span style="font-size:1rem">/5</span></div>
+        <div class="ts-label">AI-SUS Score<br>"I felt in control<br>of the outcome"</div>
+      </div>
+      <div class="ts-card">
+        <div class="ts-score" style="color:var(--success)">100%</div>
+        <div class="ts-label">Error Detection Rate<br>Injected 5% anomaly<br>n=12 analysts</div>
+      </div>
+      <div class="ts-card">
+        <div class="ts-score" style="color:var(--info)">87%</div>
+        <div class="ts-label">Voluntary Adoption<br>Rate in Q1<br>No mandate required</div>
+      </div>
+      <div class="ts-card">
+        <div class="ts-score" style="color:var(--warning)">14%</div>
+        <div class="ts-label">Final Override Rate<br>Week 4 · Within<br>Target Trust Band</div>
+      </div>
+      <div class="ts-card">
+        <div class="ts-score" style="color:var(--success)">94%</div>
+        <div class="ts-label">Average AI Output<br>Confidence Score<br>in Production</div>
+      </div>
+      <div class="woz-note">
+        <div class="woz-icon">🧙</div>
+        <div>
+          <div class="woz-title">Wizard of Oz Methodology — Testing Before Model Integration</div>
+          <div class="woz-body">Before the Azure OpenAI model was integrated, a human "wizard" simulated AI responses behind the Aura interface during testing sessions. Analysts believed they were interacting with the live AI. This allowed us to test the UI's trust calibration mechanics, the source citation interaction patterns, and the approval gate under realistic conditions — without any model hallucination risk. The WoZ sessions revealed that analysts required confidence scores to be visible within 2 seconds of query submission, a latency requirement we fed directly into the engineering SLA.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================
+     SECTION 8: RESULTS & TOOL STACK
+     ============================================ -->
+<section id="results" class="section">
+  <div class="container">
+    <div class="results-hero reveal">
+      <div class="label-tag" style="justify-content:center">Section 08 · Results &amp; ROI</div>
+      <h2 class="section-title" style="text-align:center">Measurable Impact<br>Across Every Stakeholder</h2>
+    </div>
+
+    <!-- Big metrics -->
+    <div class="big-metrics reveal">
+      <div class="bm-card">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--cyan-glow)"></div>
+        <div class="bm-metric" style="color:var(--cyan-glow)">65%</div>
+        <div class="bm-label">Reduction in Audit Processing Time<br>4.2h → 1.4h per case</div>
+        <div class="bm-source">Measured: Jira Time Tracking · n=47 audits</div>
+      </div>
+      <div class="bm-card">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--success)"></div>
+        <div class="bm-metric" style="color:var(--success)">40%</div>
+        <div class="bm-label">Increase in Anomaly<br>Detection Rate</div>
+        <div class="bm-source">Measured: Compliance Review · 6 months</div>
+      </div>
+      <div class="bm-card">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--info)"></div>
+        <div class="bm-metric" style="color:var(--info)">3×</div>
+        <div class="bm-label">Client Onboarding Throughput<br>No headcount increase</div>
+        <div class="bm-source">Measured: CIS Operations Report · Q3 2025</div>
+      </div>
+      <div class="bm-card">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--warning)"></div>
+        <div class="bm-metric" style="color:var(--warning)">£0</div>
+        <div class="bm-label">Backend Infrastructure<br>Spend Required</div>
+        <div class="bm-source">Engineering Sign-off · API Overlay Only</div>
+      </div>
+    </div>
+
+    <!-- Tool stack -->
+    <div class="reveal" style="margin-top:var(--sp-6)">
+      <h3 style="font-family:var(--ff-display);font-size:1.5rem;font-weight:700;color:var(--text-white);margin-bottom:var(--sp-1)">Secure Enterprise Tool Stack</h3>
+      <p style="font-size:var(--t-small);color:var(--text-secondary);margin-bottom:var(--sp-4)">Every tool was mandated to be enterprise-licensed. Consumer-grade AI tools were explicitly prohibited by Legal — any tool processing client data required contractual GDPR compliance and EU data residency guarantees.</p>
+    </div>
+
+    <div class="tool-stack-grid reveal">
+      <div class="tool-card">
+        <div class="tool-card-header">
+          <div class="tool-icon">🎨</div>
+          <div>
+            <div class="tool-name">Figma AI Enterprise</div>
+            <div class="tool-category">UI Design · Prototyping</div>
+          </div>
+        </div>
+        <div class="tool-rationale">Used for all high-fidelity UI design. Enterprise license ensures design file data never transits Figma's consumer AI training pipeline. Variables &amp; component tokenisation directly mirrors the Aura design system for handoff fidelity.</div>
+        <span class="compliance-badge" style="background:rgba(0,208,132,0.08);color:var(--success);border:1px solid rgba(0,208,132,0.3)">✓ GDPR · EU Data Residency</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-header">
+          <div class="tool-icon">⚙️</div>
+          <div>
+            <div class="tool-name">ProtoPie Enterprise</div>
+            <div class="tool-category">AI Interaction Prototyping</div>
+          </div>
+        </div>
+        <div class="tool-rationale">Prototyped all AI interaction states — loading, confidence thresholds, error states, and the Wizard of Oz simulation layer. ProtoPie's sensor-driven interactions accurately simulated the latency and state-change patterns of the live Azure OpenAI integration before engineering build.</div>
+        <span class="compliance-badge" style="background:rgba(0,208,132,0.08);color:var(--success);border:1px solid rgba(0,208,132,0.3)">✓ ISO 27001 · SOC 2 Type II</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-header">
+          <div class="tool-icon">🧠</div>
+          <div>
+            <div class="tool-name">Azure OpenAI</div>
+            <div class="tool-category">LLM · RAG Infrastructure</div>
+          </div>
+        </div>
+        <div class="tool-rationale">The underlying language model for the RAG engine. Critical distinction: Azure OpenAI's private deployment means The client's data is never used for model training and remains within the European Azure region. This was the only LLM provider that met Legal's contractual requirements.</div>
+        <span class="compliance-badge" style="background:rgba(0,208,132,0.08);color:var(--success);border:1px solid rgba(0,208,132,0.3)">✓ Azure EU Region · Data Isolation</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-header">
+          <div class="tool-icon">📊</div>
+          <div>
+            <div class="tool-name">Dovetail Enterprise</div>
+            <div class="tool-category">Research Synthesis · AI Analysis</div>
+          </div>
+        </div>
+        <div class="tool-rationale">All user research recordings, interview transcripts, and contextual inquiry notes were synthesised in Dovetail's secure enterprise environment. Dovetail AI was used to cluster pain points and surface patterns across 240+ analyst touchpoints — a process that would have taken weeks manually.</div>
+        <span class="compliance-badge" style="background:rgba(0,212,255,0.08);color:var(--cyan-glow);border:1px solid var(--border-cyan)">✓ SOC 2 · No Data Training</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-header">
+          <div class="tool-icon">🔬</div>
+          <div>
+            <div class="tool-name">Maze Enterprise</div>
+            <div class="tool-category">Usability Testing · Analytics</div>
+          </div>
+        </div>
+        <div class="tool-rationale">Quantitative usability testing at scale. The hallucination heatmap and trust calibration data were generated through Maze's analytics suite. AI-assisted session analysis surfaced the 2-second confidence score latency requirement from behavioural heatmap data that manual analysis would have missed.</div>
+        <span class="compliance-badge" style="background:rgba(0,212,255,0.08);color:var(--cyan-glow);border:1px solid var(--border-cyan)">✓ GDPR Article 5 Compliant</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-header">
+          <div class="tool-icon">📐</div>
+          <div>
+            <div class="tool-name">Figma Variables API</div>
+            <div class="tool-category">Design System · Tokenisation</div>
+          </div>
+        </div>
+        <div class="tool-rationale">Aura's design system tokens (colours, spacing, typography scale) are stored as Figma Variables and exported via the Variables API directly into the engineering team's CSS custom properties. This eliminated the 2-week design-to-dev token reconciliation that previously caused visual regressions at every sprint boundary.</div>
+        <span class="compliance-badge" style="background:rgba(255,170,0,0.08);color:var(--warning);border:1px solid rgba(255,170,0,0.3)">→ Direct Figma → CSS Handoff</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================
+     SECTION 9: DESIGN SYSTEM
+     ============================================ -->
+<section id="design-system" class="section">
+  <div class="container">
+    <div class="reveal">
+      <div class="label-tag">Section 09 · Design System Specification</div>
+      <h2 class="section-title">Aura Design System<br>v1.0 Tokens</h2>
+      <p class="section-subtitle">The Aura Design System is built for a single constraint: every visual decision must either reinforce trust or communicate uncertainty. There is no decorative element that does not serve a functional signal.</p>
+    </div>
+
+    <div class="ds-board reveal">
+
+      <!-- Color Palette -->
+      <div class="ds-section-title">01 · Colour Palette · Figma Variables Ready</div>
+      <div class="color-row">
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#040D1A"></div>
+          <div class="swatch-hex">#040D1A</div>
+          <div class="swatch-name">BG/Void</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#070F1E"></div>
+          <div class="swatch-hex">#070F1E</div>
+          <div class="swatch-name">BG/Base</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#0D1B2E"></div>
+          <div class="swatch-hex">#0D1B2E</div>
+          <div class="swatch-name">BG/Surface</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#112240"></div>
+          <div class="swatch-hex">#112240</div>
+          <div class="swatch-name">BG/Elevated</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#00D4FF;border-color:transparent"></div>
+          <div class="swatch-hex">#00D4FF</div>
+          <div class="swatch-name">AI/Cyan·Glow</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#0EA5D4;border-color:transparent"></div>
+          <div class="swatch-hex">#0EA5D4</div>
+          <div class="swatch-name">AI/Cyan·Mid</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#0277A0;border-color:transparent"></div>
+          <div class="swatch-hex">#0277A0</div>
+          <div class="swatch-name">AI/Cyan·Dark</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#E8F0FE;border-color:transparent"></div>
+          <div class="swatch-hex">#E8F0FE</div>
+          <div class="swatch-name">Text/Primary</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#8892A4"></div>
+          <div class="swatch-hex">#8892A4</div>
+          <div class="swatch-name">Text/Secondary</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#00D084;border-color:transparent"></div>
+          <div class="swatch-hex">#00D084</div>
+          <div class="swatch-name">Semantic/Success</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#FFAA00;border-color:transparent"></div>
+          <div class="swatch-hex">#FFAA00</div>
+          <div class="swatch-name">Semantic/Warning</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#FF4D6A;border-color:transparent"></div>
+          <div class="swatch-hex">#FF4D6A</div>
+          <div class="swatch-name">Semantic/Error</div>
+        </div>
+      </div>
+
+      <div class="figma-note">
+        <span>📐</span>
+        <span><strong>Figma Variable Mapping:</strong> All 12 swatches map to CSS custom properties (--bg-void, --cyan-glow, etc.) via the Figma Variables API export. Semantic colours are defined as Figma Variable Aliases pointing to their base colour tokens, enabling theme switching without changing component references.</span>
+      </div>
+
+      <!-- Typography Scale -->
+      <div class="ds-section-title" style="margin-top:var(--sp-4)">02 · Typography Scale · 8pt Grid Aligned</div>
+      <div>
+        <div class="type-row">
+          <span class="type-label">Display / Hero</span>
+          <span style="font-family:var(--ff-display);font-size:2.5rem;font-weight:800;color:var(--text-white);line-height:1">Aura System</span>
+          <span class="type-weight">Syne 800</span>
+          <span class="type-size">clamp(3–6rem)</span>
+        </div>
+        <div class="type-row">
+          <span class="type-label">Heading 1</span>
+          <span style="font-family:var(--ff-display);font-size:1.75rem;font-weight:700;color:var(--text-white)">Section Title</span>
+          <span class="type-weight">Syne 700</span>
+          <span class="type-size">clamp(2.2–3.75rem)</span>
+        </div>
+        <div class="type-row">
+          <span class="type-label">Heading 2</span>
+          <span style="font-family:var(--ff-display);font-size:1.375rem;font-weight:700;color:var(--text-white)">Card Title</span>
+          <span class="type-weight">Syne 700</span>
+          <span class="type-size">1.5rem / 24px</span>
+        </div>
+        <div class="type-row">
+          <span class="type-label">Body / Regular</span>
+          <span style="font-family:var(--ff-body);font-size:1rem;color:var(--text-secondary)">Paragraph text for analysis and descriptions across the interface.</span>
+          <span class="type-weight">DM Sans 400</span>
+          <span class="type-size">1rem / 16px</span>
+        </div>
+        <div class="type-row">
+          <span class="type-label">Body / Small</span>
+          <span style="font-family:var(--ff-body);font-size:0.875rem;color:var(--text-secondary)">Supporting text, captions, and secondary labels.</span>
+          <span class="type-weight">DM Sans 400</span>
+          <span class="type-size">0.875rem / 14px</span>
+        </div>
+        <div class="type-row">
+          <span class="type-label">Mono / Data</span>
+          <span style="font-family:var(--ff-mono);font-size:0.8125rem;color:var(--cyan-glow)">847 tCO₂e · 94.2% · MMC-EU-4471</span>
+          <span class="type-weight">JetBrains Mono 500</span>
+          <span class="type-size">0.8125rem / 13px</span>
+        </div>
+        <div class="type-row">
+          <span class="type-label">Mono / Label</span>
+          <span style="font-family:var(--ff-mono);font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em">SCOPE 2 EMISSIONS · GDPR</span>
+          <span class="type-weight">JetBrains Mono 400</span>
+          <span class="type-size">0.75rem / 12px</span>
+        </div>
+      </div>
+
+      <!-- Spacing Tokens -->
+      <div class="ds-section-title" style="margin-top:var(--sp-4)">03 · Spacing Tokens · 8pt Grid System</div>
+      <div class="spacing-grid">
+        <div class="sp-token"><div class="sp-block" style="width:8px;height:8px"></div><div class="sp-label">sp-1<br>8px</div></div>
+        <div class="sp-token"><div class="sp-block" style="width:16px;height:16px"></div><div class="sp-label">sp-2<br>16px</div></div>
+        <div class="sp-token"><div class="sp-block" style="width:24px;height:24px"></div><div class="sp-label">sp-3<br>24px</div></div>
+        <div class="sp-token"><div class="sp-block" style="width:32px;height:32px"></div><div class="sp-label">sp-4<br>32px</div></div>
+        <div class="sp-token"><div class="sp-block" style="width:40px;height:40px"></div><div class="sp-label">sp-5<br>40px</div></div>
+        <div class="sp-token"><div class="sp-block" style="width:48px;height:48px"></div><div class="sp-label">sp-6<br>48px</div></div>
+        <div class="sp-token"><div class="sp-block" style="width:64px;height:64px"></div><div class="sp-label">sp-8<br>64px</div></div>
+        <div class="sp-token"><div class="sp-block" style="width:80px;height:80px"></div><div class="sp-label">sp-10<br>80px</div></div>
+      </div>
+
+      <!-- Component Library Preview -->
+      <div class="ds-section-title" style="margin-top:var(--sp-4)">04 · Component Library · Production States</div>
+      <div class="comp-preview">
+        <div class="comp-item">
+          <div class="comp-item-label">Button / Primary</div>
+          <button class="btn-primary">Approve &amp; Commit</button>
+        </div>
+        <div class="comp-item">
+          <div class="comp-item-label">Button / Secondary</div>
+          <button class="btn-secondary">View Source PDF</button>
+        </div>
+        <div class="comp-item">
+          <div class="comp-item-label">Button / Danger</div>
+          <button class="btn-danger">Flag as Error</button>
+        </div>
+        <div class="comp-item">
+          <div class="comp-item-label">Button / Ghost</div>
+          <button class="btn-ghost">Dismiss</button>
+        </div>
+        <div class="comp-item">
+          <div class="comp-item-label">Input / Default</div>
+          <input class="input-preview" type="text" placeholder="Query emissions data…" />
+        </div>
+      </div>
+
+      <div class="comp-preview" style="margin-top:var(--sp-3)">
+        <div class="comp-item">
+          <div class="comp-item-label">Status Badges</div>
+          <div class="badge-row">
+            <span class="badge" style="background:rgba(0,208,132,0.08);color:var(--success);border-color:rgba(0,208,132,0.3)">Verified</span>
+            <span class="badge" style="background:rgba(255,170,0,0.08);color:var(--warning);border-color:rgba(255,170,0,0.3)">Pending Review</span>
+            <span class="badge" style="background:rgba(255,77,106,0.08);color:var(--error);border-color:rgba(255,77,106,0.3)">Flagged</span>
+            <span class="badge" style="background:rgba(0,212,255,0.08);color:var(--cyan-glow);border-color:var(--border-cyan)">AI Extracted</span>
+            <span class="badge" style="background:rgba(77,159,255,0.08);color:var(--info);border-color:rgba(77,159,255,0.3)">CSRD Review</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="figma-note" style="margin-top:var(--sp-3)">
+        <span>🗂</span>
+        <span><strong>Figma Layout Blueprint:</strong> All components use Auto Layout with 8px base padding increments. Components are built with Variants covering: Default, Hover, Focused, Loading, Disabled, and Error states. The AI Confidence Score component has 5 Variants mapped to confidence bands: &lt;60% (Error), 60–74% (Warning), 75–89% (Neutral), 90–97% (Success), 98–100% (Verified). Border radius uses a 6px / 12px / 20px token scale mapped to Component / Card / Modal hierarchy respectively.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     FOOTER
+     ============================================ -->
+<footer>
+  <div class="container">
+    <div class="footer-name">Aasif</div>
+    <div class="footer-role">Lead AI Product Designer · 14 Years Enterprise Experience · Available for Principal AI Designer Roles · Germany &amp; Amsterdam</div>
+
+    <div style="margin:var(--sp-4) auto var(--sp-4);text-align:center">
+      <a href="project-aura-product-screens.html" style="display:inline-flex;align-items:center;gap:12px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.3);border-radius:10px;padding:16px 32px;text-decoration:none;transition:all 0.2s" onmouseover="this.style.background='rgba(0,212,255,0.15)'" onmouseout="this.style.background='rgba(0,212,255,0.08)'">
+        <span style="font-family:var(--ff-display);font-size:1rem;font-weight:700;color:var(--cyan-glow)">View Product Screens &amp; IA</span>
+        <span style="color:var(--cyan-glow);font-size:1.25rem">→</span>
+      </a>
+      <div style="font-family:var(--ff-mono);font-size:0.625rem;color:var(--text-muted);margin-top:8px;text-transform:uppercase;letter-spacing:0.1em">Dashboard · AI Analysis · ESG Report · Approval Gate · Audit Trail</div>
+    </div>
+
+    <div class="footer-links">
+      <a href="https://aasifdesign.com">Portfolio</a>
+      <a href="https://www.linkedin.com/in/aasif-shaikh" target="_blank">LinkedIn</a>
+      <a href="project-aura-product-screens.html">Product Screens →</a>
+    </div>
+    <div style="font-family:var(--ff-mono);font-size:11px;color:var(--cyan-glow);letter-spacing:0.1em;text-transform:uppercase;margin-top:var(--sp-3)">
+      PROJECT AURA · CASE STUDY v1.0 · GLOBAL INSURANCE BROKERAGE · ENTERPRISE AI
+    </div>
+    <div class="footer-copy">© 2026 Aasif · All rights reserved · Client data sanitised &amp; anonymised</div>
+  </div>
+</footer>
+
+<!-- ============================================
+     SCROLL REVEAL JS
+     ============================================ -->
+<script>
+  // Intersection Observer for scroll reveals
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach(el => observer.observe(el));
+
+  // Animate graph line on scroll
+  const graphLine = document.querySelector('polyline');
+  if (graphLine) {
+    const lineObs = new IntersectionObserver((entries) => {
+      entries.forEach(el => {
+        if (el.isIntersecting) {
+          el.target.style.animation = 'lineGrow 2s 0.3s ease forwards';
+        }
+      });
+    }, { threshold: 0.5 });
+    lineObs.observe(graphLine);
+  }
+
+  // Nav active state
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        navLinks.forEach(link => {
+          link.style.color = link.getAttribute('href') === '#' + id
+            ? 'var(--cyan-glow)'
+            : '';
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => navObserver.observe(s));
+
+  // Counter animation for KPI values
+  function animateCounter(el, target, suffix, duration = 1500) {
+    const start = 0;
+    const startTime = performance.now();
+    const isFloat = target % 1 !== 0;
+
+    function update(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = start + (target - start) * eased;
+      el.textContent = isFloat ? current.toFixed(1) + suffix : Math.floor(current) + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
+  const kpiObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const kpis = entry.target.querySelectorAll('.kpi-value');
+        kpis.forEach(kpi => {
+          const text = kpi.textContent.trim();
+          if (text === '65%') animateCounter(kpi, 65, '%');
+          else if (text === '40%') animateCounter(kpi, 40, '%');
+          else if (text === '4.8') animateCounter(kpi, 4.8, '');
+          else if (text === '0') animateCounter(kpi, 0, '');
+        });
+        kpiObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.5 });
+
+  const heroSection = document.getElementById('hero');
+  if (heroSection) kpiObserver.observe(heroSection);
+</script>
+
+</body>
+</html>
